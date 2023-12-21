@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 import java.io.IOException;
 
@@ -12,15 +13,17 @@ public class MainApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("intro-pane.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 320, 240);
+        Scene scene = new Scene(fxmlLoader.load(), 546, 365);
         stage.setTitle("Hello!");
-        Image icon=new Image("C:\\code\\desktop application\\partsinventory\\src\\main\\resources\\images\\icon.jpg");
-        stage.getIcons().add(icon);
+        //Image icon=new Image("C:\\code\\desktop application\\partsinventory\\src\\main\\resources\\images\\icon.jpg");
+        //stage.getIcons().add(icon);
         stage.setScene(scene);
+        stage.initStyle(StageStyle.UNDECORATED);
         stage.show();
+
     }
 
     public static void main(String[] args) {
-        launch();
+        launch(args);
     }
 }

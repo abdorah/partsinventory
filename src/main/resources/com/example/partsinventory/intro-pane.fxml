@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.ProgressBar?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="365.0" prefWidth="546.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.partsinventory.splashController">
    <children>
-      <ImageView fitHeight="410.0" fitWidth="609.0" layoutX="-5.0" layoutY="-6.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="374.0" fitWidth="552.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../../../../../../../../Users/kotbi%20mohamed/Downloads/guy-basabose-FzdEbrA3Qj0-unsplash.jpg" />
+            <Image url="@../../../images/back.jpg" />
          </image>
       </ImageView>
+      <ProgressBar fx:id="introProgressbar" layoutX="99.0" layoutY="317.0" prefHeight="17.0" prefWidth="354.0" />
    </children>
 </AnchorPane>
