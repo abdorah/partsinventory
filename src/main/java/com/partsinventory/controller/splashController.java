@@ -1,4 +1,7 @@
-package com.example.partsinventory;
+package com.partsinventory.controller;
+
+import java.net.URL;
+import java.util.ResourceBundle;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -6,16 +9,10 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-
-import java.io.IOException;
-import java.net.URL;
-import java.util.ResourceBundle;
-import java.util.Stack;
 
 public class splashController implements Initializable {
     @FXML
@@ -42,8 +39,6 @@ public class splashController implements Initializable {
                     Parent root=null;
                     try {
                         root = FXMLLoader.load(getClass().getResource("login-view.fxml"));
-
-
                     } catch (Exception e) {
                         throw new RuntimeException(e);
                     }
