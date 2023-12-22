@@ -65,18 +65,10 @@ public class LoginController {
 
             if(islogin(username.getText(),password.getText())){
               try {
-                  Parent root=null;
-                  root = FXMLLoader.load(getClass().getResource("hello-view.fxml"));
-                  loginbutton.getScene().getWindow().hide();
-                  Scene scene =new Scene(root,800,500);
-                  Stage stage=new Stage();
-                  stage.setScene(scene);
-                  stage.show();
+                  LoadDashboard();
               }catch (Exception e){
                   e.printStackTrace();
               }
-
-
             }
             else {
                 passincorrectlabel.setText("pass not correct!");
@@ -91,5 +83,14 @@ public class LoginController {
     void LogincancelMethode(ActionEvent event) {
         Stage stage=(Stage) logincanselbutton.getScene().getWindow();
         stage.close();
+    }
+    void LoadDashboard() throws IOException {
+        Parent root=null;
+        root = FXMLLoader.load(getClass().getResource("hello-view.fxml"));
+        loginbutton.getScene().getWindow().hide();
+        Scene scene =new Scene(root,800,500);
+        Stage stage=new Stage();
+        stage.setScene(scene);
+        stage.show();
     }
 }
