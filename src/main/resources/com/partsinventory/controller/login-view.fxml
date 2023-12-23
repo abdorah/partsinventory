@@ -6,6 +6,9 @@
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.partsinventory.controller.LoginController">
@@ -14,10 +17,26 @@
         <items>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" style="-fx-background-color: #37393A;">
                <children>
-                  <Label layoutX="86.0" layoutY="100.0" prefHeight="58.0" prefWidth="141.0" text="welcom" textFill="WHITE" AnchorPane.bottomAnchor="274.0" AnchorPane.leftAnchor="86.0" AnchorPane.rightAnchor="85.0" AnchorPane.topAnchor="76.0">
+                  <Label layoutX="86.0" layoutY="100.0" prefHeight="48.0" prefWidth="156.0" text="Welcome" AnchorPane.bottomAnchor="274.0" AnchorPane.leftAnchor="86.0" AnchorPane.rightAnchor="70.0" AnchorPane.topAnchor="76.0">
                      <font>
                         <Font name="System Bold" size="35.0" />
                      </font>
+                     <textFill>
+                        <LinearGradient endX="0.853219696969697" startX="0.689393954746651" startY="1.0">
+                           <stops>
+                              <Stop>
+                                 <color>
+                                    <Color />
+                                 </color>
+                              </Stop>
+                              <Stop offset="1.0">
+                                 <color>
+                                    <Color red="1.0" green="1.0" blue="1.0" />
+                                 </color>
+                              </Stop>
+                           </stops>
+                        </LinearGradient>
+                     </textFill>
                   </Label>
                   <Label layoutX="6.0" layoutY="373.0" prefHeight="22.0" prefWidth="41.0" text="KOTBI" textFill="WHITE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0">
                      <font>
@@ -37,8 +56,8 @@
                         <Font size="21.0" />
                      </font>
                   </Label>
-                  <Button fx:id="loginbutton" layoutX="147.0" layoutY="239.0" mnemonicParsing="false" onAction="#LoginMethode" text="Login" />
-                  <Button fx:id="logincanselbutton" layoutX="92.0" layoutY="239.0" mnemonicParsing="false" onAction="#LogincancelMethode" text="cancel" textFill="RED" />
+                  <Button fx:id="loginbutton" layoutX="116.0" layoutY="235.0" mnemonicParsing="false" onAction="#LoginMethode" text="Login" />
+                  <Button fx:id="logincanselbutton" layoutX="179.0" layoutY="235.0" mnemonicParsing="false" onAction="#LogincancelMethode" text="cancel" textFill="RED" />
                   <Label fx:id="passincorrectlabel" alignment="CENTER" contentDisplay="CENTER" layoutX="-1.0" layoutY="275.0" prefHeight="14.0" prefWidth="280.0" textFill="RED" />
                </children>
             </AnchorPane>

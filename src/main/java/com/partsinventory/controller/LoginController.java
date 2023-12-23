@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import com.partsinventory.configuration.DbConnection;
+import com.partsinventory.configuration.QueryLoader;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -32,46 +33,41 @@ public class LoginController {
 
     @FXML
     private Button logincanselbutton;
-    public boolean islogin(String user,String pass) throws SQLException {
+
+    public boolean islogin(String user, String pass) throws SQLException {
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
-        String query="select*from users where username=? and password=?";
+        String query = QueryLoader.load("LOGIN");
         try {
-            if(!DbConnection.checkDrivers()){
+            if (!DbConnection.checkDrivers()) {
                 return false;
             }
-            preparedStatement=DbConnection.getConnection().prepareStatement(query);
-            preparedStatement.setString(1,user);
-            preparedStatement.setString(2,pass);
-            resultSet=preparedStatement.executeQuery();
-            if(resultSet.next()){
+            preparedStatement = DbConnection.getConnection().prepareStatement(query);
+            preparedStatement.setString(1, user);
+            preparedStatement.setString(2, pass);
+            resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
                 return true;
-            }else {
+            } else {
                 return false;
             }
-
-        }catch (Exception ex){
+        } catch (Exception e) {
             return false;
-        }finally {
+        } finally {
             preparedStatement.close();
             resultSet.close();
         }
     }
-    @FXML
-    void LoginMethode(ActionEvent event){
-        try {
 
-            if(islogin(username.getText(),password.getText())){
-              try {
-                  LoadDashboard();
-              }catch (Exception e){
-                  e.printStackTrace();
-              }
+    @FXML
+    void LoginMethode(ActionEvent event) {
+        try {
+            if (islogin(username.getText(), password.getText())) {
+                LoadDashboard();
+            } else {
+                passincorrectlabel.setText("password not correct!");
             }
-            else {
-                passincorrectlabel.setText("pass not correct!");
-            }
-        }catch (SQLException e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -79,15 +75,16 @@ public class LoginController {
 
     @FXML
     void LogincancelMethode(ActionEvent event) {
-        Stage stage=(Stage) logincanselbutton.getScene().getWindow();
+        Stage stage = (Stage) logincanselbutton.getScene().getWindow();
         stage.close();
     }
+
     void LoadDashboard() throws IOException {
-        Parent root=null;
+        Parent root = null;
         root = FXMLLoader.load(getClass().getResource("hello-view.fxml"));
         loginbutton.getScene().getWindow().hide();
-        Scene scene =new Scene(root,800,500);
-        Stage stage=new Stage();
+        Scene scene = new Scene(root, 800, 500);
+        Stage stage = new Stage();
         stage.setScene(scene);
         stage.show();
     }

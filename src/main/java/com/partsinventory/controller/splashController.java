@@ -24,10 +24,11 @@ public class splashController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         new splashscreen().start();
     }
-    class splashscreen extends Thread{
+
+    class splashscreen extends Thread {
 
         @Override
-        public void run(){
+        public void run() {
             try {
                 Thread.sleep(5000);
             } catch (Exception e) {
@@ -36,23 +37,21 @@ public class splashController implements Initializable {
             Platform.runLater(new Runnable() {
                 @Override
                 public void run() {
-                    Parent root=null;
+                    Parent root = null;
                     try {
                         root = FXMLLoader.load(getClass().getResource("login-view.fxml"));
                     } catch (Exception e) {
                         throw new RuntimeException(e);
                     }
-                        Scene scene =new Scene(root);
-                        Stage stage=new Stage();
-                        stage.initStyle(StageStyle.UNDECORATED);
-                        stage.setScene(scene);
-                        introProgressbar.setProgress(0.5);
-                        introProgressbar.setStyle("-fx-accent: green;");
-                        stage.show();
-                        //THEN HIDE THE SPLASH
-                        anchorPane.getScene().getWindow().hide();
-
-
+                    Scene scene = new Scene(root);
+                    Stage stage = new Stage();
+                    stage.initStyle(StageStyle.UNDECORATED);
+                    stage.setScene(scene);
+                    introProgressbar.setProgress(0.5);
+                    introProgressbar.setStyle("-fx-accent: green;");
+                    stage.show();
+                    // THEN HIDE THE SPLASH
+                    anchorPane.getScene().getWindow().hide();
                 }
             });
 
