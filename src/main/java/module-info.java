@@ -1,17 +1,16 @@
-module com.example.partsinventory {
-    requires javafx.controls;
+module com.partsinventory {
+    requires transitive java.sql;
+    requires org.xerial.sqlitejdbc;
+    
+    requires transitive org.slf4j;
+
+    requires transitive javafx.controls;
     requires javafx.fxml;
     requires javafx.web;
-    requires java.sql;
-    requires org.xerial.sqlitejdbc;
 
-  /*  requires org.controlsfx.controls;
-    requires com.dlsc.formsfx;
-    //requires validatorfx;
-    requires org.kordamp.ikonli.javafx;
-    requires org.kordamp.bootstrapfx.core;
-    requires eu.hansolo.tilesfx;*/
+    opens com.partsinventory to javafx.fxml, java.sql;
+    opens com.partsinventory.configuration to javafx.fxml, java.sql;
+    opens com.partsinventory.controller to javafx.fxml, java.sql;
 
-    opens com.example.partsinventory to javafx.fxml;
-    exports com.example.partsinventory;
+    exports com.partsinventory;
 }
