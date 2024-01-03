@@ -30,5 +30,6 @@ CREATE TABLE "command" (
 	"partid"	INTEGER NOT NULL UNIQUE,
 	"quantity"	INTEGER NOT NULL,
 	"priceconsidered"	INTEGER NOT NULL,
-	PRIMARY KEY("factureid","partid")
-)
+	CONSTRAINT "fk_command_partid" FOREIGN KEY("partid") REFERENCES "parts"("id"),
+	CONSTRAINT "fk_command_factureid" FOREIGN KEY("factureid") REFERENCES "facture"("id")
+);
