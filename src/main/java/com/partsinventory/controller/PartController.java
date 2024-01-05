@@ -9,6 +9,7 @@ import com.partsinventory.service.PartService;
 
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -69,6 +70,8 @@ public class PartController {
         
         ObservableList<Part> parts = PartService.getAllParts();
         partsListTableView.setItems(parts);
+
+        partsListTableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
     }
 
 }

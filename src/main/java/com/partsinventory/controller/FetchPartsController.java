@@ -73,10 +73,11 @@ public class FetchPartsController {
             StackPane.setAlignment(searchGroup, Pos.CENTER);
             resultsStackPane.getChildren().add(tableViewRoot);
             deleteButton.setOnAction(e -> {
-                for(Part part : productTableView.getPartsListTableView().getItems()) {
+                for(Part part : productTableView.getPartsListTableView().getSelectionModel().getSelectedItems()) {
                     PartService.deletePart(part.getId());
+                    productTableView.getPartsListTableView().getSelectionModel().clearSelection();
                 }
-                productTableView.getPartsListTableView().getItems().clear();
+               // productTableView.getPartsListTableView().getSelectionModel().getSelectedItems().clear();
             });
         } catch (IOException e) {
             e.printStackTrace();
