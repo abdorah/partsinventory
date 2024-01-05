@@ -13,6 +13,7 @@ import javafx.collections.ObservableList;
 import javafx.scene.chart.XYChart.Data;
 import javafx.scene.chart.XYChart.Series;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 
 public class PartService {
@@ -147,7 +148,7 @@ public class PartService {
                 PreparedStatement preparedStatement = connection.prepareStatement(DbConnection.load("DELETE_PART"))) {
             preparedStatement.setInt(1, id);
             preparedStatement.executeUpdate();
-            handleDelete();
+            //handleDelete();
         } catch (SQLException e){
             handleDatabaseError(e);
         }
@@ -157,8 +158,18 @@ public class PartService {
         showAlert("Successful Edit", "Part saved successfully.", Alert.AlertType.INFORMATION);
     }
 
-    public static void handleDelete() {
-        showAlert("Delete Part", "This part is deleted.", Alert.AlertType.CONFIRMATION);
+    public static Boolean handleDelete() {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Delete Part "+" ?", ButtonType.YES, ButtonType.NO, ButtonType.CANCEL);
+        alert.showAndWait();
+
+        if (alert.getResult() == ButtonType.YES) {
+            System.out.println("confirmed");
+            return true;
+        }else {
+            System.out.println("not confirmed ");
+            return false;
+        }
+        //showAlert("Delete Part", "This part is deleted.", Alert.AlertType.CONFIRMATION);
     }
 
     public static void handleInvalidInput() {
