@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+
+<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.partsinventory.controller.AddPartController">
+  <columnConstraints>
+    <ColumnConstraints hgrow="SOMETIMES" maxWidth="425.5999755859375" minWidth="10.0" prefWidth="122.39998779296874" />
+    <ColumnConstraints hgrow="SOMETIMES" maxWidth="496.0000366210937" minWidth="10.0" prefWidth="477.6000122070312" />
+  </columnConstraints>
+  <rowConstraints>
+    <RowConstraints maxHeight="128.60001220703126" minHeight="10.0" prefHeight="72.80001220703124" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="247.79999008178712" minHeight="10.0" prefHeight="144.59999389648436" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="199.00005187988285" minHeight="10.0" prefHeight="182.20000610351562" vgrow="SOMETIMES" />
+  </rowConstraints>
+   <children>
+      <Pane GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+         <children>
+            <TextField fx:id="partDescriptionField" alignment="TOP_LEFT" centerShape="false" layoutX="14.0" layoutY="23.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="106.0" prefWidth="435.0" scaleShape="false" />
+         </children>
+      </Pane>
+      <Pane GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+         <children>
+            <TextField fx:id="partNameField" centerShape="false" layoutX="14.0" layoutY="28.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="26.0" prefWidth="435.0" scaleShape="false" />
+         </children>
+      </Pane>
+      <GridPane GridPane.columnIndex="1" GridPane.rowIndex="2">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Pane GridPane.columnIndex="1" GridPane.rowIndex="1">
+               <children>
+                  <Button fx:id="saveButton" layoutX="30.0" layoutY="29.0" mnemonicParsing="false" onAction="#savePart" prefHeight="26.0" prefWidth="75.0" text="Save" textFill="#0a9900" />
+                  <Button fx:id="cancelButton" layoutX="120.0" layoutY="29.0" mnemonicParsing="false" onAction="#cancelOperation" prefHeight="26.0" prefWidth="75.0" text="Cancel" textFill="RED" />
+                  <Label fx:id="errorLabel" layoutX="30.0" layoutY="61.0" text="Error while saving the new part." textFill="RED" visible="false" />
+               </children>
+            </Pane>
+            <Pane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
+               <children>
+                  <TextField fx:id="partQuantityField" layoutX="14.0" layoutY="1.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="26.0" prefWidth="212.0" />
+               </children>
+            </Pane>
+            <Pane prefHeight="200.0" prefWidth="200.0">
+               <children>
+                  <TextField fx:id="partPriceField" layoutX="14.0" layoutY="29.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="26.0" prefWidth="212.0" />
+               </children>
+            </Pane>
+         </children>
+      </GridPane>
+      <GridPane GridPane.rowIndex="2">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Pane prefHeight="200.0" prefWidth="200.0">
+               <children>
+                  <Label layoutX="14.0" layoutY="34.0" text="Part price:" />
+               </children>
+            </Pane>
+            <Pane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
+               <children>
+                  <Label layoutX="14.0" layoutY="6.0" text="Part quantity:" />
+               </children>
+            </Pane>
+         </children>
+      </GridPane>
+      <Pane prefHeight="200.0" prefWidth="200.0">
+         <children>
+            <Label layoutX="14.0" layoutY="32.0" text="Part name:" />
+         </children>
+      </Pane>
+      <Pane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
+         <children>
+            <Label layoutX="14.0" layoutY="22.0" text="Part description:" />
+         </children>
+      </Pane>
+   </children>
+</GridPane>

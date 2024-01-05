@@ -1,0 +1,10 @@
+.nav-button {
+    -fx-background-radius: 0;
+    -fx-border-radius: 0;
+}
+
+.center-pane {
+    -fx-border-width: 0 0 0 1;
+    -fx-border-color: #d3d3e7;
+
+}

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Group?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.SplitMenuButton?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.text.Font?>
+
+<SplitPane fx:id="rootSplitPane" dividerPositions="0.5" orientation="VERTICAL" prefHeight="410.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.partsinventory.controller.FetchPartsController">
+   <items>
+      <AnchorPane minHeight="200.0" prefHeight="200.0">
+         <children>
+            <Group fx:id="searchGroup" layoutX="99.0" layoutY="55.0">
+               <children>
+                  <Button fx:id="searchButton" layoutX="303.0" layoutY="55.0" mnemonicParsing="false" onAction="#onSearch" text="Search" />
+                  <TextField fx:id="searchTextField" layoutX="90.0" prefHeight="26.0" prefWidth="219.0" />
+                  <SplitMenuButton fx:id="searchOptionPick" layoutX="90.0" layoutY="54.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="174.0" text="Search by...">
+                     <items>
+                        <MenuItem fx:id="searchByName" mnemonicParsing="false" text="name" />
+                        <MenuItem fx:id="searchByDescription" mnemonicParsing="false" text="description" />
+                     </items>
+                  </SplitMenuButton>
+                  <Label layoutY="5.0" text="Parts search:">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Label>
+                  <Button fx:id="deleteButton" layoutX="362.0" layoutY="54.0" mnemonicParsing="false" text="Delete" textFill="RED" />
+               </children>
+            </Group>
+         </children>
+      </AnchorPane>
+      <AnchorPane>
+         <children>
+            <StackPane fx:id="resultsStackPane" layoutX="199.0" layoutY="26.0" prefHeight="201.6" prefWidth="598.4" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+         </children></AnchorPane>
+   </items>
+</SplitPane>

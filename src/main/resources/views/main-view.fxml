@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@../style/main.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.partsinventory.controller.NavigationController">
+   <children>
+      <BorderPane layoutX="-4.0" layoutY="-4.0" prefHeight="408.0" prefWidth="607.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <top>
+            <MenuBar BorderPane.alignment="CENTER">
+              <menus>
+                <Menu mnemonicParsing="false" text="File">
+                  <items>
+                    <MenuItem mnemonicParsing="false" text="Close" />
+                  </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Edit">
+                  <items>
+                    <MenuItem mnemonicParsing="false" text="Delete" />
+                  </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Help">
+                  <items>
+                    <MenuItem mnemonicParsing="false" text="About" />
+                  </items>
+                </Menu>
+              </menus>
+            </MenuBar>
+         </top>
+         <left>
+            <VBox prefHeight="374.0" prefWidth="165.0" BorderPane.alignment="CENTER">
+               <children>
+                  <ImageView fx:id="homeImage" fitHeight="111.0" fitWidth="174.0" onMouseClicked="#returnHome" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/icon.jpg" />
+                     </image>
+                  </ImageView>
+                  <Button fx:id="dashboard" mnemonicParsing="false" onAction="#openDashBoard" prefHeight="34.0" prefWidth="174.0" styleClass="nav-button" text="Parts" />
+                  <Button fx:id="toSearchButton" mnemonicParsing="false" onAction="#openSearchPage" prefHeight="34.0" prefWidth="174.0" styleClass="nav-button" text="Fetch Part" />
+                  <Button fx:id="toAddPartButton" mnemonicParsing="false" onAction="#openAddPartButton" prefHeight="34.0" prefWidth="174.0" styleClass="nav-button" text="Add Part" />
+               </children>
+            </VBox>
+         </left>
+         <center>
+            <StackPane fx:id="presentationPane" prefHeight="374.0" prefWidth="467.0" styleClass="center-pane" BorderPane.alignment="CENTER" />
+         </center></BorderPane>
+   </children>
+</AnchorPane>
