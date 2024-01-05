@@ -148,7 +148,6 @@ public class PartService {
                 PreparedStatement preparedStatement = connection.prepareStatement(DbConnection.load("DELETE_PART"))) {
             preparedStatement.setInt(1, id);
             preparedStatement.executeUpdate();
-            //handleDelete();
         } catch (SQLException e){
             handleDatabaseError(e);
         }
@@ -169,7 +168,6 @@ public class PartService {
             System.out.println("not confirmed ");
             return false;
         }
-        //showAlert("Delete Part", "This part is deleted.", Alert.AlertType.CONFIRMATION);
     }
 
     public static void handleInvalidInput() {

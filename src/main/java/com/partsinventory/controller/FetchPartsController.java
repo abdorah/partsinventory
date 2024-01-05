@@ -76,12 +76,9 @@ public class FetchPartsController {
                 if(PartService.handleDelete()){
                     for(Part part : productTableView.getPartsListTableView().getSelectionModel().getSelectedItems()) {
                         PartService.deletePart(part.getId());
-
                     }
-                    //productTableView.getPartsListTableView().getSelectionModel().clearSelection();
+                    productTableView.getPartsListTableView().getItems().removeAll(productTableView.getPartsListTableView().getSelectionModel().getSelectedItems());
                 }
-
-
             });
         } catch (IOException e) {
             e.printStackTrace();
