@@ -160,12 +160,9 @@ public class PartService {
     public static Boolean handleDelete() {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Delete Part "+" ?", ButtonType.YES, ButtonType.NO, ButtonType.CANCEL);
         alert.showAndWait();
-
         if (alert.getResult() == ButtonType.YES) {
-            System.out.println("confirmed");
             return true;
         }else {
-            System.out.println("not confirmed ");
             return false;
         }
     }

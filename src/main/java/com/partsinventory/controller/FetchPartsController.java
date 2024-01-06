@@ -5,6 +5,7 @@ import java.io.IOException;
 import com.partsinventory.model.Part;
 import com.partsinventory.service.PartService;
 
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -72,12 +73,13 @@ public class FetchPartsController {
             StackPane.setMargin(searchGroup, new Insets(10, 10, 10, 10));
             StackPane.setAlignment(searchGroup, Pos.CENTER);
             resultsStackPane.getChildren().add(tableViewRoot);
+            ObservableList<Part> selectedItems = productTableView.getPartsListTableView().getSelectionModel().getSelectedItems();
             deleteButton.setOnAction(e -> {
-                if(PartService.handleDelete()){
-                    for(Part part : productTableView.getPartsListTableView().getSelectionModel().getSelectedItems()) {
+                if(selectedItems.toArray().length!=0 && PartService.handleDelete()){
+                    for(Part part : selectedItems) {
                         PartService.deletePart(part.getId());
                     }
-                    productTableView.getPartsListTableView().getItems().removeAll(productTableView.getPartsListTableView().getSelectionModel().getSelectedItems());
+                    productTableView.getPartsListTableView().getItems().removeAll(selectedItems);
                 }
             });
         } catch (IOException e) {
