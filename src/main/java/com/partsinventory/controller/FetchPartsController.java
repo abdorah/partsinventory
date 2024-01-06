@@ -75,18 +75,12 @@ public class FetchPartsController {
             resultsStackPane.getChildren().add(tableViewRoot);
             ObservableList<Part> selectedItems = productTableView.getPartsListTableView().getSelectionModel().getSelectedItems();
             deleteButton.setOnAction(e -> {
-                if(selectedItems.toArray().length!=0){
-                    if(PartService.handleDelete()){
-                        for(Part part : selectedItems) {
-                            PartService.deletePart(part.getId());
-
-                        }
-                        productTableView.getPartsListTableView().getItems().removeAll(selectedItems);
+                if(selectedItems.toArray().length!=0 && PartService.handleDelete()){
+                    for(Part part : selectedItems) {
+                        PartService.deletePart(part.getId());
                     }
+                    productTableView.getPartsListTableView().getItems().removeAll(selectedItems);
                 }
-
-
-
             });
         } catch (IOException e) {
             e.printStackTrace();
