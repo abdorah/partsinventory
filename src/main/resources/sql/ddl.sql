@@ -10,6 +10,7 @@ CREATE TABLE "users" (
 
 CREATE TABLE "parts" (
 	"id"	INTEGER NOT NULL UNIQUE,
+	"maker"	TEXT NOT NULL,
 	"name"	TEXT NOT NULL,
 	"description"	TEXT NOT NULL,
 	"image"	BLOB NOT NULL,

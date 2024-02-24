@@ -21,6 +21,8 @@ public class PartController {
 
     @FXML
     private TableColumn<Part, Integer> partIdColumn;
+    @FXML
+    private TableColumn<Part, String> partMakerColumn;
 
     @FXML
     private TableColumn<Part, String> partNameColumn;
@@ -47,10 +49,15 @@ public class PartController {
     @FXML
     private void initialize() throws SQLException {
         partIdColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
+        partMakerColumn.setCellValueFactory(new PropertyValueFactory<>("maker"));
         partNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         partDescriptionColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
         partPriceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
         partQuantityColumn.setCellValueFactory(new PropertyValueFactory<>("quantity"));
+
+        partNameColumn.setCellValueFactory(new PropertyValueFactory<>("maker"));
+        partNameColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+        partNameColumn.setOnEditCommit(event -> PartService.onEditCommit(event, "maker"));
 
         partNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         partNameColumn.setCellFactory(TextFieldTableCell.forTableColumn());

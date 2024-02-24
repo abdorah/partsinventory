@@ -10,19 +10,23 @@ import javafx.beans.property.StringProperty;
 public class Part {
 
     private IntegerProperty id;
+
+    private StringProperty maker;
     private StringProperty name;
     private StringProperty description;
     private FloatProperty price;
     private IntegerProperty quantity;
 
-    public Part(int id, String name, String description, Float price,
+    public Part(int id, String maker,String name, String description, Float price,
             int quantity) {
         this.id = new SimpleIntegerProperty();
+        this.maker = new SimpleStringProperty();
         this.name = new SimpleStringProperty();
         this.description = new SimpleStringProperty();
         this.price = new SimpleFloatProperty();
         this.quantity = new SimpleIntegerProperty();
         this.id.set(id);
+        this.maker.set(maker);
         this.name.set(name);
         this.description.set(description);
         this.price.set(price);
@@ -31,6 +35,7 @@ public class Part {
 
     public Part() {
         this.id = new SimpleIntegerProperty();
+        this.maker = new SimpleStringProperty();
         this.name = new SimpleStringProperty();
         this.description = new SimpleStringProperty();
         this.price = new SimpleFloatProperty();
@@ -45,6 +50,8 @@ public class Part {
         this.id.set(id);
     }
 
+    public String getMaker(){return maker.get();}
+    public void setMaker(String maker){this.maker.set(maker);}
     public String getName() {
         return name.get();
     }
