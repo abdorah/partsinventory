@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import com.partsinventory.model.Part;
 import com.partsinventory.service.PartService;
+import com.partsinventory.service.ReportsService;
 
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -48,6 +49,9 @@ public class FetchPartsController {
     private Button searchButton;
 
     @FXML
+    private Button printReportButton;
+
+    @FXML
     private Button deleteButton;
 
     public SplitPane getRootSplitPane() {
@@ -75,18 +79,18 @@ public class FetchPartsController {
             resultsStackPane.getChildren().add(tableViewRoot);
             ObservableList<Part> selectedItems = productTableView.getPartsListTableView().getSelectionModel().getSelectedItems();
             deleteButton.setOnAction(e -> {
-                if(selectedItems.toArray().length!=0){
-                    if(PartService.handleDelete()){
-                        for(Part part : selectedItems) {
-                            PartService.deletePart(part.getId());
-
-                        }
-                        productTableView.getPartsListTableView().getItems().removeAll(selectedItems);
+                if(selectedItems.toArray().length!=0 && PartService.handleDelete()){
+                    for(Part part : selectedItems) {
+                        PartService.deletePart(part.getId());
                     }
+                    productTableView.getPartsListTableView().getItems().removeAll(selectedItems);
                 }
+            });
 
-
-
+            printReportButton.setOnAction(e -> {
+                ReportsService.getInstance().resetParameters();
+                ReportsService.getInstance().setParameter("partIds", String.join(",", selectedItems.stream().map(Part::getId).map(id -> id.toString()).toArray(String[]::new)));
+                ReportsService.getInstance().generatePartReport("part-report.jrxml", "all-parts-report.pdf");
             });
         } catch (IOException e) {
             e.printStackTrace();

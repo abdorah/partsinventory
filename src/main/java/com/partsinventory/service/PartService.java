@@ -157,7 +157,6 @@ public class PartService {
                 PreparedStatement preparedStatement = connection.prepareStatement(DbConnection.load("DELETE_PART"))) {
             preparedStatement.setInt(1, id);
             preparedStatement.executeUpdate();
-            //handleDelete();
         } catch (SQLException e){
             handleDatabaseError(e);
         }
