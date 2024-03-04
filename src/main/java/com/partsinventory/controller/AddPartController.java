@@ -39,7 +39,7 @@ public class AddPartController {
     void initialize() {
         javafx.event.EventHandler<ActionEvent> resetAction = (event) -> {
             if (!errorLabel.isVisible()) {
-                //partMakerField.getSelectionModel().select(0);
+                partMakerField.getSelectionModel().select(0);
                 partNameField.setText("");
                 partDescriptionField.setText("");
                 partPriceField.setText("");
