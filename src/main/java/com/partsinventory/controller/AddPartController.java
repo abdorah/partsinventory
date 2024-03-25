@@ -39,16 +39,17 @@ public class AddPartController {
     void initialize() {
         javafx.event.EventHandler<ActionEvent> resetAction = (event) -> {
             if (!errorLabel.isVisible()) {
-                partMakerField.getSelectionModel().select(0);
                 partNameField.setText("");
+                partMakerField.setValue("");
                 partDescriptionField.setText("");
                 partPriceField.setText("");
                 partQuantityField.setText("");
             }
         };
+        partNameField.setOnAction(resetAction);
         partMakerField.setItems(PartService.populateMakerCombobox());
         //partMakerField.setOnAction(resetAction);
-        partNameField.setOnAction(resetAction);
+        partMakerField.setEditable(true);
         partDescriptionField.setOnAction(resetAction);
         partPriceField.setOnAction(resetAction);
         partQuantityField.setOnAction(resetAction);
@@ -57,17 +58,19 @@ public class AddPartController {
 
     @FXML
     void savePart(ActionEvent event) {
-        assert partMakerField.getValue() != null && !partMakerField.getSelectionModel().isEmpty();
         assert partNameField.getText() != null && !partNameField.getText().isBlank();
+        assert partMakerField.getValue() != null && !partMakerField.getSelectionModel().isEmpty();
         assert partDescriptionField.getText() != null && !partDescriptionField.getText().isBlank();
         assert partPriceField.getText() != null && !partPriceField.getText().isBlank();
         assert partQuantityField.getText() != null && !partQuantityField.getText().isBlank();
-
-        Part part = new Part(0,partMakerField.getValue().toString(), partNameField.getText(), partDescriptionField.getText(),
+        if(partMakerField.getValue()==null){
+            partMakerField.getSelectionModel().selectFirst();
+        }
+        Part part = new Part(0,partNameField.getText() , partMakerField.getValue().toString(), partDescriptionField.getText(),
                 Float.parseFloat(partPriceField.getText()), Integer.parseInt(partQuantityField.getText()));
 
-        partMakerField.setValue("");
         partNameField.setText("");
+        partMakerField.setValue("");
         partDescriptionField.setText("");
         partPriceField.setText("");
         partQuantityField.setText("");
@@ -79,8 +82,8 @@ public class AddPartController {
 
     @FXML
     void cancelOperation(ActionEvent event) {
-        partMakerField.setValue("");
         partNameField.setText("");
+        partMakerField.setValue("");
         partDescriptionField.setText("");
         partPriceField.setText("");
         partQuantityField.setText("");

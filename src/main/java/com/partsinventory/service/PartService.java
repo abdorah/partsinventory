@@ -25,8 +25,8 @@ public class PartService {
         while (rs.next()) {
             Part part = new Part();
             part.setId(rs.getInt("id"));
-            part.setMaker(rs.getString("maker"));
             part.setName(rs.getString("name"));
+            part.setMaker(rs.getString("maker"));
             part.setDescription(rs.getString("description"));
             part.setPrice(rs.getFloat("price"));
             part.setQuantity(rs.getInt("quantity"));
@@ -84,8 +84,8 @@ public class PartService {
         try (Connection connection = DbConnection.getConnection();
                 PreparedStatement statement = connection
                         .prepareStatement(DbConnection.load("UPDATE_PART"))) {
-            statement.setString(1, part.getMaker());
-            statement.setString(2, part.getName());
+            statement.setString(1, part.getName());
+            statement.setString(2, part.getMaker());
             statement.setString(3, part.getDescription());
             statement.setFloat(4, part.getPrice());
             statement.setInt(5, part.getQuantity());
@@ -97,8 +97,8 @@ public class PartService {
     private static Part extractPartFromResultSet(ResultSet resultSet) throws SQLException {
         Part part = new Part();
         part.setId(resultSet.getInt("id"));
-        part.setMaker(resultSet.getString("maker"));
         part.setName(resultSet.getString("name"));
+        part.setMaker(resultSet.getString("maker"));
         part.setDescription(resultSet.getString("description"));
         part.setPrice(resultSet.getFloat("price"));
         part.setQuantity(resultSet.getInt("quantity"));
@@ -109,8 +109,8 @@ public class PartService {
         int result = 0;
         try (Connection connection = DbConnection.getConnection();
                 PreparedStatement statement = connection.prepareStatement(DbConnection.load("ADD_PART"));) {
-            statement.setString(1, part.getMaker());
-            statement.setString(2, part.getName());
+            statement.setString(1, part.getName());
+            statement.setString(2, part.getMaker());
             statement.setString(3, part.getDescription());
             statement.setFloat(4, part.getPrice());
             statement.setInt(5, part.getQuantity());
@@ -192,7 +192,7 @@ public class PartService {
         alert.showAndWait();
     }
     public static ObservableList<String> populateMakerCombobox(){
-        ObservableList<String> collection= FXCollections.observableArrayList("...","mahle","Bosch");
+        ObservableList<String> collection= FXCollections.observableArrayList("...","Mahle","Bosch","Dayco","Contitech");
        return collection;
     }
 }

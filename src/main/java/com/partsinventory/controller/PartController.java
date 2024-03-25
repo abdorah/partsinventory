@@ -49,19 +49,19 @@ public class PartController {
     @FXML
     private void initialize() throws SQLException {
         partIdColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
-        partMakerColumn.setCellValueFactory(new PropertyValueFactory<>("maker"));
         partNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+        partMakerColumn.setCellValueFactory(new PropertyValueFactory<>("maker"));
         partDescriptionColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
         partPriceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
         partQuantityColumn.setCellValueFactory(new PropertyValueFactory<>("quantity"));
 
-        partNameColumn.setCellValueFactory(new PropertyValueFactory<>("maker"));
-        partNameColumn.setCellFactory(TextFieldTableCell.forTableColumn());
-        partNameColumn.setOnEditCommit(event -> PartService.onEditCommit(event, "maker"));
-
         partNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         partNameColumn.setCellFactory(TextFieldTableCell.forTableColumn());
         partNameColumn.setOnEditCommit(event -> PartService.onEditCommit(event, "name"));
+
+        partMakerColumn.setCellValueFactory(new PropertyValueFactory<>("maker"));
+        partMakerColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+        partMakerColumn.setOnEditCommit(event -> PartService.onEditCommit(event, "maker"));
 
         partDescriptionColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
         partDescriptionColumn.setCellFactory(TextFieldTableCell.forTableColumn());
