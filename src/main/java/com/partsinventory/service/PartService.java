@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 import com.partsinventory.configuration.DbConnection;
+import com.partsinventory.model.Categorie;
 import com.partsinventory.model.Part;
 
 import javafx.collections.FXCollections;
@@ -194,5 +195,23 @@ public class PartService {
     public static ObservableList<String> populateMakerCombobox(){
         ObservableList<String> collection= FXCollections.observableArrayList("...","Mahle","Bosch","Dayco","Contitech");
        return collection;
+    }
+private static ObservableList<Categorie>getAllCategoriesFromResultset(ResultSet rs) throws SQLException {
+    ObservableList<Categorie> categorieslist = FXCollections.observableArrayList();
+    while (rs.next()) {
+        Categorie categorie = new Categorie();
+        categorie.setCatId(rs.getInt("catId"));
+        categorie.setCatName(rs.getString("catName"));
+        categorie.setCatDesc(rs.getString("catDesc"));
+        categorie.setCatImage(rs.getString("catImage"));
+        categorieslist.add(categorie);
+    }
+    return categorieslist;
+}
+    public static ObservableList<Categorie> getAllCategories() throws SQLException {
+        String statement = DbConnection.load("ALL_CATEGORIES");
+        ResultSet rs = DbConnection.DbqueryExecute(statement);
+        ObservableList<Categorie> categoriessList = getAllCategoriesFromResultset(rs);
+        return categoriessList;
     }
 }

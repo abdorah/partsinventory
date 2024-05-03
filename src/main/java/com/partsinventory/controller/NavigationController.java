@@ -77,7 +77,17 @@ public class NavigationController {
             e.printStackTrace();
         }
     }
-
+    @FXML
+    void openCategories(ActionEvent event) {
+        FXMLLoader categoriesLoader = new FXMLLoader(getClass().getResource("/views/categories-component.fxml"));
+        presentationPane.getChildren().clear();
+        try {
+            Parent categoriesViewRoot = categoriesLoader.load();
+            presentationPane.getChildren().add(categoriesViewRoot);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
     @FXML
     void openSearchPage(ActionEvent event) {
         FXMLLoader searchPartsLoader = new FXMLLoader(getClass().getResource("/views/search-part-component.fxml"));
