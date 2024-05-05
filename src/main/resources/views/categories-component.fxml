@@ -1,9 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
 
 <SplitPane fx:id="rootSplitPane" dividerPositions="0.5" orientation="VERTICAL" prefHeight="410.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.partsinventory.controller.CategoriesController">
@@ -15,7 +22,89 @@
       </ScrollPane>
       <AnchorPane>
          <children>
-            <StackPane fx:id="resultsStackPane" layoutX="199.0" layoutY="26.0" prefHeight="201.6" prefWidth="598.4" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+            <ScrollPane prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <content>
+                  <StackPane fx:id="resultsStackPane" prefHeight="201.6" prefWidth="598.4">
+                     <children>
+                        <GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0">
+                           <columnConstraints>
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="425.5999755859375" minWidth="10.0" prefWidth="122.39998779296874" />
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="496.0000366210937" minWidth="10.0" prefWidth="477.6000122070312" />
+                           </columnConstraints>
+                           <rowConstraints>
+                              <RowConstraints maxHeight="128.60001220703126" minHeight="10.0" prefHeight="72.80001220703124" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="247.79999008178712" minHeight="10.0" prefHeight="144.59999389648436" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="199.00005187988285" minHeight="10.0" prefHeight="182.20000610351562" vgrow="SOMETIMES" />
+                           </rowConstraints>
+                           <children>
+                              <Pane GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+                                 <children>
+                                    <TextField fx:id="partDescriptionField1" alignment="TOP_LEFT" centerShape="false" layoutX="14.0" layoutY="57.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="106.0" prefWidth="435.0" scaleShape="false" />
+                                 </children>
+                              </Pane>
+                              <Pane GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                                 <children>
+                                    <TextField fx:id="partNameField1" centerShape="false" layoutX="14.0" layoutY="28.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="26.0" prefWidth="435.0" scaleShape="false" />
+                                    <Label layoutX="176.0" layoutY="5.0" text="Add New Category" />
+                                 </children>
+                              </Pane>
+                              <GridPane GridPane.columnIndex="1" GridPane.rowIndex="2">
+                                 <columnConstraints>
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                 </columnConstraints>
+                                 <rowConstraints>
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                 </rowConstraints>
+                                 <children>
+                                    <Pane GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                       <children>
+                                          <Button fx:id="saveButton1" layoutX="30.0" layoutY="29.0" mnemonicParsing="false" onAction="#addCategory" prefHeight="26.0" prefWidth="75.0" text="Save" textFill="#0a9900" />
+                                          <Button fx:id="cancelButton1" layoutX="120.0" layoutY="29.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="75.0" text="Cancel" textFill="RED" />
+                                          <Label fx:id="errorLabel1" layoutX="30.0" layoutY="61.0" text="Error while saving the new part." textFill="RED" visible="false" />
+                                       </children>
+                                    </Pane>
+                                    <Pane prefHeight="200.0" prefWidth="200.0">
+                                       <children>
+                                          <Button fx:id="chooseImageButton" layoutX="14.0" layoutY="46.0" mnemonicParsing="false" onAction="#chooseImage" text="choose Image" />
+                                       </children>
+                                    </Pane>
+                                 </children>
+                              </GridPane>
+                              <GridPane GridPane.rowIndex="2">
+                                 <columnConstraints>
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                 </columnConstraints>
+                                 <rowConstraints>
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                 </rowConstraints>
+                                 <children>
+                                    <Pane prefHeight="200.0" prefWidth="200.0">
+                                       <children>
+                                          <Label layoutX="14.0" layoutY="34.0" text="Category Image:" />
+                                       </children>
+                                    </Pane>
+                                    <Pane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1" />
+                                 </children>
+                              </GridPane>
+                              <Pane prefHeight="200.0" prefWidth="200.0">
+                                 <children>
+                                    <Label layoutX="14.0" layoutY="32.0" text="Category name:" />
+                                 </children>
+                              </Pane>
+                              <Pane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
+                                 <children>
+                                    <Label layoutX="14.0" layoutY="59.0" text="Category description:" />
+                                 </children>
+                              </Pane>
+                           </children>
+                        </GridPane>
+                     </children>
+                  </StackPane>
+               </content>
+            </ScrollPane>
          </children></AnchorPane>
    </items>
 </SplitPane>

@@ -214,4 +214,18 @@ private static ObservableList<Categorie>getAllCategoriesFromResultset(ResultSet 
         ObservableList<Categorie> categoriessList = getAllCategoriesFromResultset(rs);
         return categoriessList;
     }
+
+    public static boolean addCategory(Categorie categorie) {
+        int result = 0;
+        try (Connection connection = DbConnection.getConnection();
+             PreparedStatement statement = connection.prepareStatement(DbConnection.load("ADD_CATEGORY"));) {
+            statement.setString(1, categorie.getCatName());
+            statement.setString(2, categorie.getCatDesc());
+            statement.setString(3, categorie.getCatImage());
+            result = statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return result == 1;
+    }
 }

@@ -7,3 +7,4 @@ PARTS_PRICE_DESC=SELECT id,name, maker, description, price, quantity FROM parts 
 UPDATE_PART=UPDATE parts SET name=?,maker=?, description=?, price=?, quantity=? WHERE id=?
 DELETE_PART=DELETE FROM parts WHERE id=?
 ALL_CATEGORIES=SELECT catId, catName, catDesc,catImage FROM categories
+ADD_CATEGORY=INSERT INTO categories( catName, catDesc, catImage) VALUES(?, ?, ?)
