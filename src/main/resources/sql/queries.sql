@@ -8,3 +8,4 @@ UPDATE_PART=UPDATE parts SET name=?,maker=?, description=?, price=?, quantity=? 
 DELETE_PART=DELETE FROM parts WHERE id=?
 ALL_CATEGORIES=SELECT catId, catName, catDesc,catImage FROM categories
 ADD_CATEGORY=INSERT INTO categories( catName, catDesc, catImage) VALUES(?, ?, ?)
+DELETE_CATEGORY=DELETE FROM categories WHERE catId=?

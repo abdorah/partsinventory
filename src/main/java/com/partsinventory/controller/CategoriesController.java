@@ -5,16 +5,21 @@ import com.partsinventory.model.Part;
 import com.partsinventory.service.PartService;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.stage.FileChooser;
 
 import java.io.File;
+import java.io.IOException;
 import java.sql.SQLException;
 
 
@@ -35,11 +40,45 @@ public class CategoriesController {
     @FXML
     private TextField partNameField1;
 
-
+    @FXML
+    private AnchorPane anchorepane;
     private static final int BUTTON_SIZE = 100;
 
     //Image image = new Image("https://via.placeholder.com/150");
     String imagePath = null;
+    @FXML
+    void initialize() throws SQLException {
+
+        ObservableList<Categorie>categories= PartService.getAllCategories();
+        flowPane.getChildren().clear();
+        Button button = null;
+        MenuItem menuItem1=null;
+        for(Categorie categorie : categories){
+           button = CreateCatCard(categorie.getCatImage());
+            button.setText(categorie.getCatName());
+
+            HBox hBox=new HBox();
+            hBox.setSpacing(10); // Set horizontal gap between buttons
+            hBox.getChildren().add(button);
+            flowPane.setPrefWidth(400); // Set preferred width for the FlowPane
+            flowPane.setHgap(10); // Set horizontal gap between buttons
+            flowPane.setVgap(10);
+            flowPane.getChildren().add(hBox);
+            ContextMenu contextMenu = new ContextMenu();
+            // create menuitems
+            menuItem1 = new MenuItem("delete category");
+            // add menu items to menu
+            contextMenu.getItems().add(menuItem1);
+            button.setContextMenu(contextMenu);
+            menuItem1.setOnAction(e->{
+                PartService.deleteCategory(categorie.getCatId());
+            });
+            button.setOnAction(e->{
+                openCategory(categorie.getCatId());
+            });
+        }
+
+    }
     @FXML
     void chooseImage(ActionEvent event) {
         ImageView imageView = new ImageView();
@@ -81,22 +120,7 @@ public class CategoriesController {
 
 
     }
-    @FXML
-    void initialize() throws SQLException {
 
-        ObservableList<Categorie>categories= PartService.getAllCategories();
-        flowPane.getChildren().clear();
-        for(Categorie categorie : categories){
-            Label label = new Label(categorie.getCatName());
-            Button button = CreateCatCard(categorie.getCatImage());
-            button.setText(categorie.getCatName());
-            flowPane.setPrefWidth(400); // Set preferred width for the FlowPane
-            flowPane.setHgap(10); // Set horizontal gap between buttons
-            flowPane.setVgap(10);
-            flowPane.getChildren().add(button);
-
-        }
-    }
     private Button CreateCatCard (String imagepath){
         if (imagepath.startsWith("file:/")) {
             imagepath = imagepath.substring(6); // Remove "file:/" prefix
@@ -110,7 +134,19 @@ public class CategoriesController {
         Button button = new Button();
         button.setGraphic(imageView);
         button.setPrefSize(BUTTON_SIZE+50, BUTTON_SIZE);
+
         return button;
     }
+private void openCategory(int catId){
+    FXMLLoader categoriesLoader = new FXMLLoader(getClass().getResource("/views/category-details-component.fxml"));
+
+    anchorepane.getChildren().clear();
+    try {
+        Parent categoriesViewRoot = categoriesLoader.load();
+        anchorepane.getChildren().add(categoriesViewRoot);
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+}
 
 }

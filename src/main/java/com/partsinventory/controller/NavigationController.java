@@ -16,20 +16,10 @@ import javafx.scene.layout.StackPane;
 
 public class NavigationController {
 
-    @FXML
-    private Button dashboard;
 
     @FXML
     private Pane presentationPane;
 
-    @FXML
-    private ImageView homeImage;
-
-    @FXML
-    private Button toSearchButton;
-
-    @FXML
-    private Button toAddPartButton;
 
     public Pane getPresentationPane() {
         return presentationPane;

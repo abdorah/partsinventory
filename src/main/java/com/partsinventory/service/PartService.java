@@ -228,4 +228,14 @@ private static ObservableList<Categorie>getAllCategoriesFromResultset(ResultSet 
         }
         return result == 1;
     }
+
+    public static void deleteCategory(int catId) {
+        try (Connection connection = DbConnection.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(DbConnection.load("DELETE_CATEGORY"))) {
+            preparedStatement.setInt(1, catId);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e){
+            handleDatabaseError(e);
+        }
+    }
 }
