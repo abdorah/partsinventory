@@ -42,6 +42,8 @@ public class CategoriesController {
 
     @FXML
     private AnchorPane anchorepane;
+    @FXML
+    private ImageView categoryImage;
     private static final int BUTTON_SIZE = 100;
 
     //Image image = new Image("https://via.placeholder.com/150");
@@ -74,7 +76,7 @@ public class CategoriesController {
                 PartService.deleteCategory(categorie.getCatId());
             });
             button.setOnAction(e->{
-                openCategory(categorie.getCatId());
+                openCategory(categorie);
             });
         }
 
@@ -137,13 +139,15 @@ public class CategoriesController {
 
         return button;
     }
-private void openCategory(int catId){
+private void openCategory(Categorie categorie){
     FXMLLoader categoriesLoader = new FXMLLoader(getClass().getResource("/views/category-details-component.fxml"));
-
     anchorepane.getChildren().clear();
     try {
         Parent categoriesViewRoot = categoriesLoader.load();
-        anchorepane.getChildren().add(categoriesViewRoot);
+        CategoryDetailsController categoryController=categoriesLoader.getController();
+        categoryImage= categoryController.getCategoryImage();
+        categoryImage.setImage(new javafx.scene.image.Image(categorie.getCatImage()));
+        anchorepane.getChildren().addAll(categoriesViewRoot,categoryImage);
     } catch (IOException e) {
         e.printStackTrace();
     }
