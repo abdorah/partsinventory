@@ -8,14 +8,13 @@ import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.FlowPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.*;
 import javafx.stage.FileChooser;
 
 import java.io.File;
@@ -41,9 +40,12 @@ public class CategoriesController {
     private TextField partNameField1;
 
     @FXML
-    private AnchorPane anchorepane;
-    @FXML
     private ImageView categoryImage;
+    @FXML
+    private StackPane resultsStackPane;
+
+
+
     private static final int BUTTON_SIZE = 100;
 
     //Image image = new Image("https://via.placeholder.com/150");
@@ -84,7 +86,8 @@ public class CategoriesController {
     @FXML
     void chooseImage(ActionEvent event) {
         ImageView imageView = new ImageView();
-        imageView.setFitWidth(200); // Set width of the image view (adjust as needed)
+        imageView.setFitWidth(200);
+        imageView.setFitHeight(200);// Set width of the image view (adjust as needed)
         imageView.setPreserveRatio(true); // Preserve aspect ratio of the image
 
         // Event handler for the chooseImageButton
@@ -141,16 +144,38 @@ public class CategoriesController {
     }
 private void openCategory(Categorie categorie){
     FXMLLoader categoriesLoader = new FXMLLoader(getClass().getResource("/views/category-details-component.fxml"));
-    anchorepane.getChildren().clear();
+    resultsStackPane.getChildren().clear();
     try {
         Parent categoriesViewRoot = categoriesLoader.load();
         CategoryDetailsController categoryController=categoriesLoader.getController();
         categoryImage= categoryController.getCategoryImage();
         categoryImage.setImage(new javafx.scene.image.Image(categorie.getCatImage()));
-        anchorepane.getChildren().addAll(categoriesViewRoot,categoryImage);
+       // VBox vBox=new VBox();
+        BorderPane root = new BorderPane();
+        root.setTop(categoryImage); // Place ImageView at the top
+        root.setCenter(categoriesViewRoot);
+        root.setBottom(displayCategorydetails());
+       // vBox.getChildren().addAll(categoriesViewRoot,categoryImage,displayCategorydetails());
+        resultsStackPane.getChildren().add(root);
+        resultsStackPane.setAlignment(Pos.BASELINE_CENTER);
+
     } catch (IOException e) {
         e.printStackTrace();
     }
+}
+private Parent displayCategorydetails() throws IOException {
+    FXMLLoader tableViewLoader = new FXMLLoader(getClass().getResource("/views/parts-table-component.fxml"));
+    //resultsStackPane.getChildren().clear();
+
+        Parent tableViewRoot = tableViewLoader.load();
+        PartController productTableView = tableViewLoader.getController();
+        StackPane.setMargin(productTableView.getPartsListTableView(), new Insets(10, 10, 10, 10));
+        return tableViewRoot;
+//        StackPane.setAlignment(resultsStackPane, Pos.CENTER);
+//        StackPane.setMargin(searchGroup, new Insets(10, 10, 10, 10));
+//        StackPane.setAlignment(searchGroup, Pos.CENTER);
+//        resultsStackPane.getChildren().add(tableViewRoot);
+
 }
 
 }

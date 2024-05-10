@@ -16,10 +16,9 @@
    <items>
       <AnchorPane minHeight="200.0" prefHeight="200.0">
          <children>
-            <ImageView fx:id="categoryImage" fitHeight="201.0" fitWidth="174.0" pickOnBounds="true" preserveRatio="true" />
             <Group fx:id="searchGroup" layoutX="184.0" layoutY="50.0">
                <children>
-                  <Button fx:id="searchButton" layoutX="293.0" layoutY="55.0" mnemonicParsing="false"  text="Search" />
+                  <Button fx:id="searchButton" layoutX="293.0" layoutY="55.0" mnemonicParsing="false" text="Search" />
                   <TextField fx:id="searchTextField" layoutX="90.0" prefHeight="26.0" prefWidth="219.0" />
                   <SplitMenuButton fx:id="searchOptionPick" layoutX="90.0" layoutY="54.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="174.0" text="Search by...">
                      <items>
@@ -37,10 +36,13 @@
             </Group>
          </children>
       </AnchorPane>
-      <AnchorPane>
+      <AnchorPane prefHeight="247.0" prefWidth="598.0">
          <children>
-       <!--     <StackPane fx:id="resultsStackPane" layoutX="199.0" layoutY="26.0" prefHeight="201.6" prefWidth="598.4" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-         --></children>
+            <StackPane fx:id="resultsStackPane" layoutX="199.0" layoutY="-50.0" prefHeight="251.0" prefWidth="598.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <ImageView fx:id="categoryImage" fitHeight="201.0" fitWidth="146.0" pickOnBounds="true" preserveRatio="true" />
+               </children></StackPane>
+         </children>
       </AnchorPane>
    </items>
 </SplitPane>
