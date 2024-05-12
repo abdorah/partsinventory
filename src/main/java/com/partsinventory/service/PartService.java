@@ -4,10 +4,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.List;
 
 import com.partsinventory.configuration.DbConnection;
-import com.partsinventory.model.Categorie;
+import com.partsinventory.model.Category;
 import com.partsinventory.model.Part;
 
 import javafx.collections.FXCollections;
@@ -16,7 +15,6 @@ import javafx.scene.chart.XYChart.Data;
 import javafx.scene.chart.XYChart.Series;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 
 public class PartService {
@@ -31,6 +29,9 @@ public class PartService {
             part.setDescription(rs.getString("description"));
             part.setPrice(rs.getFloat("price"));
             part.setQuantity(rs.getInt("quantity"));
+            int catId=part.getCategory().getCatId();
+            Category category=getCategoryById(catId);
+            part.setCategory(category);
             partslist.add(part);
         }
         return partslist;
@@ -115,6 +116,7 @@ public class PartService {
             statement.setString(3, part.getDescription());
             statement.setFloat(4, part.getPrice());
             statement.setInt(5, part.getQuantity());
+            statement.setInt(6, part.getCategory().getCatId());
             result = statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -196,32 +198,51 @@ public class PartService {
         ObservableList<String> collection= FXCollections.observableArrayList("...","Mahle","Bosch","Dayco","Contitech");
        return collection;
     }
-private static ObservableList<Categorie>getAllCategoriesFromResultset(ResultSet rs) throws SQLException {
-    ObservableList<Categorie> categorieslist = FXCollections.observableArrayList();
+private static ObservableList<Category>getAllCategoriesFromResultset(ResultSet rs) throws SQLException {
+    ObservableList<Category> categorieslist = FXCollections.observableArrayList();
     while (rs.next()) {
-        Categorie categorie = new Categorie();
-        categorie.setCatId(rs.getInt("catId"));
-        categorie.setCatName(rs.getString("catName"));
-        categorie.setCatDesc(rs.getString("catDesc"));
-        categorie.setCatImage(rs.getString("catImage"));
-        categorieslist.add(categorie);
+        Category category = new Category();
+        category.setCatId(rs.getInt("catId"));
+        category.setCatName(rs.getString("catName"));
+        category.setCatDesc(rs.getString("catDesc"));
+        category.setCatImage(rs.getString("catImage"));
+        categorieslist.add(category);
     }
     return categorieslist;
 }
-    public static ObservableList<Categorie> getAllCategories() throws SQLException {
+    private static Category getCategorieFromResultset(ResultSet rs) throws SQLException {
+
+        Category category = null;
+        while (rs.next()) {
+            category = new Category();
+            category.setCatId(rs.getInt("catId"));
+            category.setCatName(rs.getString("catName"));
+            category.setCatDesc(rs.getString("catDesc"));
+            category.setCatImage(rs.getString("catImage"));
+
+        }
+        return category;
+
+    }
+    public static ObservableList<Category> getAllCategories() throws SQLException {
         String statement = DbConnection.load("ALL_CATEGORIES");
         ResultSet rs = DbConnection.DbqueryExecute(statement);
-        ObservableList<Categorie> categoriessList = getAllCategoriesFromResultset(rs);
+        ObservableList<Category> categoriessList = getAllCategoriesFromResultset(rs);
         return categoriessList;
     }
-
-    public static boolean addCategory(Categorie categorie) {
+    public static Category getCategoryById(int catId) throws SQLException {
+        String statement = DbConnection.load("GET_CATEGORY_BY_ID");
+        ResultSet rs = DbConnection.DbqueryExecute(statement);
+        Category category = getCategorieFromResultset(rs);
+        return category;
+    }
+    public static boolean addCategory(Category category) {
         int result = 0;
         try (Connection connection = DbConnection.getConnection();
              PreparedStatement statement = connection.prepareStatement(DbConnection.load("ADD_CATEGORY"));) {
-            statement.setString(1, categorie.getCatName());
-            statement.setString(2, categorie.getCatDesc());
-            statement.setString(3, categorie.getCatImage());
+            statement.setString(1, category.getCatName());
+            statement.setString(2, category.getCatDesc());
+            statement.setString(3, category.getCatImage());
             result = statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();

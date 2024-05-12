@@ -36,6 +36,9 @@ public class PartController {
     @FXML
     private TableColumn<Part, Integer> partQuantityColumn;
 
+    @FXML
+    private TableColumn<Part, String> partCategoryColumn;
+
     public TableView<Part> getPartsListTableView() {
         return partsListTableView;
     }
@@ -54,6 +57,7 @@ public class PartController {
         partDescriptionColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
         partPriceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
         partQuantityColumn.setCellValueFactory(new PropertyValueFactory<>("quantity"));
+        partCategoryColumn.setCellValueFactory(new PropertyValueFactory<>("category"));
 
         partNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         partNameColumn.setCellFactory(TextFieldTableCell.forTableColumn());
@@ -74,7 +78,11 @@ public class PartController {
         partQuantityColumn.setCellValueFactory(new PropertyValueFactory<>("quantity"));
         partQuantityColumn.setCellFactory(TextFieldTableCell.forTableColumn(new DefaultIntegerConvertor()));
         partQuantityColumn.setOnEditCommit(event -> PartService.onEditCommit(event, "quantity"));
-        
+
+        partCategoryColumn.setCellValueFactory(new PropertyValueFactory<>("category"));
+        partCategoryColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+        partCategoryColumn.setOnEditCommit(event -> PartService.onEditCommit(event, "category"));
+
         ObservableList<Part> parts = PartService.getAllParts();
         partsListTableView.setItems(parts);
 

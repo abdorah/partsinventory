@@ -16,15 +16,25 @@ public class Part {
     private StringProperty description;
     private FloatProperty price;
     private IntegerProperty quantity;
+    private Category category;
 
-    public Part(int id, String maker,String name, String description, Float price,
-            int quantity) {
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
+    public Part(int id, String name, String maker, String description, Float price,
+                int quantity, Category category) {
         this.id = new SimpleIntegerProperty();
         this.maker = new SimpleStringProperty();
         this.name = new SimpleStringProperty();
         this.description = new SimpleStringProperty();
         this.price = new SimpleFloatProperty();
         this.quantity = new SimpleIntegerProperty();
+        this.category = category;
         this.id.set(id);
         this.maker.set(maker);
         this.name.set(name);
@@ -40,6 +50,7 @@ public class Part {
         this.description = new SimpleStringProperty();
         this.price = new SimpleFloatProperty();
         this.quantity = new SimpleIntegerProperty();
+        this.category=new Category();
     }
 
     public int getId() {

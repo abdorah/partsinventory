@@ -2,13 +2,13 @@ package com.partsinventory.model;
 
 import javafx.beans.property.*;
 
-public class Categorie {
+public class Category {
     private IntegerProperty catId;
     private StringProperty catName;
     private StringProperty catDesc;
     private StringProperty catImage;
 
-    public Categorie(int catId, String catName, String catDesc, String catImage) {
+    public Category(int catId, String catName, String catDesc, String catImage) {
         this.catId = new SimpleIntegerProperty();
         this.catName = new SimpleStringProperty();
         this.catDesc = new SimpleStringProperty();
@@ -18,7 +18,7 @@ public class Categorie {
         this.catDesc.set(catDesc);
         this.catImage.set(catImage);
     }
-    public Categorie() {
+    public Category() {
         this.catId = new SimpleIntegerProperty();
         this.catName = new SimpleStringProperty();
         this.catDesc = new SimpleStringProperty();

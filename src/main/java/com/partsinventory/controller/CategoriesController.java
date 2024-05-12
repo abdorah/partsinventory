@@ -1,11 +1,9 @@
 package com.partsinventory.controller;
 
-import com.partsinventory.model.Categorie;
-import com.partsinventory.model.Part;
+import com.partsinventory.model.Category;
 import com.partsinventory.service.PartService;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
@@ -53,13 +51,13 @@ public class CategoriesController {
     @FXML
     void initialize() throws SQLException {
 
-        ObservableList<Categorie>categories= PartService.getAllCategories();
+        ObservableList<Category>categories= PartService.getAllCategories();
         flowPane.getChildren().clear();
         Button button = null;
         MenuItem menuItem1=null;
-        for(Categorie categorie : categories){
-           button = CreateCatCard(categorie.getCatImage());
-            button.setText(categorie.getCatName());
+        for(Category category : categories){
+           button = CreateCatCard(category.getCatImage());
+            button.setText(category.getCatName());
 
             HBox hBox=new HBox();
             hBox.setSpacing(10); // Set horizontal gap between buttons
@@ -75,10 +73,10 @@ public class CategoriesController {
             contextMenu.getItems().add(menuItem1);
             button.setContextMenu(contextMenu);
             menuItem1.setOnAction(e->{
-                PartService.deleteCategory(categorie.getCatId());
+                PartService.deleteCategory(category.getCatId());
             });
             button.setOnAction(e->{
-                openCategory(categorie);
+                openCategory(category);
             });
         }
 
@@ -113,13 +111,13 @@ public class CategoriesController {
         assert partDescriptionField1.getText() != null && !partDescriptionField1.getText().isBlank();
         assert imagePath != null && !imagePath.isBlank();
 
-        Categorie categorie = new Categorie(0,partNameField1.getText() ,partDescriptionField1.getText(),imagePath);
+        Category category = new Category(0,partNameField1.getText() ,partDescriptionField1.getText(),imagePath);
 
         partNameField1.setText("");
         partDescriptionField1.setText("");
 
 
-        if (!PartService.addCategory(categorie)) {
+        if (!PartService.addCategory(category)) {
             errorLabel1.setVisible(true);
         }
 
@@ -142,20 +140,18 @@ public class CategoriesController {
 
         return button;
     }
-private void openCategory(Categorie categorie){
+private void openCategory(Category category){
     FXMLLoader categoriesLoader = new FXMLLoader(getClass().getResource("/views/category-details-component.fxml"));
     resultsStackPane.getChildren().clear();
     try {
         Parent categoriesViewRoot = categoriesLoader.load();
         CategoryDetailsController categoryController=categoriesLoader.getController();
         categoryImage= categoryController.getCategoryImage();
-        categoryImage.setImage(new javafx.scene.image.Image(categorie.getCatImage()));
-       // VBox vBox=new VBox();
+        categoryImage.setImage(new javafx.scene.image.Image(category.getCatImage()));
         BorderPane root = new BorderPane();
-        root.setTop(categoryImage); // Place ImageView at the top
+        root.setTop(categoryImage);
         root.setCenter(categoriesViewRoot);
         root.setBottom(displayCategorydetails());
-       // vBox.getChildren().addAll(categoriesViewRoot,categoryImage,displayCategorydetails());
         resultsStackPane.getChildren().add(root);
         resultsStackPane.setAlignment(Pos.BASELINE_CENTER);
 
@@ -165,16 +161,15 @@ private void openCategory(Categorie categorie){
 }
 private Parent displayCategorydetails() throws IOException {
     FXMLLoader tableViewLoader = new FXMLLoader(getClass().getResource("/views/parts-table-component.fxml"));
-    //resultsStackPane.getChildren().clear();
-
         Parent tableViewRoot = tableViewLoader.load();
         PartController productTableView = tableViewLoader.getController();
+        productTableView.getPartsListTableView()
+                .getColumns()
+                .stream()
+                .filter(partTableColumn -> partTableColumn.getId().toLowerCase().contains("category"))
+                .forEach(partTableColumn -> partTableColumn.setVisible(false));
         StackPane.setMargin(productTableView.getPartsListTableView(), new Insets(10, 10, 10, 10));
         return tableViewRoot;
-//        StackPane.setAlignment(resultsStackPane, Pos.CENTER);
-//        StackPane.setMargin(searchGroup, new Insets(10, 10, 10, 10));
-//        StackPane.setAlignment(searchGroup, Pos.CENTER);
-//        resultsStackPane.getChildren().add(tableViewRoot);
 
 }
 

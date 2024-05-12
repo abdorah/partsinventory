@@ -22,8 +22,9 @@
    <children>
       <Pane GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
          <children>
-            <TextField fx:id="partDescriptionField" alignment="TOP_LEFT" centerShape="false" layoutX="14.0" layoutY="57.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="106.0" prefWidth="435.0" scaleShape="false" />
+            <TextField fx:id="partDescriptionField" alignment="TOP_LEFT" centerShape="false" layoutX="14.0" layoutY="73.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="106.0" prefWidth="435.0" scaleShape="false" />
             <ComboBox fx:id="partMakerField" layoutX="14.0" layoutY="14.0" prefWidth="150.0" />
+            <ComboBox fx:id="partCategory" layoutX="14.0" layoutY="43.0" prefWidth="150.0" />
          </children>
       </Pane>
       <Pane GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
@@ -55,7 +56,7 @@
             </Pane>
             <Pane prefHeight="200.0" prefWidth="200.0">
                <children>
-                  <TextField fx:id="partPriceField" layoutX="14.0" layoutY="29.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="26.0" prefWidth="212.0" />
+                  <TextField fx:id="partPriceField" layoutX="14.0" layoutY="46.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="26.0" prefWidth="212.0" />
                </children>
             </Pane>
          </children>
@@ -71,7 +72,7 @@
          <children>
             <Pane prefHeight="200.0" prefWidth="200.0">
                <children>
-                  <Label layoutX="14.0" layoutY="34.0" text="Part price:" />
+                  <Label layoutX="14.0" layoutY="46.0" text="Part price:" />
                </children>
             </Pane>
             <Pane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
@@ -88,8 +89,9 @@
       </Pane>
       <Pane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
          <children>
-            <Label layoutX="14.0" layoutY="59.0" text="Part description:" />
+            <Label layoutX="14.0" layoutY="73.0" text="Part description:" />
             <Label layoutX="14.0" layoutY="14.0" text="Maker:" />
+            <Label layoutX="14.0" layoutY="44.0" text="Category" />
          </children>
       </Pane>
    </children>
