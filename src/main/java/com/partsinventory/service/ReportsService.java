@@ -1,27 +1,36 @@
 package com.partsinventory.service;
 
-import java.io.File;
-import java.sql.Connection;
-import java.sql.SQLException;
+import static java.awt.Color.LIGHT_GRAY;
+
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Stream;
 
-import com.partsinventory.configuration.DbConnection;
-
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JasperCompileManager;
-import net.sf.jasperreports.engine.JasperExportManager;
-import net.sf.jasperreports.engine.JasperFillManager;
-import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.JasperReport;
+import com.lowagie.text.Document;
+import com.lowagie.text.DocumentException;
+import com.lowagie.text.Element;
+import com.lowagie.text.Font;
+import com.lowagie.text.Paragraph;
+import com.lowagie.text.Phrase;
+import com.lowagie.text.pdf.ColumnText;
+import com.lowagie.text.pdf.PdfPCell;
+import com.lowagie.text.pdf.PdfPTable;
+import com.lowagie.text.pdf.PdfPageEventHelper;
+import com.lowagie.text.pdf.PdfWriter;
 
 public class ReportsService {
+
+    private static Font titleFont = new Font(Font.HELVETICA, 18, Font.BOLD);
+    private static Font headerFont = new Font(Font.HELVETICA, 12, Font.BOLD);
+    private static Font regularFont = new Font(Font.HELVETICA, 12, Font.NORMAL);
+    private static Font smallFont = new Font(Font.HELVETICA, 10, Font.ITALIC);
 
     private static ReportsService instance = new ReportsService();
     private Map<String, Object> parameters = new HashMap<>();
 
-    private ReportsService() {
-    }
+    private ReportsService() {}
 
     public static ReportsService getInstance() {
         return instance;
@@ -35,16 +44,71 @@ public class ReportsService {
         parameters.put(key, value);
     }
 
-    public void generatePartReport(String template, String reportFile) {
-        try (Connection connection = DbConnection.getConnection()) {
-            File reportFolder = new File(System.getProperty("user.home"), "reports");
-            reportFolder.mkdirs();
-            JasperReport jasperReport = JasperCompileManager.compileReport(getClass().getResourceAsStream("/templates/" + template));
-            JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, connection);
-            JasperExportManager.exportReportToPdfFile(jasperPrint, reportFolder.getAbsolutePath() + "/" + reportFile);
-            System.out.println("Part report generated successfully.");
-        } catch (SQLException | JRException e) {
-            e.printStackTrace();
+    public static void generateReceipt(Map<String, String> data, String outputFilePath) throws DocumentException, IOException {
+        Document document = new Document();
+        PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(outputFilePath));
+        writer.setPageEvent(new HeaderFooter());
+        document.open();
+
+        // Title
+        Paragraph title = new Paragraph("Transaction Receipt", titleFont);
+        title.setAlignment(Element.ALIGN_CENTER);
+        document.add(title);
+
+        // Vendor details
+        Paragraph vendorName = new Paragraph("Vendor: " + data.get("storeName"), headerFont);
+        vendorName.setAlignment(Element.ALIGN_LEFT);
+        document.add(vendorName);
+
+        Paragraph vendorAddress = new Paragraph("Address: " + data.get("storeAddress"), regularFont);
+        vendorAddress.setAlignment(Element.ALIGN_LEFT);
+        document.add(vendorAddress);
+
+        document.add(new Paragraph(" ")); // Adding a blank line
+
+        // Transaction details in a table
+        PdfPTable table = new PdfPTable(2);
+        table.setWidthPercentage(100);
+        table.setSpacingBefore(10f);
+        table.setSpacingAfter(10f);
+
+        addTableHeader(table);
+        addRows(table, data);
+        document.add(table);
+        document.close();
+    }
+
+    private static void addTableHeader(PdfPTable table) {
+        Stream.of("Field", "Value").forEach(columnTitle -> {
+            PdfPCell header = new PdfPCell();
+            header.setBackgroundColor(LIGHT_GRAY);
+            header.setBorderWidth(2);
+            header.setPhrase(new Phrase(columnTitle, headerFont));
+            table.addCell(header);
+        });
+    }
+
+    private static void addRows(PdfPTable table, Map<String, String> data) {
+        table.addCell("Transaction ID");
+        table.addCell(data.get("transactionId"));
+
+        table.addCell("Transaction Date");
+        table.addCell(data.get("transactionDate"));
+
+        table.addCell("Total Amount");
+        table.addCell(data.get("totalAmount"));
+    }
+
+    static class HeaderFooter extends PdfPageEventHelper {
+        @Override
+        public void onEndPage(PdfWriter writer, Document document) {
+            ColumnText.showTextAligned(writer.getDirectContent(),
+                    Element.ALIGN_CENTER, new Phrase("My Store - Receipt", smallFont),
+                    100 , 100, 0);
+
+            ColumnText.showTextAligned(writer.getDirectContent(),
+                    Element.ALIGN_CENTER, new Phrase("Page " + document.getPageNumber(), smallFont),
+                    100 , 80, 0);
         }
     }
 }

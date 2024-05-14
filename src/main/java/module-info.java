@@ -1,8 +1,7 @@
 module com.partsinventory {
+    requires java.desktop;
     requires transitive java.sql;
     requires org.xerial.sqlitejdbc;
-
-    requires transitive jasperreports;
     
     requires transitive javafx.controls;
     requires javafx.fxml;
@@ -10,13 +9,12 @@ module com.partsinventory {
     
     requires transitive org.slf4j;
 
-    requires transitive lombok;
+    requires com.github.librepdf.openpdf;
 
     opens com.partsinventory to javafx.fxml;
     opens com.partsinventory.configuration to javafx.fxml, java.sql;
     opens com.partsinventory.controller to javafx.fxml;
-    opens com.partsinventory.service to java.sql, jasperreports;
-    opens com.partsinventory.model to lombok;
+    opens com.partsinventory.service to java.desktop, java.sql, com.github.librepdf.openpdf;
 
     exports com.partsinventory;
     exports com.partsinventory.configuration;

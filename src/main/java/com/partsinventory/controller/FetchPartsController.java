@@ -4,7 +4,6 @@ import java.io.IOException;
 
 import com.partsinventory.model.Part;
 import com.partsinventory.service.PartService;
-import com.partsinventory.service.ReportsService;
 
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -49,7 +48,7 @@ public class FetchPartsController {
     private Button searchButton;
 
     @FXML
-    private Button printReportButton;
+    private Button addToChartButton;
 
     @FXML
     private Button deleteButton;
@@ -87,10 +86,8 @@ public class FetchPartsController {
                 }
             });
 
-            printReportButton.setOnAction(e -> {
-                ReportsService.getInstance().resetParameters();
-                ReportsService.getInstance().setParameter("partIds", String.join(",", selectedItems.stream().map(Part::getId).map(id -> id.toString()).toArray(String[]::new)));
-                ReportsService.getInstance().generatePartReport("part-report.jrxml", "all-parts-report.pdf");
+            addToChartButton.setOnAction(e -> {
+                
             });
         } catch (IOException e) {
             e.printStackTrace();
