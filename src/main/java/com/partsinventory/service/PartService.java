@@ -92,7 +92,8 @@ public class PartService {
             statement.setString(3, part.getDescription());
             statement.setFloat(4, part.getPrice());
             statement.setInt(5, part.getQuantity());
-            statement.setInt(6, part.getId());
+            statement.setInt(6, part.getCategory().getCatId());
+            statement.setInt(7, part.getId());
             statement.executeUpdate();
         }
     }

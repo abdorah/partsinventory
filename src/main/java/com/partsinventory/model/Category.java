@@ -1,8 +1,12 @@
 package com.partsinventory.model;
 
-import javafx.beans.property.*;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 
 public class Category {
+
     private IntegerProperty catId;
     private StringProperty catName;
     private StringProperty catDesc;
@@ -25,10 +29,10 @@ public class Category {
         this.catImage = new SimpleStringProperty();
     }
 
-
     public int getCatId() {
         return catId.get();
     }
+
     public void setCatId(int catId) {
         this.catId.set(catId);
     }
@@ -36,7 +40,6 @@ public class Category {
     public String getCatName() {
         return catName.get();
     }
-
 
     public void setCatName(String catName) {
         this.catName.set(catName);

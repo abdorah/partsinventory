@@ -145,7 +145,7 @@ private void openCategory(Category category){
     resultsStackPane.getChildren().clear();
     try {
         Parent categoriesViewRoot = categoriesLoader.load();
-        CategoryDetailsController categoryController=categoriesLoader.getController();
+        CategoryDetailsController categoryController = categoriesLoader.getController();
         categoryImage= categoryController.getCategoryImage();
         categoryImage.setImage(new javafx.scene.image.Image(category.getCatImage()));
         BorderPane root = new BorderPane();

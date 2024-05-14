@@ -4,10 +4,10 @@ PART_BY_CRITERIA=SELECT id, name, maker, description, price, quantity,categories
 ADD_PART=INSERT INTO parts(name, maker, description, price, quantity, catId) VALUES(?, ?, ?, ?, ?,?)
 PARTS_QUANTITY_DESC=SELECT id,name, maker, description, price, quantity,catId FROM parts ORDER BY quantity DESC
 PARTS_PRICE_DESC=SELECT id,name, maker, description, price, quantity,catId FROM parts ORDER BY price DESC
-UPDATE_PART=UPDATE parts SET name=?,maker=?, description=?, price=?, quantity=? WHERE id=?
+UPDATE_PART=UPDATE parts SET name=?, maker=?, description=?, price=?, quantity=?, catId=? WHERE id=?
 DELETE_PART=DELETE FROM parts WHERE id=?
 ALL_CATEGORIES=SELECT catId, catName, catDesc,catImage FROM categories
 ADD_CATEGORY=INSERT INTO categories( catName, catDesc, catImage) VALUES(?, ?, ?)
 DELETE_CATEGORY=DELETE FROM categories WHERE catId=?
 GET_CATEGORY_BY_ID=SELECT catId, catName, catDesc,catImage FROM categories WHERE catId=?
-ADD_PART_TO_CHART=INSERT INTO parts(name, maker, description, price, quantity, catId) VALUES(?, ?, ?, ?, ?,?)
+ADD_PART_TO_CHART=INSERT INTO command(quantity, priceconsidered) VALUES(?, ?)

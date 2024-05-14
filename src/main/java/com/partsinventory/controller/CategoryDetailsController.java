@@ -5,6 +5,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 
 public class CategoryDetailsController {
+
     @FXML
     private ImageView categoryImage;
     @FXML
@@ -13,10 +14,8 @@ public class CategoryDetailsController {
     public ImageView getCategoryImage(){
         return categoryImage;
     }
-    public StackPane getResultsStackPane(){return resultsStackPane;}
-    @FXML
-    void initialize() {
 
+    public StackPane getResultsStackPane(){
+        return resultsStackPane;
     }
-
 }

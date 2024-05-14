@@ -25,8 +25,9 @@ public class AddPartController {
 
     @FXML
     private TextField partNameField;
+
     @FXML
-    private ComboBox partMakerField;
+    private ComboBox<String> partMakerField;
 
     @FXML
     private TextField partPriceField;

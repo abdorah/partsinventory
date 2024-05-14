@@ -2,21 +2,22 @@ package com.partsinventory.controller;
 
 import java.sql.SQLException;
 
+import com.partsinventory.helper.AlertHandler;
 import com.partsinventory.helper.DefaultFloatConvertor;
 import com.partsinventory.helper.DefaultIntegerConvertor;
 import com.partsinventory.model.Category;
 import com.partsinventory.model.Part;
 import com.partsinventory.service.PartService;
 
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
+import javafx.scene.control.SelectionMode;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.cell.ComboBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
-import javafx.util.Callback;
 
 public class PartController {
     @FXML
@@ -82,7 +83,7 @@ public class PartController {
         partQuantityColumn.setCellFactory(TextFieldTableCell.forTableColumn(new DefaultIntegerConvertor()));
         partQuantityColumn.setOnEditCommit(event -> PartService.onEditCommit(event, "quantity"));
 
-        partCategoryColumn.setCellValueFactory(new PropertyValueFactory("categoryName"));
+        partCategoryColumn.setCellValueFactory(new PropertyValueFactory<>("categoryName"));
         partCategoryColumn.setCellFactory(ComboBoxTableCell.forTableColumn());
 
         ObservableList<Category> categoriesList = PartService.getAllCategories();
@@ -98,6 +99,11 @@ public class PartController {
                             .findAny()
                             .orElse(event.getRowValue().getCategory())
             );
+            try {
+                PartService.updatePart(event.getRowValue());
+            } catch (SQLException e) {
+                AlertHandler.handleDatabaseError(e);
+            }
         });
 
         ObservableList<Part> parts = PartService.getAllParts();
