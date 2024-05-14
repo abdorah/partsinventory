@@ -19,8 +19,14 @@ public class Part {
     private IntegerProperty quantity;
     private ObjectProperty<Category> category;
 
-    public Part(int id, String name, String maker, String description, Float price,
-                int quantity, Category category) {
+    public Part(
+            int id,
+            String name,
+            String maker,
+            String description,
+            Float price,
+            int quantity,
+            Category category) {
         this.id = new SimpleIntegerProperty();
         this.maker = new SimpleStringProperty();
         this.name = new SimpleStringProperty();
@@ -55,8 +61,14 @@ public class Part {
         this.id.set(id);
     }
 
-    public String getMaker(){return maker.get();}
-    public void setMaker(String maker){this.maker.set(maker);}
+    public String getMaker() {
+        return maker.get();
+    }
+
+    public void setMaker(String maker) {
+        this.maker.set(maker);
+    }
+
     public String getName() {
         return name.get();
     }

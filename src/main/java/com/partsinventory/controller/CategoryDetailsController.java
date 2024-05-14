@@ -6,16 +6,14 @@ import javafx.scene.layout.StackPane;
 
 public class CategoryDetailsController {
 
-    @FXML
-    private ImageView categoryImage;
-    @FXML
-    private StackPane resultsStackPane;
+    @FXML private ImageView categoryImage;
+    @FXML private StackPane resultsStackPane;
 
-    public ImageView getCategoryImage(){
+    public ImageView getCategoryImage() {
         return categoryImage;
     }
 
-    public StackPane getResultsStackPane(){
+    public StackPane getResultsStackPane() {
         return resultsStackPane;
     }
 }

@@ -2,7 +2,6 @@ package com.partsinventory.controller;
 
 import com.partsinventory.helper.ViewManager;
 import com.partsinventory.service.LoginService;
-
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -12,20 +11,15 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 public class LoginController {
-    @FXML
-    private Button loginButton;
+    @FXML private Button loginButton;
 
-    @FXML
-    private PasswordField password;
+    @FXML private PasswordField password;
 
-    @FXML
-    private TextField username;
+    @FXML private TextField username;
 
-    @FXML
-    private Label incorrectPasswordLabel;
+    @FXML private Label incorrectPasswordLabel;
 
-    @FXML
-    private Button loginCancelButton;
+    @FXML private Button loginCancelButton;
 
     @FXML
     void onLogin(ActionEvent event) {
@@ -42,7 +36,6 @@ public class LoginController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
     @FXML
@@ -50,5 +43,4 @@ public class LoginController {
         Stage stage = (Stage) loginCancelButton.getScene().getWindow();
         stage.close();
     }
-
 }

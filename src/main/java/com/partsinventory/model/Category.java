@@ -22,6 +22,7 @@ public class Category {
         this.catDesc.set(catDesc);
         this.catImage.set(catImage);
     }
+
     public Category() {
         this.catId = new SimpleIntegerProperty();
         this.catName = new SimpleStringProperty();

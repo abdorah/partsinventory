@@ -1,4 +1,3 @@
-
 package com.partsinventory.controller;
 
 import javafx.event.ActionEvent;
@@ -13,47 +12,31 @@ import javafx.scene.layout.StackPane;
 
 public class SaleController {
 
-    @FXML
-    private Button deleteButton;
+    @FXML private Button deleteButton;
+
+    @FXML private Button printReportButton;
+
+    @FXML private StackPane resultsStackPane;
+
+    @FXML private SplitPane rootSplitPane;
+
+    @FXML private Button saleButton;
+
+    @FXML private Button searchButton;
+
+    @FXML private MenuItem searchByDescription;
+
+    @FXML private MenuItem searchByName;
+
+    @FXML private Group searchGroup;
+
+    @FXML private SplitMenuButton searchOptionPick;
+
+    @FXML private TextField searchTextField;
 
     @FXML
-    private Button printReportButton;
+    void onSale(ActionEvent event) {}
 
     @FXML
-    private StackPane resultsStackPane;
-
-    @FXML
-    private SplitPane rootSplitPane;
-
-    @FXML
-    private Button saleButton;
-
-    @FXML
-    private Button searchButton;
-
-    @FXML
-    private MenuItem searchByDescription;
-
-    @FXML
-    private MenuItem searchByName;
-
-    @FXML
-    private Group searchGroup;
-
-    @FXML
-    private SplitMenuButton searchOptionPick;
-
-    @FXML
-    private TextField searchTextField;
-
-    @FXML
-    void onSale(ActionEvent event) {
-
-    }
-
-    @FXML
-    void onSearch(ActionEvent event) {
-
-    }
-
+    void onSearch(ActionEvent event) {}
 }

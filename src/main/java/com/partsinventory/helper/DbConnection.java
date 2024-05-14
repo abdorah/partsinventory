@@ -11,7 +11,6 @@ import java.time.LocalDateTime;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import javax.sql.rowset.CachedRowSet;
 import javax.sql.rowset.RowSetProvider;
 
@@ -20,10 +19,10 @@ public class DbConnection {
     public static Connection connection;
 
     private static final String dbPrefix = "jdbc:sqlite:";
-    private static final String location = new File("src\\main\\resources\\database\\database.db").toURI().toString();
+    private static final String location =
+            new File("src\\main\\resources\\database\\database.db").toURI().toString();
 
-    private DbConnection() {
-    }
+    private DbConnection() {}
 
     public static boolean checkDrivers() {
         try {
@@ -40,9 +39,12 @@ public class DbConnection {
         try {
             connection = DriverManager.getConnection(dbPrefix + location);
         } catch (SQLException exception) {
-            Logger.getAnonymousLogger().log(Level.SEVERE,
-                    LocalDateTime.now() + ": Could not connect to SQLite DB at " +
-                            location);
+            Logger.getAnonymousLogger()
+                    .log(
+                            Level.SEVERE,
+                            LocalDateTime.now()
+                                    + ": Could not connect to SQLite DB at "
+                                    + location);
             return null;
         }
         return connection;
@@ -51,7 +53,8 @@ public class DbConnection {
     public static String load(String id) {
         Properties properties = new Properties();
         try {
-            properties.load(new FileInputStream(new File("src\\main\\resources\\sql\\queries.sql")));
+            properties.load(
+                    new FileInputStream(new File("src\\main\\resources\\sql\\queries.sql")));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -62,8 +65,10 @@ public class DbConnection {
         try {
             connection.close();
         } catch (SQLException exception) {
-            Logger.getAnonymousLogger().log(Level.SEVERE,
-                    LocalDateTime.now() + ": Could not close SQLite DB connection");
+            Logger.getAnonymousLogger()
+                    .log(
+                            Level.SEVERE,
+                            LocalDateTime.now() + ": Could not close SQLite DB connection");
         }
     }
 
