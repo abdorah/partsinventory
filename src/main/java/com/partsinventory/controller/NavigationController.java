@@ -8,14 +8,11 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
-import javafx.scene.control.Button;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 
 public class NavigationController {
-
 
     @FXML
     private Pane presentationPane;
@@ -27,7 +24,7 @@ public class NavigationController {
 
     @FXML
     void initialize() {
-        FXMLLoader welcomeViewLoader = new FXMLLoader(getClass().getResource("/views/sales-chart-component.fxml"));
+        FXMLLoader welcomeViewLoader = new FXMLLoader(getClass().getResource("/views/home-screen-component.fxml"));
         presentationPane.getChildren().clear();
         try {
             Parent welcomeViewRoot = welcomeViewLoader.load();
@@ -41,7 +38,7 @@ public class NavigationController {
 
     @FXML
     void returnHome(MouseEvent event) {
-        FXMLLoader welcomeViewLoader = new FXMLLoader(getClass().getResource("/views/sales-chart-component.fxml"));
+        FXMLLoader welcomeViewLoader = new FXMLLoader(getClass().getResource("/views/home-screen-component.fxml"));
         presentationPane.getChildren().clear();
         try {
             Parent welcomeViewRoot = welcomeViewLoader.load();
@@ -67,6 +64,7 @@ public class NavigationController {
             e.printStackTrace();
         }
     }
+
     @FXML
     void openCategories(ActionEvent event) {
         FXMLLoader categoriesLoader = new FXMLLoader(getClass().getResource("/views/categories-component.fxml"));
@@ -78,6 +76,7 @@ public class NavigationController {
             e.printStackTrace();
         }
     }
+
     @FXML
     void openSearchPage(ActionEvent event) {
         FXMLLoader searchPartsLoader = new FXMLLoader(getClass().getResource("/views/search-part-component.fxml"));
@@ -102,4 +101,15 @@ public class NavigationController {
         }
     }
 
+    @FXML
+    void opentoSalesChartButton(ActionEvent event) {
+        FXMLLoader addPartsLoader = new FXMLLoader(getClass().getResource("/views/sales-chart-component.fxml"));
+        presentationPane.getChildren().clear();
+        try {
+            Parent addViewRoot = addPartsLoader.load();
+            presentationPane.getChildren().add(addViewRoot);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

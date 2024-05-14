@@ -20,7 +20,7 @@ public class DbConnection {
     public static Connection connection;
 
     private static final String dbPrefix = "jdbc:sqlite:";
-    private static final String location = "/C:/code/desktop application/New version/partsstore/partsstore/src/main/resources/database/database.db";
+    private static final String location = DbConnection.class.getResource("/database/database.db").toExternalForm();
 
     private DbConnection() {
     }

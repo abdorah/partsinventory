@@ -17,9 +17,9 @@
          <children>
             <Group fx:id="searchGroup" layoutX="99.0" layoutY="55.0">
                <children>
-                  <Button fx:id="searchButton" layoutX="293.0" layoutY="55.0" mnemonicParsing="false" onAction="#onSearch" text="Search" />
+                  <Button fx:id="searchButton" layoutX="251.0" layoutY="55.0" mnemonicParsing="false" onAction="#onSearch" text="Search" />
                   <TextField fx:id="searchTextField" layoutX="90.0" prefHeight="26.0" prefWidth="219.0" />
-                  <SplitMenuButton fx:id="searchOptionPick" layoutX="90.0" layoutY="54.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="174.0" text="Search by...">
+                  <SplitMenuButton fx:id="searchOptionPick" layoutX="71.0" layoutY="54.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="174.0" text="Search by...">
                      <items>
                         <MenuItem fx:id="searchByName" mnemonicParsing="false" text="name" />
                         <MenuItem fx:id="searchByDescription" mnemonicParsing="false" text="description" />
@@ -31,7 +31,7 @@
                      </font>
                   </Label>
                   <Button fx:id="deleteButton" layoutX="415.0" layoutY="55.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="50.0" text="Delete" textFill="RED" />
-                  <Button fx:id="printReportButton" layoutX="351.0" layoutY="55.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="46.0" text="Print" />
+                  <Button fx:id="addToChartButton" layoutX="309.0" layoutY="55.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="103.0" text="Add to Chart" textFill="#5ba96d" />
                </children>
             </Group>
          </children>

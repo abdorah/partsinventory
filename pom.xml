@@ -10,15 +10,15 @@
     <name>partsinventory</name>
 
     <properties>
+        <mainClass>com.partsinventory.MainApplication</mainClass>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>17</java.version>
         <javafx.version>17.0.9</javafx.version>
         <jpro.version>2023.3.1</jpro.version>
         <sqlite.version>3.44.1.0</sqlite.version>
-        <jasperreports.version>6.21.0</jasperreports.version>
         <slf4j.version>2.0.9</slf4j.version>
-        <lombok.version>1.18.30</lombok.version>
         <javafx.plugin.version>0.0.8</javafx.plugin.version>
+        <openpdf.version>2.0.2</openpdf.version>
         <junit.version>5.8.2</junit.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
@@ -78,12 +78,6 @@
         </dependency>
 
         <dependency>
-            <groupId>net.sf.jasperreports</groupId>
-            <artifactId>jasperreports</artifactId>
-            <version>${jasperreports.version}</version>
-        </dependency>
-
-        <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
             <version>${slf4j.version}</version>
@@ -95,9 +89,9 @@
         </dependency>
 
         <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>${lombok.version}</version>
+            <groupId>com.github.librepdf</groupId>
+            <artifactId>openpdf</artifactId>
+            <version>${openpdf.version}</version>
         </dependency>
 
         <dependency>
@@ -121,6 +115,7 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.12.0</version>
                 <configuration>
+                    <mainClass>${mainClass}</mainClass>
                     <source>${java.version}</source>
                     <target>${java.version}</target>
                 </configuration>
@@ -133,7 +128,7 @@
                     <execution>
                         <id>default-cli</id>
                         <configuration>
-                            <mainClass>com.partsinventory.MainApplication</mainClass>
+                            <mainClass>${mainClass}</mainClass>
                             <launcher>app</launcher>
                             <jlinkZipName>app</jlinkZipName>
                             <jlinkImageName>app</jlinkImageName>
@@ -149,7 +144,7 @@
                 <artifactId>jpro-maven-plugin</artifactId>
                 <version>${jpro.version}</version>
                 <configuration>
-                    <mainClassName>com.partsinventory.MainApplication</mainClassName>
+                    <mainClassName>${mainClass}</mainClassName>
                 </configuration>
             </plugin>
         </plugins>
