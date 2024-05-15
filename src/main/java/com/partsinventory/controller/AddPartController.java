@@ -57,7 +57,7 @@ public class AddPartController {
                 new StringConverter<Category>() {
                     @Override
                     public String toString(Category category) {
-                        return (category != null) ? category.getCatName() : null;
+                        return (category != null) ? category.getName() : null;
                     }
 
                     @Override

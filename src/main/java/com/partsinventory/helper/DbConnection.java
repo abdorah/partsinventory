@@ -9,6 +9,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDateTime;
 import java.util.Properties;
+import java.util.function.Consumer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.sql.rowset.CachedRowSet;
@@ -93,5 +94,19 @@ public class DbConnection {
             st.close();
         }
         return crs;
+    }
+
+    public static <T> int getLastInsertedRowId(Consumer<T> operation, T parameter)
+            throws SQLException {
+        connection.setAutoCommit(false);
+        long generatedKey = -1L;
+        operation.accept(parameter);
+        Statement statement = connection.createStatement();
+        ResultSet generatedKeys = statement.executeQuery(load("LAST_INSERTED"));
+        if (generatedKeys.next()) {
+            generatedKey = generatedKeys.getLong(1);
+        }
+        connection.commit();
+        return (int) generatedKey;
     }
 }

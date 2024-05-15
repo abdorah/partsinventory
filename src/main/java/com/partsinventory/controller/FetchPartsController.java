@@ -89,13 +89,10 @@ public class FetchPartsController {
                     e -> {
                         if (selectedItems.toArray().length != 0) {
                             handleSale();
+                            int billId = PartService.addBill("null", "null");
                             for (Part part : selectedItems) {
-                                PartService.deletePart(part.getId());
+                                PartService.addToChart(part.getId(), billId, 1, part.getPrice());
                             }
-                            productTableView
-                                    .getPartsListTableView()
-                                    .getItems()
-                                    .removeAll(selectedItems);
                         }
                     });
         } catch (IOException e) {

@@ -31,11 +31,11 @@ public class CategoriesController {
     @FXML private TextField partNameField1;
 
     @FXML private ImageView categoryImage;
+
     @FXML private StackPane resultsStackPane;
 
     private static final int BUTTON_SIZE = 100;
 
-    // Image image = new Image("https://via.placeholder.com/150");
     String imagePath = null;
 
     @FXML
@@ -46,8 +46,8 @@ public class CategoriesController {
         Button button = null;
         MenuItem menuItem1 = null;
         for (Category category : categories) {
-            button = CreateCatCard(category.getCatImage());
-            button.setText(category.getCatName());
+            button = CreateCatCard(category.getImage());
+            button.setText(category.getName());
 
             HBox hBox = new HBox();
             hBox.setSpacing(10); // Set horizontal gap between buttons
@@ -64,7 +64,7 @@ public class CategoriesController {
             button.setContextMenu(contextMenu);
             menuItem1.setOnAction(
                     e -> {
-                        PartService.deleteCategory(category.getCatId());
+                        PartService.deleteCategory(category.getId());
                     });
             button.setOnAction(
                     e -> {
@@ -142,7 +142,7 @@ public class CategoriesController {
             Parent categoriesViewRoot = categoriesLoader.load();
             CategoryDetailsController categoryController = categoriesLoader.getController();
             categoryImage = categoryController.getCategoryImage();
-            categoryImage.setImage(new javafx.scene.image.Image(category.getCatImage()));
+            categoryImage.setImage(new javafx.scene.image.Image(category.getImage()));
             BorderPane root = new BorderPane();
             root.setTop(categoryImage);
             root.setCenter(categoriesViewRoot);

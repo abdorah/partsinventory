@@ -7,8 +7,10 @@ import static com.partsinventory.helper.AlertHandler.handleSuccessfulEdit;
 import com.partsinventory.helper.DbConnection;
 import com.partsinventory.helper.Settings;
 import com.partsinventory.model.Category;
+import com.partsinventory.model.Command;
 import com.partsinventory.model.Part;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -31,7 +33,7 @@ public class PartService {
             part.setDescription(rs.getString("description"));
             part.setPrice(rs.getFloat("price"));
             part.setQuantity(rs.getInt("quantity"));
-            part.setCategory(getCategoryById(rs.getInt("catId")));
+            part.setCategory(getegoryById(rs.getInt("catid")));
             partslist.add(part);
         }
         return partslist;
@@ -68,35 +70,39 @@ public class PartService {
 
     public static ObservableList<Part> getPartByCriteria(String criteria, String target) {
         ObservableList<Part> partsList = FXCollections.observableArrayList();
-        try (Connection connection = DbConnection.getConnection();
-                PreparedStatement preparedStatement =
-                        connection.prepareStatement(
-                                String.format(
-                                        "%s %s '%s%%'",
-                                        DbConnection.load("PART_BY_CRITERIA"), criteria, target))) {
-            try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                while (resultSet.next()) {
-                    partsList.add(extractPartFromResultSet(resultSet));
-                }
+        try {
+            Connection connection = DbConnection.getConnection();
+            PreparedStatement preparedStatement =
+                    connection.prepareStatement(
+                            String.format(
+                                    "%s %s '%s%%'",
+                                    DbConnection.load("PART_BY_CRITERIA"), criteria, target));
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                partsList.add(extractPartFromResultSet(resultSet));
             }
+
         } catch (SQLException e) {
-            e.printStackTrace();
+            handleDatabaseError(e);
         }
         return partsList;
     }
 
     public static void updatePart(Part part) throws SQLException {
-        try (Connection connection = DbConnection.getConnection();
-                PreparedStatement statement =
-                        connection.prepareStatement(DbConnection.load("UPDATE_PART"))) {
+        try {
+            Connection connection = DbConnection.getConnection();
+            PreparedStatement statement =
+                    connection.prepareStatement(DbConnection.load("UPDATE_PART"));
             statement.setString(1, part.getName());
             statement.setString(2, part.getMaker());
             statement.setString(3, part.getDescription());
             statement.setFloat(4, part.getPrice());
             statement.setInt(5, part.getQuantity());
-            statement.setInt(6, part.getCategory().getCatId());
+            statement.setInt(6, part.getCategory().getId());
             statement.setInt(7, part.getId());
             statement.executeUpdate();
+        } catch (SQLException e) {
+            handleDatabaseError(e);
         }
     }
 
@@ -113,18 +119,19 @@ public class PartService {
 
     public static boolean addPart(Part part) {
         int result = 0;
-        try (Connection connection = DbConnection.getConnection();
-                PreparedStatement statement =
-                        connection.prepareStatement(DbConnection.load("ADD_PART")); ) {
+        try {
+            Connection connection = DbConnection.getConnection();
+            PreparedStatement statement =
+                    connection.prepareStatement(DbConnection.load("ADD_PART"));
             statement.setString(1, part.getName());
             statement.setString(2, part.getMaker());
             statement.setString(3, part.getDescription());
             statement.setFloat(4, part.getPrice());
             statement.setInt(5, part.getQuantity());
-            statement.setInt(6, part.getCategory().getCatId());
+            statement.setInt(6, part.getCategory().getId());
             result = statement.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            handleDatabaseError(e);
         }
         return result == 1;
     }
@@ -161,9 +168,10 @@ public class PartService {
     }
 
     public static void deletePart(int id) {
-        try (Connection connection = DbConnection.getConnection();
-                PreparedStatement preparedStatement =
-                        connection.prepareStatement(DbConnection.load("DELETE_PART"))) {
+        try {
+            Connection connection = DbConnection.getConnection();
+            PreparedStatement preparedStatement =
+                    connection.prepareStatement(DbConnection.load("DELETE_PART"));
             preparedStatement.setInt(1, id);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
@@ -182,10 +190,10 @@ public class PartService {
         ObservableList<Category> categorieslist = FXCollections.observableArrayList();
         while (rs.next()) {
             Category category = new Category();
-            category.setCatId(rs.getInt("catId"));
-            category.setCatName(rs.getString("catName"));
-            category.setCatDesc(rs.getString("catDesc"));
-            category.setCatImage(Settings.loadPath("images.path", rs.getString("catImage")));
+            category.setId(rs.getInt("id"));
+            category.setName(rs.getString("name"));
+            category.setDescription(rs.getString("description"));
+            category.setImage(Settings.loadPath("images.path", rs.getString("image")));
             categorieslist.add(category);
         }
         return categorieslist;
@@ -196,10 +204,10 @@ public class PartService {
         Category category = null;
         while (rs.next()) {
             category = new Category();
-            category.setCatId(rs.getInt("catId"));
-            category.setCatName(rs.getString("catName"));
-            category.setCatDesc(rs.getString("catDesc"));
-            category.setCatImage(Settings.loadPath("images.path", rs.getString("catImage")));
+            category.setId(rs.getInt("id"));
+            category.setName(rs.getString("name"));
+            category.setDescription(rs.getString("description"));
+            category.setImage(Settings.loadPath("images.path", rs.getString("image")));
         }
         return category;
     }
@@ -211,19 +219,22 @@ public class PartService {
         return categoriessList;
     }
 
-    public static Category getCategoryById(int catId) throws SQLException {
+    public static Category getegoryById(int catId) throws SQLException {
         Optional<Category> category = Optional.ofNullable(null);
-        try (Connection connection = DbConnection.getConnection();
-                PreparedStatement statement =
-                        connection.prepareStatement(DbConnection.load("GET_CATEGORY_BY_ID"))) {
+        try {
+            Connection connection = DbConnection.getConnection();
+            PreparedStatement statement =
+                    connection.prepareStatement(DbConnection.load("GET_CATEGORY_BY_ID"));
             statement.setInt(1, catId);
             statement.execute();
             category = Optional.ofNullable(getCategorieFromResultset(statement.getResultSet()));
+        } catch (SQLException e) {
+            handleDatabaseError(e);
         }
         return category.or(
                         () -> {
                             Category defaultCategory = new Category();
-                            defaultCategory.setCatName("NONE");
+                            defaultCategory.setName("NONE");
                             return Optional.of(defaultCategory);
                         })
                 .get();
@@ -231,27 +242,97 @@ public class PartService {
 
     public static boolean addCategory(Category category) {
         int result = 0;
-        try (Connection connection = DbConnection.getConnection();
-                PreparedStatement statement =
-                        connection.prepareStatement(DbConnection.load("ADD_CATEGORY")); ) {
-            statement.setString(1, category.getCatName());
-            statement.setString(2, category.getCatDesc());
-            statement.setString(3, category.getCatImageName());
+        try {
+            Connection connection = DbConnection.getConnection();
+            PreparedStatement statement =
+                    connection.prepareStatement(DbConnection.load("ADD_CATEGORY"));
+            statement.setString(1, category.getName());
+            statement.setString(2, category.getDescription());
+            statement.setString(3, category.getImageName());
             result = statement.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            handleDatabaseError(e);
         }
         return result == 1;
     }
 
     public static void deleteCategory(int catId) {
-        try (Connection connection = DbConnection.getConnection();
-                PreparedStatement preparedStatement =
-                        connection.prepareStatement(DbConnection.load("DELETE_CATEGORY"))) {
+        try {
+            Connection connection = DbConnection.getConnection();
+            PreparedStatement preparedStatement =
+                    connection.prepareStatement(DbConnection.load("DELETE_CATEGORY"));
             preparedStatement.setInt(1, catId);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             handleDatabaseError(e);
         }
+    }
+
+    public static void addBill(Command command) {
+        try {
+            Connection connection = DbConnection.getConnection();
+            PreparedStatement statement =
+                    connection.prepareStatement(DbConnection.load("ADD_BILL"));
+            statement.setFloat(1, 0);
+            statement.setString(2, command.getClientName());
+            statement.setString(3, command.getClientPhone());
+            statement.setDate(4, new Date(System.currentTimeMillis()));
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            handleDatabaseError(e);
+        }
+    }
+
+    public static int addBill(String clientName, String clientPhone) {
+        Command command = new Command();
+        command.setClientName(clientName);
+        command.setClientPhone(clientPhone);
+        int result = -1;
+        try {
+            result =
+                    DbConnection.getLastInsertedRowId(
+                            (Command c) -> {
+                                addBill(c);
+                            },
+                            command);
+        } catch (SQLException e) {
+            handleDatabaseError(e);
+        }
+        return result;
+    }
+
+    public static Boolean updateBill(
+            int id, String clientName, String clientPhone, float totalPrice) {
+        int result = 0;
+        try {
+            Connection connection = DbConnection.getConnection();
+            PreparedStatement statement =
+                    connection.prepareStatement(DbConnection.load("UPDATE_BILL"));
+            statement.setString(1, clientName);
+            statement.setString(2, clientPhone);
+            statement.setFloat(3, totalPrice);
+            statement.setInt(4, id);
+            result = statement.executeUpdate();
+        } catch (SQLException e) {
+            handleDatabaseError(e);
+        }
+        return result == 1;
+    }
+
+    public static boolean addToChart(int partId, int billId, int quantity, float consideredPrice) {
+        int result = 0;
+        try {
+            Connection connection = DbConnection.getConnection();
+            PreparedStatement statement =
+                    connection.prepareStatement(DbConnection.load("ADD_PART_TO_CHART"));
+            statement.setInt(1, partId);
+            statement.setInt(2, billId);
+            statement.setInt(3, quantity);
+            statement.setFloat(4, consideredPrice);
+            result = statement.executeUpdate();
+        } catch (SQLException e) {
+            handleDatabaseError(e);
+        }
+        return result == 1;
     }
 }

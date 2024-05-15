@@ -106,7 +106,7 @@ public class Part {
     }
 
     public StringProperty categoryNameProperty() {
-        return new SimpleStringProperty(this.category.getValue().getCatName());
+        return new SimpleStringProperty(this.category.getValue().getName());
     }
 
     public void setCategory(Category category) {

@@ -83,7 +83,7 @@ public class PartController {
         ObservableList<Category> categoriesList = PartService.getAllCategories();
         ObservableList<String> categoryNamesList =
                 FXCollections.observableArrayList(
-                        categoriesList.stream().map(Category::getCatName).toList());
+                        categoriesList.stream().map(Category::getName).toList());
 
         partCategoryColumn.setCellFactory(ComboBoxTableCell.forTableColumn(categoryNamesList));
         partCategoryColumn.setOnEditCommit(
@@ -95,7 +95,7 @@ public class PartController {
                                     categoriesList.stream()
                                             .filter(
                                                     category ->
-                                                            category.getCatName()
+                                                            category.getName()
                                                                     .equals(event.getNewValue()))
                                             .findAny()
                                             .orElse(event.getRowValue().getCategory()));

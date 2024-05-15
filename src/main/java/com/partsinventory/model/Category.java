@@ -8,62 +8,62 @@ import javafx.beans.property.StringProperty;
 
 public class Category {
 
-    private IntegerProperty catId;
-    private StringProperty catName;
-    private StringProperty catDesc;
-    private StringProperty catImage;
+    private IntegerProperty id;
+    private StringProperty name;
+    private StringProperty description;
+    private StringProperty image;
 
-    public Category(int catId, String catName, String catDesc, String catImage) {
-        this.catId = new SimpleIntegerProperty();
-        this.catName = new SimpleStringProperty();
-        this.catDesc = new SimpleStringProperty();
-        this.catImage = new SimpleStringProperty();
-        this.catId.set(catId);
-        this.catName.set(catName);
-        this.catDesc.set(catDesc);
-        this.catImage.set(catImage);
+    public Category(int id, String name, String description, String image) {
+        this.id = new SimpleIntegerProperty();
+        this.name = new SimpleStringProperty();
+        this.description = new SimpleStringProperty();
+        this.image = new SimpleStringProperty();
+        this.id.set(id);
+        this.name.set(name);
+        this.description.set(description);
+        this.image.set(image);
     }
 
     public Category() {
-        this.catId = new SimpleIntegerProperty();
-        this.catName = new SimpleStringProperty();
-        this.catDesc = new SimpleStringProperty();
-        this.catImage = new SimpleStringProperty();
+        this.id = new SimpleIntegerProperty();
+        this.name = new SimpleStringProperty();
+        this.description = new SimpleStringProperty();
+        this.image = new SimpleStringProperty();
     }
 
-    public int getCatId() {
-        return catId.get();
+    public int getId() {
+        return id.get();
     }
 
-    public void setCatId(int catId) {
-        this.catId.set(catId);
+    public void setId(int id) {
+        this.id.set(id);
     }
 
-    public String getCatName() {
-        return catName.get();
+    public String getName() {
+        return name.get();
     }
 
-    public void setCatName(String catName) {
-        this.catName.set(catName);
+    public void setName(String name) {
+        this.name.set(name);
     }
 
-    public String getCatDesc() {
-        return catDesc.get();
+    public String getDescription() {
+        return description.get();
     }
 
-    public void setCatDesc(String catDesc) {
-        this.catDesc.set(catDesc);
+    public void setDescription(String description) {
+        this.description.set(description);
     }
 
-    public String getCatImage() {
-        return catImage.get();
+    public String getImage() {
+        return image.get();
     }
 
-    public String getCatImageName() {
-        return new File(catImage.get()).getName();
+    public String getImageName() {
+        return new File(image.get()).getName();
     }
 
-    public void setCatImage(String catImage) {
-        this.catImage.set(catImage);
+    public void setImage(String image) {
+        this.image.set(image);
     }
 }
