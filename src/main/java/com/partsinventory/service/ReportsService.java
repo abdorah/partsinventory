@@ -2,12 +2,6 @@ package com.partsinventory.service;
 
 import static java.awt.Color.LIGHT_GRAY;
 
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.stream.Stream;
-
 import com.lowagie.text.Document;
 import com.lowagie.text.DocumentException;
 import com.lowagie.text.Element;
@@ -19,6 +13,11 @@ import com.lowagie.text.pdf.PdfPCell;
 import com.lowagie.text.pdf.PdfPTable;
 import com.lowagie.text.pdf.PdfPageEventHelper;
 import com.lowagie.text.pdf.PdfWriter;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.stream.Stream;
 
 public class ReportsService {
 
@@ -44,7 +43,8 @@ public class ReportsService {
         parameters.put(key, value);
     }
 
-    public static void generateReceipt(Map<String, String> data, String outputFilePath) throws DocumentException, IOException {
+    public static void generateReceipt(Map<String, String> data, String outputFilePath)
+            throws DocumentException, IOException {
         Document document = new Document();
         PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(outputFilePath));
         writer.setPageEvent(new HeaderFooter());
@@ -60,7 +60,8 @@ public class ReportsService {
         vendorName.setAlignment(Element.ALIGN_LEFT);
         document.add(vendorName);
 
-        Paragraph vendorAddress = new Paragraph("Address: " + data.get("storeAddress"), regularFont);
+        Paragraph vendorAddress =
+                new Paragraph("Address: " + data.get("storeAddress"), regularFont);
         vendorAddress.setAlignment(Element.ALIGN_LEFT);
         document.add(vendorAddress);
 
@@ -79,13 +80,15 @@ public class ReportsService {
     }
 
     private static void addTableHeader(PdfPTable table) {
-        Stream.of("Field", "Value").forEach(columnTitle -> {
-            PdfPCell header = new PdfPCell();
-            header.setBackgroundColor(LIGHT_GRAY);
-            header.setBorderWidth(2);
-            header.setPhrase(new Phrase(columnTitle, headerFont));
-            table.addCell(header);
-        });
+        Stream.of("Field", "Value")
+                .forEach(
+                        columnTitle -> {
+                            PdfPCell header = new PdfPCell();
+                            header.setBackgroundColor(LIGHT_GRAY);
+                            header.setBorderWidth(2);
+                            header.setPhrase(new Phrase(columnTitle, headerFont));
+                            table.addCell(header);
+                        });
     }
 
     private static void addRows(PdfPTable table, Map<String, String> data) {
@@ -102,13 +105,21 @@ public class ReportsService {
     static class HeaderFooter extends PdfPageEventHelper {
         @Override
         public void onEndPage(PdfWriter writer, Document document) {
-            ColumnText.showTextAligned(writer.getDirectContent(),
-                    Element.ALIGN_CENTER, new Phrase("My Store - Receipt", smallFont),
-                    100 , 100, 0);
+            ColumnText.showTextAligned(
+                    writer.getDirectContent(),
+                    Element.ALIGN_CENTER,
+                    new Phrase("My Store - Receipt", smallFont),
+                    100,
+                    100,
+                    0);
 
-            ColumnText.showTextAligned(writer.getDirectContent(),
-                    Element.ALIGN_CENTER, new Phrase("Page " + document.getPageNumber(), smallFont),
-                    100 , 80, 0);
+            ColumnText.showTextAligned(
+                    writer.getDirectContent(),
+                    Element.ALIGN_CENTER,
+                    new Phrase("Page " + document.getPageNumber(), smallFont),
+                    100,
+                    80,
+                    0);
         }
     }
 }

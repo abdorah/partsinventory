@@ -1,10 +1,11 @@
 package com.partsinventory.controller;
 
-import java.io.IOException;
+import static com.partsinventory.helper.AlertHandler.handleDelete;
+import static com.partsinventory.helper.AlertHandler.handleSale;
 
 import com.partsinventory.model.Part;
 import com.partsinventory.service.PartService;
-
+import java.io.IOException;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -21,40 +22,27 @@ import javafx.scene.control.SplitPane;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.StackPane;
 
-import static com.partsinventory.helper.AlertHandler.handleDelete;
-import static com.partsinventory.helper.AlertHandler.handleSale;
-
 public class FetchPartsController {
 
-    @FXML
-    private SplitPane rootSplitPane;
+    @FXML private SplitPane rootSplitPane;
 
-    @FXML
-    private StackPane resultsStackPane;
+    @FXML private StackPane resultsStackPane;
 
-    @FXML
-    private Group searchGroup;
+    @FXML private Group searchGroup;
 
-    @FXML
-    private SplitMenuButton searchOptionPick;
+    @FXML private SplitMenuButton searchOptionPick;
 
-    @FXML
-    private MenuItem searchByDescription;
+    @FXML private MenuItem searchByDescription;
 
-    @FXML
-    private MenuItem searchByName;
+    @FXML private MenuItem searchByName;
 
-    @FXML
-    private TextField searchTextField;
+    @FXML private TextField searchTextField;
 
-    @FXML
-    private Button searchButton;
+    @FXML private Button searchButton;
 
-    @FXML
-    private Button addToChartButton;
+    @FXML private Button addToChartButton;
 
-    @FXML
-    private Button deleteButton;
+    @FXML private Button deleteButton;
 
     public SplitPane getRootSplitPane() {
         return rootSplitPane;
@@ -67,37 +55,46 @@ public class FetchPartsController {
     @FXML
     void initialize() {
         rootSplitPane.setDividerPosition(0, 0.2);
-        searchByName.setOnAction(e -> searchOptionPick.setText(searchByName.getText()));
-        searchByDescription.setOnAction(e -> searchOptionPick.setText(searchByDescription.getText()));
-        FXMLLoader tableViewLoader = new FXMLLoader(getClass().getResource("/views/parts-table-component.fxml"));
+        searchByName.setOnAction(event -> searchOptionPick.setText(searchByName.getText()));
+        searchByDescription.setOnAction(
+                event -> searchOptionPick.setText(searchByDescription.getText()));
+        FXMLLoader tableViewLoader =
+                new FXMLLoader(getClass().getResource("/views/parts-table-component.fxml"));
         resultsStackPane.getChildren().clear();
         try {
             Parent tableViewRoot = tableViewLoader.load();
             PartController productTableView = tableViewLoader.getController();
-            StackPane.setMargin(productTableView.getPartsListTableView(), new Insets(10, 10, 10, 10));
+            StackPane.setMargin(
+                    productTableView.getPartsListTableView(), new Insets(10, 10, 10, 10));
             StackPane.setAlignment(resultsStackPane, Pos.CENTER);
             StackPane.setMargin(searchGroup, new Insets(10, 10, 10, 10));
             StackPane.setAlignment(searchGroup, Pos.CENTER);
             resultsStackPane.getChildren().add(tableViewRoot);
-            ObservableList<Part> selectedItems = productTableView.getPartsListTableView().getSelectionModel().getSelectedItems();
-            deleteButton.setOnAction(e -> {
-                if(selectedItems.toArray().length!=0 && handleDelete()){
-                    for(Part part : selectedItems) {
-                        PartService.deletePart(part.getId());
-                    }
-                    productTableView.getPartsListTableView().getItems().removeAll(selectedItems);
-                }
-            });
+            ObservableList<Part> selectedItems =
+                    productTableView.getPartsListTableView().getSelectionModel().getSelectedItems();
+            deleteButton.setOnAction(
+                    event -> {
+                        if (selectedItems.toArray().length != 0 && handleDelete()) {
+                            for (Part part : selectedItems) {
+                                PartService.deletePart(part.getId());
+                            }
+                            productTableView
+                                    .getPartsListTableView()
+                                    .getItems()
+                                    .removeAll(selectedItems);
+                        }
+                    });
 
-            addToChartButton.setOnAction(e -> {
-                if(selectedItems.toArray().length!=0){
-                    handleSale();
-                    for(Part part : selectedItems) {
-                        PartService.deletePart(part.getId());
-                    }
-                    productTableView.getPartsListTableView().getItems().removeAll(selectedItems);
-                }
-            });
+            addToChartButton.setOnAction(
+                    event -> {
+                        if (selectedItems.toArray().length != 0) {
+                            handleSale();
+                            int billId = PartService.addBill("", "");
+                            for (Part part : selectedItems) {
+                                PartService.addToChart(part.getId(), billId, 1, part.getPrice());
+                            }
+                        }
+                    });
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -105,15 +102,19 @@ public class FetchPartsController {
 
     @FXML
     void onSearch(ActionEvent event) {
-        FXMLLoader tableViewLoader = new FXMLLoader(getClass().getResource("/views/parts-table-component.fxml"));
+        FXMLLoader tableViewLoader =
+                new FXMLLoader(getClass().getResource("/views/parts-table-component.fxml"));
         resultsStackPane.getChildren().clear();
         try {
             Parent tableViewRoot = tableViewLoader.load();
             PartController productTableView = tableViewLoader.getController();
-            if (searchTextField.getText() != null && !searchTextField.getText().isBlank()
+            if (searchTextField.getText() != null
+                    && !searchTextField.getText().isBlank()
                     && !searchOptionPick.getText().contains("Search by")) {
-                StackPane.setMargin(productTableView.getPartsListByCriteriaTableView(
-                        searchOptionPick.getText() + " like", searchTextField.getText()), new Insets(10, 10, 10, 10));
+                StackPane.setMargin(
+                        productTableView.getPartsListByCriteriaTableView(
+                                searchOptionPick.getText() + " like", searchTextField.getText()),
+                        new Insets(10, 10, 10, 10));
                 StackPane.setAlignment(resultsStackPane, Pos.CENTER);
                 resultsStackPane.getChildren().add(tableViewRoot);
             } else if (searchOptionPick.getText().contains("Search by")) {
@@ -121,7 +122,8 @@ public class FetchPartsController {
                 warningMessage.setMinHeight(0);
                 resultsStackPane.getChildren().add(warningMessage);
             } else {
-                StackPane.setMargin(productTableView.getPartsListTableView(), new Insets(10, 10, 10, 10));
+                StackPane.setMargin(
+                        productTableView.getPartsListTableView(), new Insets(10, 10, 10, 10));
                 StackPane.setAlignment(resultsStackPane, Pos.CENTER);
                 resultsStackPane.getChildren().add(tableViewRoot);
             }
@@ -129,5 +131,4 @@ public class FetchPartsController {
             e.printStackTrace();
         }
     }
-
 }

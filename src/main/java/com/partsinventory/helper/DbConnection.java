@@ -1,7 +1,5 @@
 package com.partsinventory.helper;
 
-import javafx.scene.control.Alert;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.sql.Connection;
@@ -11,9 +9,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDateTime;
 import java.util.Properties;
+import java.util.function.Consumer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import javax.sql.rowset.CachedRowSet;
 import javax.sql.rowset.RowSetProvider;
 
@@ -22,10 +20,9 @@ public class DbConnection {
     public static Connection connection;
 
     private static final String dbPrefix = "jdbc:sqlite:";
-    private static final String location = new File("src\\main\\resources\\database\\database.db").toURI().toString();
+    private static final String location = Settings.loadPath("database.path", "database.db");
 
-    private DbConnection() {
-    }
+    private DbConnection() {}
 
     public static boolean checkDrivers() {
         try {
@@ -42,9 +39,12 @@ public class DbConnection {
         try {
             connection = DriverManager.getConnection(dbPrefix + location);
         } catch (SQLException exception) {
-            Logger.getAnonymousLogger().log(Level.SEVERE,
-                    LocalDateTime.now() + ": Could not connect to SQLite DB at " +
-                            location);
+            Logger.getAnonymousLogger()
+                    .log(
+                            Level.SEVERE,
+                            LocalDateTime.now()
+                                    + ": Could not connect to SQLite DB at "
+                                    + location);
             return null;
         }
         return connection;
@@ -53,7 +53,8 @@ public class DbConnection {
     public static String load(String id) {
         Properties properties = new Properties();
         try {
-            properties.load(new FileInputStream(new File("src\\main\\resources\\sql\\queries.sql")));
+            properties.load(
+                    new FileInputStream(new File("src\\main\\resources\\sql\\queries.sql")));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -64,8 +65,10 @@ public class DbConnection {
         try {
             connection.close();
         } catch (SQLException exception) {
-            Logger.getAnonymousLogger().log(Level.SEVERE,
-                    LocalDateTime.now() + ": Could not close SQLite DB connection");
+            Logger.getAnonymousLogger()
+                    .log(
+                            Level.SEVERE,
+                            LocalDateTime.now() + ": Could not close SQLite DB connection");
         }
     }
 
@@ -91,5 +94,19 @@ public class DbConnection {
             st.close();
         }
         return crs;
+    }
+
+    public static <T> int getLastInsertedRowId(Consumer<T> operation, T parameter)
+            throws SQLException {
+        connection.setAutoCommit(false);
+        long generatedKey = -1L;
+        operation.accept(parameter);
+        Statement statement = connection.createStatement();
+        ResultSet generatedKeys = statement.executeQuery(load("LAST_INSERTED"));
+        if (generatedKeys.next()) {
+            generatedKey = generatedKeys.getLong(1);
+        }
+        connection.commit();
+        return (int) generatedKey;
     }
 }

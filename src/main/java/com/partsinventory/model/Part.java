@@ -1,7 +1,13 @@
 package com.partsinventory.model;
 
-import javafx.beans.property.*;
-import javafx.beans.value.ObservableValue;
+import javafx.beans.property.FloatProperty;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleFloatProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 
 public class Part {
 
@@ -13,8 +19,14 @@ public class Part {
     private IntegerProperty quantity;
     private ObjectProperty<Category> category;
 
-    public Part(int id, String name, String maker, String description, Float price,
-                int quantity, Category category) {
+    public Part(
+            int id,
+            String name,
+            String maker,
+            String description,
+            Float price,
+            int quantity,
+            Category category) {
         this.id = new SimpleIntegerProperty();
         this.maker = new SimpleStringProperty();
         this.name = new SimpleStringProperty();
@@ -38,7 +50,7 @@ public class Part {
         this.description = new SimpleStringProperty();
         this.price = new SimpleFloatProperty();
         this.quantity = new SimpleIntegerProperty();
-        this.category = new SimpleObjectProperty<Category>();
+        this.category = new SimpleObjectProperty<Category>(new Category());
     }
 
     public int getId() {
@@ -49,8 +61,14 @@ public class Part {
         this.id.set(id);
     }
 
-    public String getMaker(){return maker.get();}
-    public void setMaker(String maker){this.maker.set(maker);}
+    public String getMaker() {
+        return maker.get();
+    }
+
+    public void setMaker(String maker) {
+        this.maker.set(maker);
+    }
+
     public String getName() {
         return name.get();
     }
@@ -88,7 +106,7 @@ public class Part {
     }
 
     public StringProperty categoryNameProperty() {
-        return new SimpleStringProperty(this.category.getValue().getCatName());
+        return new SimpleStringProperty(this.category.getValue().getName());
     }
 
     public void setCategory(Category category) {

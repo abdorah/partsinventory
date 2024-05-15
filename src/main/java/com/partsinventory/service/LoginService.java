@@ -1,10 +1,9 @@
 package com.partsinventory.service;
 
+import com.partsinventory.helper.DbConnection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
-import com.partsinventory.helper.DbConnection;
 
 public class LoginService {
 

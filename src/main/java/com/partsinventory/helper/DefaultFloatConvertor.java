@@ -22,5 +22,4 @@ public class DefaultFloatConvertor extends StringConverter<Float> {
             return (float) 0;
         }
     }
-
 }

@@ -1,19 +1,17 @@
 package com.partsinventory.helper;
 
+import java.io.IOException;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-
-import java.io.IOException;
 
 public class ViewManager {
 
     private static ViewManager instance = new ViewManager();
     private Stage primaryStage;
 
-    private ViewManager() {
-    }
+    private ViewManager() {}
 
     public static ViewManager getInstance() {
         return instance;

@@ -1,9 +1,7 @@
 package com.partsinventory.controller;
 
-import java.sql.SQLException;
-
 import com.partsinventory.service.PartService;
-
+import java.sql.SQLException;
 import javafx.fxml.FXML;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
@@ -11,23 +9,17 @@ import javafx.scene.chart.StackedBarChart;
 
 public class SalesChartController {
 
-    @FXML
-    private CategoryAxis salesDaysAxis;
+    @FXML private CategoryAxis salesDaysAxis;
 
-    @FXML
-    private CategoryAxis partsDaysAxis;
+    @FXML private CategoryAxis partsDaysAxis;
 
-    @FXML
-    private StackedBarChart<String, Number> partsSoldPerWeekChart;
+    @FXML private StackedBarChart<String, Number> partsSoldPerWeekChart;
 
-    @FXML
-    private NumberAxis salesAxis;
+    @FXML private NumberAxis salesAxis;
 
-    @FXML
-    private NumberAxis partsAxis;
+    @FXML private NumberAxis partsAxis;
 
-    @FXML
-    private StackedBarChart<String, Number> salesPerWeekChart;
+    @FXML private StackedBarChart<String, Number> salesPerWeekChart;
 
     @FXML
     void initialize() {

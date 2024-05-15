@@ -1,7 +1,6 @@
 package com.partsinventory.controller;
 
 import java.io.IOException;
-
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -14,12 +13,12 @@ import javafx.scene.layout.StackPane;
 
 public class NavigationController {
 
-    @FXML
-    private Pane presentationPane;
+    @FXML private Pane presentationPane;
 
     @FXML
     void initialize() {
-        FXMLLoader welcomeViewLoader = new FXMLLoader(getClass().getResource("/views/home-screen-component.fxml"));
+        FXMLLoader welcomeViewLoader =
+                new FXMLLoader(getClass().getResource("/views/home-screen-component.fxml"));
         presentationPane.getChildren().clear();
         try {
             Parent welcomeViewRoot = welcomeViewLoader.load();
@@ -33,7 +32,8 @@ public class NavigationController {
 
     @FXML
     void returnHome(MouseEvent event) {
-        FXMLLoader welcomeViewLoader = new FXMLLoader(getClass().getResource("/views/home-screen-component.fxml"));
+        FXMLLoader welcomeViewLoader =
+                new FXMLLoader(getClass().getResource("/views/home-screen-component.fxml"));
         presentationPane.getChildren().clear();
         try {
             Parent welcomeViewRoot = welcomeViewLoader.load();
@@ -47,12 +47,14 @@ public class NavigationController {
 
     @FXML
     void openDashBoard(ActionEvent event) {
-        FXMLLoader tableViewLoader = new FXMLLoader(getClass().getResource("/views/parts-table-component.fxml"));
+        FXMLLoader tableViewLoader =
+                new FXMLLoader(getClass().getResource("/views/parts-table-component.fxml"));
         presentationPane.getChildren().clear();
         try {
             Parent tableViewRoot = tableViewLoader.load();
             PartController productTableView = tableViewLoader.getController();
-            StackPane.setMargin(productTableView.getPartsListTableView(), new Insets(10, 10, 10, 10));
+            StackPane.setMargin(
+                    productTableView.getPartsListTableView(), new Insets(10, 10, 10, 10));
             StackPane.setAlignment(presentationPane, Pos.CENTER);
             presentationPane.getChildren().add(tableViewRoot);
         } catch (IOException e) {
@@ -62,7 +64,8 @@ public class NavigationController {
 
     @FXML
     void openCategories(ActionEvent event) {
-        FXMLLoader categoriesLoader = new FXMLLoader(getClass().getResource("/views/categories-component.fxml"));
+        FXMLLoader categoriesLoader =
+                new FXMLLoader(getClass().getResource("/views/categories-component.fxml"));
         presentationPane.getChildren().clear();
         try {
             Parent categoriesViewRoot = categoriesLoader.load();
@@ -74,7 +77,8 @@ public class NavigationController {
 
     @FXML
     void openSearchPage(ActionEvent event) {
-        FXMLLoader searchPartsLoader = new FXMLLoader(getClass().getResource("/views/search-part-component.fxml"));
+        FXMLLoader searchPartsLoader =
+                new FXMLLoader(getClass().getResource("/views/search-part-component.fxml"));
         presentationPane.getChildren().clear();
         try {
             Parent searchViewRoot = searchPartsLoader.load();
@@ -86,7 +90,8 @@ public class NavigationController {
 
     @FXML
     void openAddPartButton(ActionEvent event) {
-        FXMLLoader addPartsLoader = new FXMLLoader(getClass().getResource("/views/add-part-component.fxml"));
+        FXMLLoader addPartsLoader =
+                new FXMLLoader(getClass().getResource("/views/add-part-component.fxml"));
         presentationPane.getChildren().clear();
         try {
             Parent addViewRoot = addPartsLoader.load();
@@ -98,7 +103,8 @@ public class NavigationController {
 
     @FXML
     void openSalesChartButton(ActionEvent event) {
-        FXMLLoader salesChartLoader = new FXMLLoader(getClass().getResource("/views/sales-chart-component.fxml"));
+        FXMLLoader salesChartLoader =
+                new FXMLLoader(getClass().getResource("/views/sales-chart-component.fxml"));
         presentationPane.getChildren().clear();
         try {
             Parent salesChartViewRoot = salesChartLoader.load();

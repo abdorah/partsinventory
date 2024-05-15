@@ -22,5 +22,4 @@ public class DefaultIntegerConvertor extends StringConverter<Integer> {
             return 0;
         }
     }
-
 }

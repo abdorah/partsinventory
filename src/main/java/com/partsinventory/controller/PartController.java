@@ -1,46 +1,40 @@
 package com.partsinventory.controller;
 
-import java.sql.SQLException;
+import static com.partsinventory.helper.AlertHandler.handleDatabaseError;
 
+import com.partsinventory.helper.AlertHandler;
 import com.partsinventory.helper.DefaultFloatConvertor;
 import com.partsinventory.helper.DefaultIntegerConvertor;
 import com.partsinventory.model.Category;
 import com.partsinventory.model.Part;
 import com.partsinventory.service.PartService;
-
-import javafx.beans.value.ObservableValue;
+import java.sql.SQLException;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
+import javafx.scene.control.SelectionMode;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.cell.ComboBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
-import javafx.util.Callback;
 
 public class PartController {
-    @FXML
-    private TableView<Part> partsListTableView;
+    @FXML private TableView<Part> partsListTableView;
 
-    @FXML
-    private TableColumn<Part, Integer> partIdColumn;
-    @FXML
-    private TableColumn<Part, String> partMakerColumn;
+    @FXML private TableColumn<Part, Integer> partIdColumn;
 
-    @FXML
-    private TableColumn<Part, String> partNameColumn;
+    @FXML private TableColumn<Part, String> partMakerColumn;
 
-    @FXML
-    private TableColumn<Part, String> partDescriptionColumn;
+    @FXML private TableColumn<Part, String> partNameColumn;
 
-    @FXML
-    private TableColumn<Part, Float> partPriceColumn;
+    @FXML private TableColumn<Part, String> partDescriptionColumn;
 
-    @FXML
-    private TableColumn<Part, Integer> partQuantityColumn;
+    @FXML private TableColumn<Part, Float> partPriceColumn;
 
-    @FXML
-    private TableColumn<Part, String> partCategoryColumn;
+    @FXML private TableColumn<Part, Integer> partQuantityColumn;
+
+    @FXML private TableColumn<Part, String> partCategoryColumn;
 
     public TableView<Part> getPartsListTableView() {
         return partsListTableView;
@@ -48,6 +42,17 @@ public class PartController {
 
     public TableView<Part> getPartsListByCriteriaTableView(String criteria, String identifier) {
         ObservableList<Part> parts = PartService.getPartByCriteria(criteria, identifier);
+        try {
+            ObservableList<Category> categoriesList;
+            categoriesList = PartService.getAllCategories();
+            ObservableList<String> categoryNamesList =
+                    FXCollections.observableArrayList(
+                            categoriesList.stream().map(Category::getName).toList());
+            partCategoryColumn.setCellFactory(ComboBoxTableCell.forTableColumn(categoryNamesList));
+        } catch (SQLException e) {
+            handleDatabaseError(e);
+        }
+
         partsListTableView.setItems(parts);
         return partsListTableView;
     }
@@ -72,38 +77,51 @@ public class PartController {
 
         partDescriptionColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
         partDescriptionColumn.setCellFactory(TextFieldTableCell.forTableColumn());
-        partDescriptionColumn.setOnEditCommit(event -> PartService.onEditCommit(event, "description"));
+        partDescriptionColumn.setOnEditCommit(
+                event -> PartService.onEditCommit(event, "description"));
 
         partPriceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
-        partPriceColumn.setCellFactory(TextFieldTableCell.forTableColumn(new DefaultFloatConvertor()));
+        partPriceColumn.setCellFactory(
+                TextFieldTableCell.forTableColumn(new DefaultFloatConvertor()));
         partPriceColumn.setOnEditCommit(event -> PartService.onEditCommit(event, "price"));
 
         partQuantityColumn.setCellValueFactory(new PropertyValueFactory<>("quantity"));
-        partQuantityColumn.setCellFactory(TextFieldTableCell.forTableColumn(new DefaultIntegerConvertor()));
+        partQuantityColumn.setCellFactory(
+                TextFieldTableCell.forTableColumn(new DefaultIntegerConvertor()));
         partQuantityColumn.setOnEditCommit(event -> PartService.onEditCommit(event, "quantity"));
 
-        partCategoryColumn.setCellValueFactory(new PropertyValueFactory("categoryName"));
+        partCategoryColumn.setCellValueFactory(new PropertyValueFactory<>("categoryName"));
         partCategoryColumn.setCellFactory(ComboBoxTableCell.forTableColumn());
 
         ObservableList<Category> categoriesList = PartService.getAllCategories();
-        ObservableList<String> categoryNamesList = FXCollections.observableArrayList(
-                categoriesList.stream().map(Category::getCatName).toList()
-        );
+        ObservableList<String> categoryNamesList =
+                FXCollections.observableArrayList(
+                        categoriesList.stream().map(Category::getName).toList());
 
         partCategoryColumn.setCellFactory(ComboBoxTableCell.forTableColumn(categoryNamesList));
-        partCategoryColumn.setOnEditCommit(event -> {
-            event.getTableView().getItems().get(event.getTablePosition().getRow()).setCategory(
-                    categoriesList.stream()
-                            .filter(category -> category.getCatName().equals(event.getNewValue()))
-                            .findAny()
-                            .orElse(event.getRowValue().getCategory())
-            );
-        });
+        partCategoryColumn.setOnEditCommit(
+                event -> {
+                    event.getTableView()
+                            .getItems()
+                            .get(event.getTablePosition().getRow())
+                            .setCategory(
+                                    categoriesList.stream()
+                                            .filter(
+                                                    category ->
+                                                            category.getName()
+                                                                    .equals(event.getNewValue()))
+                                            .findAny()
+                                            .orElse(event.getRowValue().getCategory()));
+                    try {
+                        PartService.updatePart(event.getRowValue());
+                    } catch (SQLException e) {
+                        AlertHandler.handleDatabaseError(e);
+                    }
+                });
 
         ObservableList<Part> parts = PartService.getAllParts();
         partsListTableView.setItems(parts);
 
         partsListTableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
     }
-
 }
