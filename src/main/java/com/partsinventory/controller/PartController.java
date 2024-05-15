@@ -4,13 +4,16 @@ import java.sql.SQLException;
 
 import com.partsinventory.helper.DefaultFloatConvertor;
 import com.partsinventory.helper.DefaultIntegerConvertor;
+import com.partsinventory.model.Category;
 import com.partsinventory.model.Part;
 import com.partsinventory.service.PartService;
 
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.ComboBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.util.Callback;
@@ -80,7 +83,22 @@ public class PartController {
         partQuantityColumn.setOnEditCommit(event -> PartService.onEditCommit(event, "quantity"));
 
         partCategoryColumn.setCellValueFactory(new PropertyValueFactory("categoryName"));
-        partCategoryColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+        partCategoryColumn.setCellFactory(ComboBoxTableCell.forTableColumn());
+
+        ObservableList<Category> categoriesList = PartService.getAllCategories();
+        ObservableList<String> categoryNamesList = FXCollections.observableArrayList(
+                categoriesList.stream().map(Category::getCatName).toList()
+        );
+
+        partCategoryColumn.setCellFactory(ComboBoxTableCell.forTableColumn(categoryNamesList));
+        partCategoryColumn.setOnEditCommit(event -> {
+            event.getTableView().getItems().get(event.getTablePosition().getRow()).setCategory(
+                    categoriesList.stream()
+                            .filter(category -> category.getCatName().equals(event.getNewValue()))
+                            .findAny()
+                            .orElse(event.getRowValue().getCategory())
+            );
+        });
 
         ObservableList<Part> parts = PartService.getAllParts();
         partsListTableView.setItems(parts);
