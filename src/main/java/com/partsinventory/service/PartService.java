@@ -5,6 +5,7 @@ import static com.partsinventory.helper.AlertHandler.handleInvalidInput;
 import static com.partsinventory.helper.AlertHandler.handleSuccessfulEdit;
 
 import com.partsinventory.helper.DbConnection;
+import com.partsinventory.helper.Settings;
 import com.partsinventory.model.Category;
 import com.partsinventory.model.Part;
 import java.sql.Connection;
@@ -184,7 +185,7 @@ public class PartService {
             category.setCatId(rs.getInt("catId"));
             category.setCatName(rs.getString("catName"));
             category.setCatDesc(rs.getString("catDesc"));
-            category.setCatImage(rs.getString("catImage"));
+            category.setCatImage(Settings.loadPath("images.path", rs.getString("catImage")));
             categorieslist.add(category);
         }
         return categorieslist;
@@ -198,7 +199,7 @@ public class PartService {
             category.setCatId(rs.getInt("catId"));
             category.setCatName(rs.getString("catName"));
             category.setCatDesc(rs.getString("catDesc"));
-            category.setCatImage(rs.getString("catImage"));
+            category.setCatImage(Settings.loadPath("images.path", rs.getString("catImage")));
         }
         return category;
     }
@@ -235,7 +236,7 @@ public class PartService {
                         connection.prepareStatement(DbConnection.load("ADD_CATEGORY")); ) {
             statement.setString(1, category.getCatName());
             statement.setString(2, category.getCatDesc());
-            statement.setString(3, category.getCatImage());
+            statement.setString(3, category.getCatImageName());
             result = statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();

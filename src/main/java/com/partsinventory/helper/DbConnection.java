@@ -19,8 +19,7 @@ public class DbConnection {
     public static Connection connection;
 
     private static final String dbPrefix = "jdbc:sqlite:";
-    private static final String location =
-            new File("src\\main\\resources\\database\\database.db").toURI().toString();
+    private static final String location = Settings.loadPath("database.path", "database.db");
 
     private DbConnection() {}
 

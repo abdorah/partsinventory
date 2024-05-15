@@ -21,6 +21,7 @@ public class PartController {
     @FXML private TableView<Part> partsListTableView;
 
     @FXML private TableColumn<Part, Integer> partIdColumn;
+
     @FXML private TableColumn<Part, String> partMakerColumn;
 
     @FXML private TableColumn<Part, String> partNameColumn;

@@ -1,5 +1,6 @@
 package com.partsinventory.model;
 
+import java.io.File;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -56,6 +57,10 @@ public class Category {
 
     public String getCatImage() {
         return catImage.get();
+    }
+
+    public String getCatImageName() {
+        return new File(catImage.get()).getName();
     }
 
     public void setCatImage(String catImage) {
