@@ -63,11 +63,11 @@ public class CategoriesController {
             contextMenu.getItems().add(menuItem1);
             button.setContextMenu(contextMenu);
             menuItem1.setOnAction(
-                    e -> {
+                    event -> {
                         PartService.deleteCategory(category.getId());
                     });
             button.setOnAction(
-                    e -> {
+                    event -> {
                         openCategory(category);
                     });
         }

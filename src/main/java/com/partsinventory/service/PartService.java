@@ -75,7 +75,7 @@ public class PartService {
             PreparedStatement preparedStatement =
                     connection.prepareStatement(
                             String.format(
-                                    "%s %s '%s%%'",
+                                    "%s %s '%%%s%%'",
                                     DbConnection.load("PART_BY_CRITERIA"), criteria, target));
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {

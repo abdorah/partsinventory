@@ -50,7 +50,7 @@ public class Part {
         this.description = new SimpleStringProperty();
         this.price = new SimpleFloatProperty();
         this.quantity = new SimpleIntegerProperty();
-        this.category = new SimpleObjectProperty<Category>();
+        this.category = new SimpleObjectProperty<Category>(new Category());
     }
 
     public int getId() {

@@ -55,9 +55,9 @@ public class FetchPartsController {
     @FXML
     void initialize() {
         rootSplitPane.setDividerPosition(0, 0.2);
-        searchByName.setOnAction(e -> searchOptionPick.setText(searchByName.getText()));
+        searchByName.setOnAction(event -> searchOptionPick.setText(searchByName.getText()));
         searchByDescription.setOnAction(
-                e -> searchOptionPick.setText(searchByDescription.getText()));
+                event -> searchOptionPick.setText(searchByDescription.getText()));
         FXMLLoader tableViewLoader =
                 new FXMLLoader(getClass().getResource("/views/parts-table-component.fxml"));
         resultsStackPane.getChildren().clear();
@@ -73,7 +73,7 @@ public class FetchPartsController {
             ObservableList<Part> selectedItems =
                     productTableView.getPartsListTableView().getSelectionModel().getSelectedItems();
             deleteButton.setOnAction(
-                    e -> {
+                    event -> {
                         if (selectedItems.toArray().length != 0 && handleDelete()) {
                             for (Part part : selectedItems) {
                                 PartService.deletePart(part.getId());
@@ -86,10 +86,10 @@ public class FetchPartsController {
                     });
 
             addToChartButton.setOnAction(
-                    e -> {
+                    event -> {
                         if (selectedItems.toArray().length != 0) {
                             handleSale();
-                            int billId = PartService.addBill("null", "null");
+                            int billId = PartService.addBill("", "");
                             for (Part part : selectedItems) {
                                 PartService.addToChart(part.getId(), billId, 1, part.getPrice());
                             }
