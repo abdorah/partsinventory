@@ -1,4 +1,6 @@
-package com.partsinventory.configuration;
+package com.partsinventory.helper;
+
+import javafx.scene.control.Alert;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -20,7 +22,7 @@ public class DbConnection {
     public static Connection connection;
 
     private static final String dbPrefix = "jdbc:sqlite:";
-    private static final String location = DbConnection.class.getResource("/database/database.db").toExternalForm();
+    private static final String location = new File("src\\main\\resources\\database\\database.db").toURI().toString();
 
     private DbConnection() {
     }
@@ -90,5 +92,4 @@ public class DbConnection {
         }
         return crs;
     }
-
 }

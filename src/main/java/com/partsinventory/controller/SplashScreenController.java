@@ -2,7 +2,7 @@ package com.partsinventory.controller;
 
 import java.util.concurrent.CompletableFuture;
 
-import com.partsinventory.configuration.ViewManager;
+import com.partsinventory.helper.ViewManager;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;

@@ -4,7 +4,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import com.partsinventory.configuration.DbConnection;
+import com.partsinventory.helper.DbConnection;
 
 public class LoginService {
 

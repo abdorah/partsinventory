@@ -21,6 +21,9 @@ import javafx.scene.control.SplitPane;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.StackPane;
 
+import static com.partsinventory.helper.AlertHandler.handleDelete;
+import static com.partsinventory.helper.AlertHandler.handleSale;
+
 public class FetchPartsController {
 
     @FXML
@@ -78,7 +81,7 @@ public class FetchPartsController {
             resultsStackPane.getChildren().add(tableViewRoot);
             ObservableList<Part> selectedItems = productTableView.getPartsListTableView().getSelectionModel().getSelectedItems();
             deleteButton.setOnAction(e -> {
-                if(selectedItems.toArray().length!=0 && PartService.handleDelete()){
+                if(selectedItems.toArray().length!=0 && handleDelete()){
                     for(Part part : selectedItems) {
                         PartService.deletePart(part.getId());
                     }
@@ -87,7 +90,13 @@ public class FetchPartsController {
             });
 
             addToChartButton.setOnAction(e -> {
-                
+                if(selectedItems.toArray().length!=0){
+                    handleSale();
+                    for(Part part : selectedItems) {
+                        PartService.deletePart(part.getId());
+                    }
+                    productTableView.getPartsListTableView().getItems().removeAll(selectedItems);
+                }
             });
         } catch (IOException e) {
             e.printStackTrace();

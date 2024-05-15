@@ -1,30 +1,17 @@
 package com.partsinventory.model;
 
-import javafx.beans.property.FloatProperty;
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleFloatProperty;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
+import javafx.beans.property.*;
+import javafx.beans.value.ObservableValue;
 
 public class Part {
 
     private IntegerProperty id;
-
     private StringProperty maker;
     private StringProperty name;
     private StringProperty description;
     private FloatProperty price;
     private IntegerProperty quantity;
-    private Category category;
-
-    public Category getCategory() {
-        return category;
-    }
-
-    public void setCategory(Category category) {
-        this.category = category;
-    }
+    private ObjectProperty<Category> category;
 
     public Part(int id, String name, String maker, String description, Float price,
                 int quantity, Category category) {
@@ -34,13 +21,14 @@ public class Part {
         this.description = new SimpleStringProperty();
         this.price = new SimpleFloatProperty();
         this.quantity = new SimpleIntegerProperty();
-        this.category = category;
+        this.category = new SimpleObjectProperty<Category>();
         this.id.set(id);
         this.maker.set(maker);
         this.name.set(name);
         this.description.set(description);
         this.price.set(price);
         this.quantity.set(quantity);
+        this.category.set(category);
     }
 
     public Part() {
@@ -50,7 +38,7 @@ public class Part {
         this.description = new SimpleStringProperty();
         this.price = new SimpleFloatProperty();
         this.quantity = new SimpleIntegerProperty();
-        this.category=new Category();
+        this.category = new SimpleObjectProperty<Category>();
     }
 
     public int getId() {
@@ -93,5 +81,17 @@ public class Part {
 
     public void setQuantity(int quantity) {
         this.quantity.set(quantity);
+    }
+
+    public Category getCategory() {
+        return category.getValue();
+    }
+
+    public StringProperty categoryNameProperty() {
+        return new SimpleStringProperty(this.category.getValue().getCatName());
+    }
+
+    public void setCategory(Category category) {
+        this.category.setValue(category);
     }
 }

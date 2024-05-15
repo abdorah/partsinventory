@@ -2,8 +2,8 @@ package com.partsinventory;
 
 import java.io.IOException;
 
-import com.partsinventory.configuration.DbConnection;
-import com.partsinventory.configuration.ViewManager;
+import com.partsinventory.helper.DbConnection;
+import com.partsinventory.helper.ViewManager;
 
 import javafx.application.Application;
 import javafx.stage.Stage;

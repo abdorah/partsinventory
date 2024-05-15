@@ -12,12 +12,12 @@ module com.partsinventory {
     requires com.github.librepdf.openpdf;
 
     opens com.partsinventory to javafx.fxml;
-    opens com.partsinventory.configuration to javafx.fxml, java.sql;
+    opens com.partsinventory.helper to javafx.fxml, java.sql;
     opens com.partsinventory.controller to javafx.fxml;
     opens com.partsinventory.service to java.desktop, java.sql, com.github.librepdf.openpdf;
 
     exports com.partsinventory;
-    exports com.partsinventory.configuration;
+    exports com.partsinventory.helper;
     exports com.partsinventory.controller;
     exports com.partsinventory.service;
     exports com.partsinventory.model;

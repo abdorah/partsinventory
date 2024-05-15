@@ -10,3 +10,4 @@ ALL_CATEGORIES=SELECT catId, catName, catDesc,catImage FROM categories
 ADD_CATEGORY=INSERT INTO categories( catName, catDesc, catImage) VALUES(?, ?, ?)
 DELETE_CATEGORY=DELETE FROM categories WHERE catId=?
 GET_CATEGORY_BY_ID=SELECT catId, catName, catDesc,catImage FROM categories WHERE catId=?
+ADD_PART_TO_CHART=INSERT INTO parts(name, maker, description, price, quantity, catId) VALUES(?, ?, ?, ?, ?,?)

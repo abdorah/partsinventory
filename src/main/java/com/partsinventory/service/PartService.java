@@ -4,8 +4,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Optional;
 
-import com.partsinventory.configuration.DbConnection;
+import com.partsinventory.helper.DbConnection;
 import com.partsinventory.model.Category;
 import com.partsinventory.model.Part;
 
@@ -13,9 +14,11 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.chart.XYChart.Data;
 import javafx.scene.chart.XYChart.Series;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
+
+import static com.partsinventory.helper.AlertHandler.handleInvalidInput;
+import static com.partsinventory.helper.AlertHandler.handleSuccessfulEdit;
+import static com.partsinventory.helper.AlertHandler.handleDatabaseError;
 
 public class PartService {
 
@@ -29,9 +32,7 @@ public class PartService {
             part.setDescription(rs.getString("description"));
             part.setPrice(rs.getFloat("price"));
             part.setQuantity(rs.getInt("quantity"));
-            int catId=part.getCategory().getCatId();
-            Category category=getCategoryById(catId);
-            part.setCategory(category);
+            part.setCategory(getCategoryById(rs.getInt("catId")));
             partslist.add(part);
         }
         return partslist;
@@ -165,35 +166,6 @@ public class PartService {
         }
     }
 
-    public static void handleSuccessfulEdit() {
-        showAlert("Successful Edit", "Part saved successfully.", Alert.AlertType.INFORMATION);
-    }
-
-    public static Boolean handleDelete() {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Delete Part "+" ?", ButtonType.YES, ButtonType.NO, ButtonType.CANCEL);
-        alert.showAndWait();
-        if (alert.getResult() == ButtonType.YES) {
-            return true;
-        }else {
-            return false;
-        }
-    }
-
-    public static void handleInvalidInput() {
-        showAlert("Invalid Input", "Please enter valid numerical values for quantity and price.",
-                Alert.AlertType.ERROR);
-    }
-
-    public static void handleDatabaseError(SQLException e) {
-        showAlert("Database Error", "Failed to update part: " + e.getMessage(), Alert.AlertType.ERROR);
-    }
-
-    public static void showAlert(String title, String content, Alert.AlertType type) {
-        Alert alert = new Alert(type);
-        alert.setTitle(title);
-        alert.setContentText(content);
-        alert.showAndWait();
-    }
     public static ObservableList<String> populateMakerCombobox(){
         ObservableList<String> collection= FXCollections.observableArrayList("...","Mahle","Bosch","Dayco","Contitech");
        return collection;
@@ -231,10 +203,19 @@ private static ObservableList<Category>getAllCategoriesFromResultset(ResultSet r
         return categoriessList;
     }
     public static Category getCategoryById(int catId) throws SQLException {
-        String statement = DbConnection.load("GET_CATEGORY_BY_ID");
-        ResultSet rs = DbConnection.DbqueryExecute(statement);
-        Category category = getCategorieFromResultset(rs);
-        return category;
+        Optional<Category> category = Optional.ofNullable(null);
+        try (Connection connection = DbConnection.getConnection();
+             PreparedStatement statement = connection
+                     .prepareStatement(DbConnection.load("GET_CATEGORY_BY_ID"))) {
+            statement.setInt(1, catId);
+            statement.execute();
+            category = Optional.ofNullable(getCategorieFromResultset(statement.getResultSet()));
+        }
+        return category.or(() -> {
+            Category defaultCategory = new Category();
+            defaultCategory.setCatName("NONE");
+            return Optional.of(defaultCategory);
+        }).get();
     }
     public static boolean addCategory(Category category) {
         int result = 0;

@@ -1,6 +1,6 @@
 package com.partsinventory.controller;
 
-import com.partsinventory.configuration.ViewManager;
+import com.partsinventory.helper.ViewManager;
 import com.partsinventory.service.LoginService;
 
 import javafx.event.ActionEvent;

@@ -1,4 +1,4 @@
-package com.partsinventory.configuration;
+package com.partsinventory.helper;
 
 import javafx.util.StringConverter;
 

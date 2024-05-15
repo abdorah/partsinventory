@@ -2,18 +2,18 @@ package com.partsinventory.controller;
 
 import java.sql.SQLException;
 
-import com.partsinventory.configuration.DefaultFloatConvertor;
-import com.partsinventory.configuration.DefaultIntegerConvertor;
+import com.partsinventory.helper.DefaultFloatConvertor;
+import com.partsinventory.helper.DefaultIntegerConvertor;
 import com.partsinventory.model.Part;
 import com.partsinventory.service.PartService;
 
+import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.SelectionMode;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.util.Callback;
 
 public class PartController {
     @FXML
@@ -57,7 +57,7 @@ public class PartController {
         partDescriptionColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
         partPriceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
         partQuantityColumn.setCellValueFactory(new PropertyValueFactory<>("quantity"));
-        partCategoryColumn.setCellValueFactory(new PropertyValueFactory<>("category"));
+        partCategoryColumn.setCellValueFactory(new PropertyValueFactory<>("categoryName"));
 
         partNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         partNameColumn.setCellFactory(TextFieldTableCell.forTableColumn());
@@ -79,9 +79,8 @@ public class PartController {
         partQuantityColumn.setCellFactory(TextFieldTableCell.forTableColumn(new DefaultIntegerConvertor()));
         partQuantityColumn.setOnEditCommit(event -> PartService.onEditCommit(event, "quantity"));
 
-        partCategoryColumn.setCellValueFactory(new PropertyValueFactory<>("category"));
+        partCategoryColumn.setCellValueFactory(new PropertyValueFactory("categoryName"));
         partCategoryColumn.setCellFactory(TextFieldTableCell.forTableColumn());
-        partCategoryColumn.setOnEditCommit(event -> PartService.onEditCommit(event, "category"));
 
         ObservableList<Part> parts = PartService.getAllParts();
         partsListTableView.setItems(parts);

@@ -17,11 +17,6 @@ public class NavigationController {
     @FXML
     private Pane presentationPane;
 
-
-    public Pane getPresentationPane() {
-        return presentationPane;
-    }
-
     @FXML
     void initialize() {
         FXMLLoader welcomeViewLoader = new FXMLLoader(getClass().getResource("/views/home-screen-component.fxml"));
@@ -102,12 +97,12 @@ public class NavigationController {
     }
 
     @FXML
-    void opentoSalesChartButton(ActionEvent event) {
-        FXMLLoader addPartsLoader = new FXMLLoader(getClass().getResource("/views/sales-chart-component.fxml"));
+    void openSalesChartButton(ActionEvent event) {
+        FXMLLoader salesChartLoader = new FXMLLoader(getClass().getResource("/views/sales-chart-component.fxml"));
         presentationPane.getChildren().clear();
         try {
-            Parent addViewRoot = addPartsLoader.load();
-            presentationPane.getChildren().add(addViewRoot);
+            Parent salesChartViewRoot = salesChartLoader.load();
+            presentationPane.getChildren().add(salesChartViewRoot);
         } catch (IOException e) {
             e.printStackTrace();
         }

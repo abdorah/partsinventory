@@ -47,7 +47,7 @@
                    <Button fx:id="dashboard" mnemonicParsing="false" onAction="#openDashBoard" prefHeight="34.0" prefWidth="174.0" styleClass="nav-button" text="Parts" />
                   <Button fx:id="toSearchButton" mnemonicParsing="false" onAction="#openSearchPage" prefHeight="34.0" prefWidth="174.0" styleClass="nav-button" text="Fetch Part" />
                   <Button fx:id="toAddPartButton" mnemonicParsing="false" onAction="#openAddPartButton" prefHeight="34.0" prefWidth="174.0" styleClass="nav-button" text="Add Part" />
-                  <Button fx:id="toSalesChartButton" mnemonicParsing="false" onAction="#opentoSalesChartButton" prefHeight="34.0" prefWidth="174.0" styleClass="nav-button" text="Sales Chart" />
+                  <Button fx:id="salesChartButton" mnemonicParsing="false" onAction="#openSalesChartButton" prefHeight="34.0" prefWidth="174.0" styleClass="nav-button" text="Sales Chart" />
                </children>
             </VBox>
          </left>
