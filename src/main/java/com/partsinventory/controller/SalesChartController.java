@@ -1,11 +1,14 @@
 package com.partsinventory.controller;
 
+import static com.partsinventory.helper.AlertHandler.handleDatabaseError;
 import static com.partsinventory.helper.AlertHandler.handleDelete;
 
 import com.partsinventory.model.Part;
 import com.partsinventory.service.BillService;
 import com.partsinventory.service.PartService;
 import java.io.IOException;
+import java.sql.SQLException;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -44,7 +47,9 @@ public class SalesChartController {
 
     @FXML private SplitMenuButton searchOptionPick;
 
-    @FXML private TextField searchTextField;
+    @FXML private TextField partSearchTextField;
+
+    @FXML private TextField billSearchTextFeild;
 
     @FXML private TextField clientNameTextField;
 
@@ -63,7 +68,7 @@ public class SalesChartController {
             Parent tableViewRoot = tableViewLoader.load();
             PartController productTableView = tableViewLoader.getController();
             StackPane.setMargin(
-                    productTableView.getPartsListInChart(BillService.getCurrentBillId()),
+                    productTableView.getPartsListInChart(BillService.instance.getCurrentBillId()),
                     new Insets(10, 10, 10, 10));
             StackPane.setAlignment(resultsStackPane, Pos.CENTER);
             StackPane.setMargin(searchGroup, new Insets(10, 10, 10, 10));
@@ -101,27 +106,27 @@ public class SalesChartController {
         try {
             Parent tableViewRoot = tableViewLoader.load();
             PartController productTableView = tableViewLoader.getController();
-            if (searchTextField.getText() != null
-                    && !searchTextField.getText().isBlank()
+            ObservableList<Part> parts = FXCollections.observableArrayList();
+            if (billSearchTextFeild.getText() != null
+                    && !billSearchTextFeild.getText().isBlank()
                     && !searchOptionPick.getText().contains("Search by")) {
-                StackPane.setMargin(
-                        productTableView.getPartsListByCriteriaTableView(
-                                searchOptionPick.getText() + " like", searchTextField.getText()),
-                        new Insets(10, 10, 10, 10));
-                StackPane.setAlignment(resultsStackPane, Pos.CENTER);
-                resultsStackPane.getChildren().add(tableViewRoot);
-            } else if (searchOptionPick.getText().contains("Search by")) {
+                BillService.instance.setCurrentBillId(
+                        Integer.parseInt(billSearchTextFeild.getText()));
+                parts = BillService.getPartsOfBill(BillService.instance.getCurrentBillId());
+            } else if (searchOptionPick.getText().contains("Search by")
+                    && billSearchTextFeild.getText().isBlank()) {
                 Label warningMessage = new Label("Please select a search criteria");
                 warningMessage.setMinHeight(0);
                 resultsStackPane.getChildren().add(warningMessage);
-            } else {
-                StackPane.setMargin(
-                        productTableView.getPartsListTableView(), new Insets(10, 10, 10, 10));
-                StackPane.setAlignment(resultsStackPane, Pos.CENTER);
-                resultsStackPane.getChildren().add(tableViewRoot);
+                return;
             }
+            productTableView.getPartsListTableView().setItems(parts);
+            StackPane.setAlignment(resultsStackPane, Pos.CENTER);
+            resultsStackPane.getChildren().add(tableViewRoot);
         } catch (IOException e) {
             e.printStackTrace();
+        } catch (SQLException e) {
+            handleDatabaseError(e);
         }
     }
 }

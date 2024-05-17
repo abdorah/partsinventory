@@ -85,7 +85,8 @@ public class FetchPartsController {
                     event -> {
                         if (selectedItems.toArray().length != 0) {
                             handleSale();
-                            BillService.setCurrentBillId((int) PartService.addBill("", ""));
+                            BillService.instance.setCurrentBillId(
+                                    (int) PartService.addBill("", ""));
                             float totalPrice = 0f;
                             for (Part part : selectedItems) {
                                 if (part.getQuantity() == 0) {
@@ -97,7 +98,7 @@ public class FetchPartsController {
                                     PartService.updatePart(part);
                                     PartService.addToChart(
                                             part.getId(),
-                                            BillService.getCurrentBillId(),
+                                            BillService.instance.getCurrentBillId(),
                                             1,
                                             part.getPrice());
                                 } catch (SQLException e) {
@@ -106,7 +107,7 @@ public class FetchPartsController {
                                 totalPrice += part.getPrice();
                             }
                             PartService.updateBill(
-                                    BillService.getCurrentBillId(), "", "", totalPrice);
+                                    BillService.instance.getCurrentBillId(), "", "", totalPrice);
                         }
                     });
         } catch (IOException e) {

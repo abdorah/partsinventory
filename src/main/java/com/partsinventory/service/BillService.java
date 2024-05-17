@@ -10,20 +10,22 @@ import javafx.collections.ObservableList;
 public class BillService {
 
     private static int currentBillId;
+    public static BillService instance = new BillService();
 
     private BillService() {
         currentBillId = -1;
     }
 
-    public static int getCurrentBillId() {
+    public int getCurrentBillId() {
         return currentBillId;
     }
 
-    public static void setCurrentBillId(int currentBillId) {
+    public void setCurrentBillId(int currentBillId) {
         BillService.currentBillId = currentBillId;
     }
 
     public static ObservableList<Part> getPartsOfBill(int billId) throws SQLException {
+        if (billId == -1) throw new SQLException("No bill Selected");
         String statement = DbConnection.load("PART_IN_BILL");
         ResultSet resultSet = DbConnection.DbqueryExecute(statement);
         ObservableList<Part> partslist = FXCollections.observableArrayList();
