@@ -83,10 +83,13 @@ public class FetchPartsController {
                     event -> {
                         if (selectedItems.toArray().length != 0) {
                             handleSale();
-                            int billId = PartService.addBill("", "");
+                            int billId = (int) PartService.addBill("", "");
+                            float totalPrice = 0f;
                             for (Part part : selectedItems) {
                                 PartService.addToChart(part.getId(), billId, 1, part.getPrice());
+                                totalPrice += part.getPrice();
                             }
+                            PartService.updateBill(billId, "", "", totalPrice);
                         }
                     });
         } catch (IOException e) {

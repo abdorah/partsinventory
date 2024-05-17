@@ -283,11 +283,11 @@ public class PartService {
         }
     }
 
-    public static int addBill(String clientName, String clientPhone) {
+    public static long addBill(String clientName, String clientPhone) {
         Command command = new Command();
         command.setClientName(clientName);
         command.setClientPhone(clientPhone);
-        int result = -1;
+        long result = -1L;
         try {
             result =
                     DbConnection.getLastInsertedRowId(
@@ -299,6 +299,18 @@ public class PartService {
             handleDatabaseError(e);
         }
         return result;
+    }
+
+    private static void deleteBill(int id) {
+        try {
+            Connection connection = DbConnection.getConnection();
+            PreparedStatement preparedStatement =
+                    connection.prepareStatement(DbConnection.load("DELETE_BILL"));
+            preparedStatement.setInt(1, id);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            handleDatabaseError(e);
+        }
     }
 
     public static Boolean updateBill(
@@ -332,6 +344,7 @@ public class PartService {
             result = statement.executeUpdate();
         } catch (SQLException e) {
             handleDatabaseError(e);
+            if (result != -1L) deleteBill(billId);
         }
         return result == 1;
     }

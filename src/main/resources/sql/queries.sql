@@ -12,5 +12,6 @@ DELETE_CATEGORY=DELETE FROM categories WHERE id=?
 GET_CATEGORY_BY_ID=SELECT id, name,description,image FROM categories WHERE id=?
 ADD_BILL=INSERT INTO bills(totalprice, clientname, clientphone, date) VALUES(?, ?, ?, ?)
 UPDATE_BILL=UPDATE bills SET clientname=?, clientphone=?, totalprice=? WHERE id=?
+DELETE_BILL=DELETE FROM bills WHERE id=?
 ADD_PART_TO_CHART=INSERT INTO commands(partid, billid, quantity, priceconsidered) VALUES(?, ?, ?, ?)
 LAST_INSERTED=SELECT last_insert_rowid()

@@ -96,7 +96,7 @@ public class DbConnection {
         return crs;
     }
 
-    public static <T> int getLastInsertedRowId(Consumer<T> operation, T parameter)
+    public static <T> long getLastInsertedRowId(Consumer<T> operation, T parameter)
             throws SQLException {
         connection.setAutoCommit(false);
         long generatedKey = -1L;
@@ -106,7 +106,7 @@ public class DbConnection {
         if (generatedKeys.next()) {
             generatedKey = generatedKeys.getLong(1);
         }
-        connection.commit();
-        return (int) generatedKey;
+        connection.setAutoCommit(true);
+        return generatedKey;
     }
 }

@@ -77,6 +77,8 @@ public class SaleController {
                                     .removeAll(selectedItems);
                         }
                     });
+            printReportButton.setOnAction(event -> {});
+
         } catch (IOException e) {
             e.printStackTrace();
         }

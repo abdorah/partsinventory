@@ -49,7 +49,7 @@ public class AlertHandler {
     public static void handleDatabaseError(SQLException e) {
         showAlert(
                 "Database Error",
-                "Failed to update part: " + e.getMessage(),
+                "Failed to update data: " + e.getMessage(),
                 Alert.AlertType.ERROR);
     }
 }
