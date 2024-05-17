@@ -15,24 +15,36 @@
    <items>
       <AnchorPane minHeight="200.0" prefHeight="200.0">
          <children>
-            <Group fx:id="searchGroup" layoutX="99.0" layoutY="55.0">
+            <Group fx:id="searchGroup" layoutX="94.0" layoutY="66.0">
                <children>
                   <Button fx:id="searchButton" layoutX="293.0" layoutY="55.0" mnemonicParsing="false" onAction="#onSearch" text="Search" />
-                  <TextField fx:id="searchTextField" layoutX="90.0" prefHeight="26.0" prefWidth="219.0" />
+                  <TextField fx:id="searchTextField" layoutX="100.0" layoutY="9.0" prefHeight="26.0" prefWidth="219.0" />
                   <SplitMenuButton fx:id="searchOptionPick" layoutX="90.0" layoutY="54.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="174.0" text="Search by...">
                      <items>
                         <MenuItem fx:id="searchByName" mnemonicParsing="false" text="name" />
                         <MenuItem fx:id="searchByDescription" mnemonicParsing="false" text="description" />
                      </items>
                   </SplitMenuButton>
-                  <Label layoutY="5.0" text="Parts search:">
+                  <Label layoutX="9.0" layoutY="14.0" text="Parts search:">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Label>
                   <Button fx:id="deleteButton" layoutX="359.0" layoutY="55.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="50.0" text="Delete" textFill="RED" />
                   <Button fx:id="printReportButton" layoutX="361.0" layoutY="96.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="49.0" text="Print" />
-                  <Button fx:id="saleButton" layoutX="293.0" layoutY="96.0" mnemonicParsing="false" onAction="#onSale" prefHeight="25.0" prefWidth="52.0" text="Sale" />
+                  <Button fx:id="saleButton" layoutX="293.0" layoutY="96.0" mnemonicParsing="false" onAction="#onSale" prefHeight="25.0" prefWidth="56.0" text="Sale" />
+                  <TextField fx:id="clientNameTextField" layoutX="31.0" layoutY="-37.0" prefHeight="26.0" prefWidth="166.0" />
+                  <Label layoutX="-48.0" layoutY="-33.0" prefHeight="18.0" prefWidth="79.0" text="Client Name:">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="clientPhoneNumberTextField" layoutX="310.0" layoutY="-37.0" prefHeight="26.0" prefWidth="166.0" />
+                  <Label layoutX="231.0" layoutY="-33.0" prefHeight="18.0" prefWidth="79.0" text="Client Phone:">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Label>
                </children>
             </Group>
          </children>

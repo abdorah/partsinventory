@@ -3,8 +3,10 @@ package com.partsinventory.controller;
 import static com.partsinventory.helper.AlertHandler.handleDatabaseError;
 import static com.partsinventory.helper.AlertHandler.handleDelete;
 import static com.partsinventory.helper.AlertHandler.handleSale;
+import static com.partsinventory.helper.AlertHandler.handleStockShortage;
 
 import com.partsinventory.model.Part;
+import com.partsinventory.service.BillService;
 import com.partsinventory.service.PartService;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -83,13 +85,28 @@ public class FetchPartsController {
                     event -> {
                         if (selectedItems.toArray().length != 0) {
                             handleSale();
-                            int billId = (int) PartService.addBill("", "");
+                            BillService.setCurrentBillId((int) PartService.addBill("", ""));
                             float totalPrice = 0f;
                             for (Part part : selectedItems) {
-                                PartService.addToChart(part.getId(), billId, 1, part.getPrice());
+                                if (part.getQuantity() == 0) {
+                                    handleStockShortage(part.getName());
+                                    continue;
+                                }
+                                part.setQuantity(part.getQuantity() - 1);
+                                try {
+                                    PartService.updatePart(part);
+                                    PartService.addToChart(
+                                            part.getId(),
+                                            BillService.getCurrentBillId(),
+                                            1,
+                                            part.getPrice());
+                                } catch (SQLException e) {
+                                    handleDatabaseError(e);
+                                }
                                 totalPrice += part.getPrice();
                             }
-                            PartService.updateBill(billId, "", "", totalPrice);
+                            PartService.updateBill(
+                                    BillService.getCurrentBillId(), "", "", totalPrice);
                         }
                     });
         } catch (IOException e) {

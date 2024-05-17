@@ -14,4 +14,5 @@ ADD_BILL=INSERT INTO bills(totalprice, clientname, clientphone, date) VALUES(?, 
 UPDATE_BILL=UPDATE bills SET clientname=?, clientphone=?, totalprice=? WHERE id=?
 DELETE_BILL=DELETE FROM bills WHERE id=?
 ADD_PART_TO_CHART=INSERT INTO commands(partid, billid, quantity, priceconsidered) VALUES(?, ?, ?, ?)
+PART_IN_BILL=SELECT parts.id, parts.name, parts.maker, parts.description, parts.price, commands.quantity, parts.catid FROM bills, commands, parts WHERE bills.id = commands.billid AND parts.id = commands.partid AND bills.id=?
 LAST_INSERTED=SELECT last_insert_rowid()

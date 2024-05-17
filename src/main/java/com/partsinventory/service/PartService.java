@@ -23,17 +23,18 @@ import javafx.scene.control.TableColumn;
 
 public class PartService {
 
-    private static ObservableList<Part> getAllPartsFromResultset(ResultSet rs) throws SQLException {
+    private static ObservableList<Part> getAllPartsFromResultset(ResultSet resultSet)
+            throws SQLException {
         ObservableList<Part> partslist = FXCollections.observableArrayList();
-        while (rs.next()) {
+        while (resultSet.next()) {
             Part part = new Part();
-            part.setId(rs.getInt("id"));
-            part.setName(rs.getString("name"));
-            part.setMaker(rs.getString("maker"));
-            part.setDescription(rs.getString("description"));
-            part.setPrice(rs.getFloat("price"));
-            part.setQuantity(rs.getInt("quantity"));
-            part.setCategory(getegoryById(rs.getInt("catid")));
+            part.setId(resultSet.getInt("id"));
+            part.setName(resultSet.getString("name"));
+            part.setMaker(resultSet.getString("maker"));
+            part.setDescription(resultSet.getString("description"));
+            part.setPrice(resultSet.getFloat("price"));
+            part.setQuantity(resultSet.getInt("quantity"));
+            part.setCategory(catgetegoryById(resultSet.getInt("catid")));
             partslist.add(part);
         }
         return partslist;
@@ -113,7 +114,7 @@ public class PartService {
         part.setDescription(resultSet.getString("description"));
         part.setPrice(resultSet.getFloat("price"));
         part.setQuantity(resultSet.getInt("quantity"));
-        part.setCategory(getegoryById(resultSet.getInt("catid")));
+        part.setCategory(catgetegoryById(resultSet.getInt("catid")));
         return part;
     }
 
@@ -219,7 +220,7 @@ public class PartService {
         return categoriessList;
     }
 
-    public static Category getegoryById(int catId) throws SQLException {
+    public static Category catgetegoryById(int catId) throws SQLException {
         Optional<Category> category = Optional.ofNullable(null);
         try {
             Connection connection = DbConnection.getConnection();
