@@ -126,7 +126,6 @@
                 <artifactId>spotless-maven-plugin</artifactId>
                 <version>${spotless.version}</version>
                 <configuration>
-                <removeUnusedImports/>
                 <java>
                 <googleJavaFormat>
                     <version>${googleJavaFormat.version}</version>
@@ -134,6 +133,7 @@
                     <reflowLongStrings>true</reflowLongStrings>
                     <formatJavadoc>false</formatJavadoc>
                 </googleJavaFormat>
+                    <removeUnusedImports/>
                 </java>
                 </configuration>
               </plugin>

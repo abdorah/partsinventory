@@ -1,11 +1,13 @@
 package com.partsinventory.controller;
 
+import static com.partsinventory.helper.AlertHandler.handleDatabaseError;
 import static com.partsinventory.helper.AlertHandler.handleDelete;
 import static com.partsinventory.helper.AlertHandler.handleSale;
 
 import com.partsinventory.model.Part;
 import com.partsinventory.service.PartService;
 import java.io.IOException;
+import java.sql.SQLException;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -43,14 +45,6 @@ public class FetchPartsController {
     @FXML private Button addToChartButton;
 
     @FXML private Button deleteButton;
-
-    public SplitPane getRootSplitPane() {
-        return rootSplitPane;
-    }
-
-    public StackPane getResultsStackPane() {
-        return resultsStackPane;
-    }
 
     @FXML
     void initialize() {
@@ -108,27 +102,28 @@ public class FetchPartsController {
         try {
             Parent tableViewRoot = tableViewLoader.load();
             PartController productTableView = tableViewLoader.getController();
+            ObservableList<Part> parts;
             if (searchTextField.getText() != null
                     && !searchTextField.getText().isBlank()
                     && !searchOptionPick.getText().contains("Search by")) {
-                StackPane.setMargin(
-                        productTableView.getPartsListByCriteriaTableView(
-                                searchOptionPick.getText() + " like", searchTextField.getText()),
-                        new Insets(10, 10, 10, 10));
-                StackPane.setAlignment(resultsStackPane, Pos.CENTER);
-                resultsStackPane.getChildren().add(tableViewRoot);
+                parts =
+                        PartService.getPartByCriteria(
+                                searchOptionPick.getText() + " like", searchTextField.getText());
             } else if (searchOptionPick.getText().contains("Search by")) {
                 Label warningMessage = new Label("Please select a search criteria");
                 warningMessage.setMinHeight(0);
                 resultsStackPane.getChildren().add(warningMessage);
+                return;
             } else {
-                StackPane.setMargin(
-                        productTableView.getPartsListTableView(), new Insets(10, 10, 10, 10));
-                StackPane.setAlignment(resultsStackPane, Pos.CENTER);
-                resultsStackPane.getChildren().add(tableViewRoot);
+                parts = PartService.getAllParts();
             }
+            productTableView.getPartsListTableView().setItems(parts);
+            StackPane.setAlignment(resultsStackPane, Pos.CENTER);
+            resultsStackPane.getChildren().add(tableViewRoot);
         } catch (IOException e) {
             e.printStackTrace();
+        } catch (SQLException e) {
+            handleDatabaseError(e);
         }
     }
 }

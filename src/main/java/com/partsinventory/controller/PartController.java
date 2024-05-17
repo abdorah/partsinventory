@@ -1,7 +1,5 @@
 package com.partsinventory.controller;
 
-import static com.partsinventory.helper.AlertHandler.handleDatabaseError;
-
 import com.partsinventory.helper.AlertHandler;
 import com.partsinventory.helper.DefaultFloatConvertor;
 import com.partsinventory.helper.DefaultIntegerConvertor;
@@ -42,17 +40,6 @@ public class PartController {
 
     public TableView<Part> getPartsListByCriteriaTableView(String criteria, String identifier) {
         ObservableList<Part> parts = PartService.getPartByCriteria(criteria, identifier);
-        try {
-            ObservableList<Category> categoriesList;
-            categoriesList = PartService.getAllCategories();
-            ObservableList<String> categoryNamesList =
-                    FXCollections.observableArrayList(
-                            categoriesList.stream().map(Category::getName).toList());
-            partCategoryColumn.setCellFactory(ComboBoxTableCell.forTableColumn(categoryNamesList));
-        } catch (SQLException e) {
-            handleDatabaseError(e);
-        }
-
         partsListTableView.setItems(parts);
         return partsListTableView;
     }
@@ -60,12 +47,6 @@ public class PartController {
     @FXML
     private void initialize() throws SQLException {
         partIdColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
-        partNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
-        partMakerColumn.setCellValueFactory(new PropertyValueFactory<>("maker"));
-        partDescriptionColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
-        partPriceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
-        partQuantityColumn.setCellValueFactory(new PropertyValueFactory<>("quantity"));
-        partCategoryColumn.setCellValueFactory(new PropertyValueFactory<>("categoryName"));
 
         partNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         partNameColumn.setCellFactory(TextFieldTableCell.forTableColumn());
@@ -121,7 +102,6 @@ public class PartController {
 
         ObservableList<Part> parts = PartService.getAllParts();
         partsListTableView.setItems(parts);
-
         partsListTableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
     }
 }

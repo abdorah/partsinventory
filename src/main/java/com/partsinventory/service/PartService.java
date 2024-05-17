@@ -81,7 +81,6 @@ public class PartService {
             while (resultSet.next()) {
                 partsList.add(extractPartFromResultSet(resultSet));
             }
-
         } catch (SQLException e) {
             handleDatabaseError(e);
         }
@@ -114,6 +113,7 @@ public class PartService {
         part.setDescription(resultSet.getString("description"));
         part.setPrice(resultSet.getFloat("price"));
         part.setQuantity(resultSet.getInt("quantity"));
+        part.setCategory(getegoryById(resultSet.getInt("catid")));
         return part;
     }
 
