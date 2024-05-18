@@ -52,4 +52,13 @@ public class AlertHandler {
                 "Failed to update data: " + e.getMessage(),
                 Alert.AlertType.ERROR);
     }
+
+    public static void handleStockShortage(String partName) {
+        showAlert(
+                "Stock Shortage",
+                "The part "
+                        + partName
+                        + " can't be added to chart. Currently we don't have the request item.",
+                Alert.AlertType.ERROR);
+    }
 }

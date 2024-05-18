@@ -11,28 +11,46 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 
-<SplitPane fx:id="rootSplitPane" dividerPositions="0.5" orientation="VERTICAL" prefHeight="410.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.partsinventory.controller.SaleController">
+<SplitPane fx:id="rootSplitPane" dividerPositions="0.5" orientation="VERTICAL" prefHeight="410.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.partsinventory.controller.SalesChartController">
    <items>
       <AnchorPane minHeight="200.0" prefHeight="200.0">
          <children>
-            <Group fx:id="searchGroup" layoutX="99.0" layoutY="55.0">
+            <Group fx:id="searchGroup" layoutX="94.0" layoutY="66.0">
                <children>
-                  <Button fx:id="searchButton" layoutX="293.0" layoutY="55.0" mnemonicParsing="false" onAction="#onSearch" text="Search" />
-                  <TextField fx:id="searchTextField" layoutX="90.0" prefHeight="26.0" prefWidth="219.0" />
-                  <SplitMenuButton fx:id="searchOptionPick" layoutX="90.0" layoutY="54.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="174.0" text="Search by...">
+                  <Button fx:id="searchButton" layoutX="312.0" layoutY="56.0" mnemonicParsing="false" onAction="#onSearch" text="Search" />
+                  <TextField fx:id="partSearchTextField" layoutX="31.0" layoutY="10.0" prefHeight="26.0" prefWidth="169.0" />
+                  <SplitMenuButton fx:id="searchOptionPick" layoutX="31.0" layoutY="55.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="164.0" text="Search Part by...">
                      <items>
                         <MenuItem fx:id="searchByName" mnemonicParsing="false" text="name" />
                         <MenuItem fx:id="searchByDescription" mnemonicParsing="false" text="description" />
                      </items>
                   </SplitMenuButton>
-                  <Label layoutY="5.0" text="Parts search:">
+                  <Label layoutX="-44.0" layoutY="14.0" text="Parts search:">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Label>
-                  <Button fx:id="deleteButton" layoutX="359.0" layoutY="55.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="50.0" text="Delete" textFill="RED" />
-                  <Button fx:id="printReportButton" layoutX="361.0" layoutY="96.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="49.0" text="Print" />
-                  <Button fx:id="saleButton" layoutX="293.0" layoutY="96.0" mnemonicParsing="false" onAction="#onSale" prefHeight="25.0" prefWidth="52.0" text="Sale" />
+                  <Button fx:id="deleteButton" layoutX="114.0" layoutY="96.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="50.0" text="Delete" textFill="RED" />
+                  <Button fx:id="printReportButton" layoutX="172.0" layoutY="96.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="49.0" text="Print" />
+                  <Button fx:id="saleButton" layoutX="231.0" layoutY="96.0" mnemonicParsing="false" onAction="#onSale" prefHeight="25.0" prefWidth="56.0" text="Sale" />
+                  <TextField fx:id="clientNameTextField" layoutX="31.0" layoutY="-37.0" prefHeight="26.0" prefWidth="166.0" />
+                  <Label layoutX="-48.0" layoutY="-33.0" prefHeight="18.0" prefWidth="79.0" text="Client Name:">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="clientPhoneNumberTextField" layoutX="310.0" layoutY="-37.0" prefHeight="26.0" prefWidth="166.0" />
+                  <Label layoutX="231.0" layoutY="-33.0" prefHeight="18.0" prefWidth="79.0" text="Client Phone:">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="billSearchTextFeild" layoutX="312.0" layoutY="10.0" prefHeight="26.0" prefWidth="163.0" />
+                  <Label layoutX="235.0" layoutY="15.0" text="Bill search:">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Label>
                </children>
             </Group>
          </children>

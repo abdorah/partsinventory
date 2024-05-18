@@ -10,6 +10,7 @@
     <name>partsinventory</name>
 
     <properties>
+        <moduleName>com.partsinventory</moduleName>
         <mainClass>com.partsinventory.MainApplication</mainClass>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>17</java.version>
@@ -110,7 +111,7 @@
                     <execution>
                         <id>default-cli</id>
                         <configuration>
-                            <mainClass>${mainClass}</mainClass>
+                            <mainClass>${moduleName}/${mainClass}</mainClass>
                             <launcher>app</launcher>
                             <jlinkZipName>app</jlinkZipName>
                             <jlinkImageName>app</jlinkImageName>

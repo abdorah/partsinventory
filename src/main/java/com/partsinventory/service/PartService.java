@@ -23,17 +23,18 @@ import javafx.scene.control.TableColumn;
 
 public class PartService {
 
-    private static ObservableList<Part> getAllPartsFromResultset(ResultSet rs) throws SQLException {
+    private static ObservableList<Part> getAllPartsFromResultset(ResultSet resultSet)
+            throws SQLException {
         ObservableList<Part> partslist = FXCollections.observableArrayList();
-        while (rs.next()) {
+        while (resultSet.next()) {
             Part part = new Part();
-            part.setId(rs.getInt("id"));
-            part.setName(rs.getString("name"));
-            part.setMaker(rs.getString("maker"));
-            part.setDescription(rs.getString("description"));
-            part.setPrice(rs.getFloat("price"));
-            part.setQuantity(rs.getInt("quantity"));
-            part.setCategory(getegoryById(rs.getInt("catid")));
+            part.setId(resultSet.getInt("id"));
+            part.setName(resultSet.getString("name"));
+            part.setMaker(resultSet.getString("maker"));
+            part.setDescription(resultSet.getString("description"));
+            part.setPrice(resultSet.getFloat("price"));
+            part.setQuantity(resultSet.getInt("quantity"));
+            part.setCategory(getCategoryById(resultSet.getInt("catid")));
             partslist.add(part);
         }
         return partslist;
@@ -113,7 +114,7 @@ public class PartService {
         part.setDescription(resultSet.getString("description"));
         part.setPrice(resultSet.getFloat("price"));
         part.setQuantity(resultSet.getInt("quantity"));
-        part.setCategory(getegoryById(resultSet.getInt("catid")));
+        part.setCategory(getCategoryById(resultSet.getInt("catid")));
         return part;
     }
 
@@ -219,7 +220,7 @@ public class PartService {
         return categoriessList;
     }
 
-    public static Category getegoryById(int catId) throws SQLException {
+    public static Category getCategoryById(int catId) throws SQLException {
         Optional<Category> category = Optional.ofNullable(null);
         try {
             Connection connection = DbConnection.getConnection();
@@ -345,6 +346,23 @@ public class PartService {
         } catch (SQLException e) {
             handleDatabaseError(e);
             if (result != -1L) deleteBill(billId);
+        }
+        return result == 1;
+    }
+
+    public static Boolean updateChart(Command command) {
+        int result = 0;
+        try {
+            Connection connection = DbConnection.getConnection();
+            PreparedStatement statement =
+                    connection.prepareStatement(DbConnection.load("UPDATE_COMMAND"));
+            statement.setInt(1, command.getQuantity());
+            statement.setFloat(2, command.getConsideredPrice());
+            statement.setInt(3, command.getPartId());
+            statement.setInt(4, command.getBillId());
+            result = statement.executeUpdate();
+        } catch (SQLException e) {
+            handleDatabaseError(e);
         }
         return result == 1;
     }
