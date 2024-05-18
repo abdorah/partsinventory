@@ -2,6 +2,8 @@ package com.partsinventory.service;
 
 import com.partsinventory.helper.DbConnection;
 import com.partsinventory.model.Part;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import javafx.collections.FXCollections;
@@ -26,8 +28,11 @@ public class BillService {
 
     public static ObservableList<Part> getPartsOfBill(int billId) throws SQLException {
         if (billId == -1) throw new SQLException("No bill Selected");
-        String statement = DbConnection.load("PART_IN_BILL");
-        ResultSet resultSet = DbConnection.DbqueryExecute(statement);
+        Connection connection = DbConnection.getConnection();
+        PreparedStatement statement =
+                connection.prepareStatement(DbConnection.load("PART_IN_BILL"));
+        statement.setInt(1, billId);
+        ResultSet resultSet = statement.executeQuery();
         ObservableList<Part> partslist = FXCollections.observableArrayList();
         while (resultSet.next()) {
             Part part = new Part();
@@ -37,7 +42,7 @@ public class BillService {
             part.setDescription(resultSet.getString("description"));
             part.setPrice(resultSet.getFloat("price"));
             part.setQuantity(resultSet.getInt("quantity"));
-            part.setCategory(PartService.catgetegoryById(resultSet.getInt("catid")));
+            part.setCategory(PartService.getCategoryById(resultSet.getInt("catid")));
             partslist.add(part);
         }
         return partslist;

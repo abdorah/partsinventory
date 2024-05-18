@@ -3,11 +3,15 @@ package com.partsinventory.controller;
 import static com.partsinventory.helper.AlertHandler.handleDatabaseError;
 import static com.partsinventory.helper.AlertHandler.handleDelete;
 
+import java.io.IOException;
+import java.sql.SQLException;
+
+import com.partsinventory.helper.DefaultFloatConvertor;
+import com.partsinventory.model.Command;
 import com.partsinventory.model.Part;
 import com.partsinventory.service.BillService;
 import com.partsinventory.service.PartService;
-import java.io.IOException;
-import java.sql.SQLException;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -23,6 +27,8 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.SplitMenuButton;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.StackPane;
 
 public class SalesChartController {
@@ -67,6 +73,34 @@ public class SalesChartController {
         try {
             Parent tableViewRoot = tableViewLoader.load();
             PartController productTableView = tableViewLoader.getController();
+            productTableView
+                    .getPartQuantityColumn()
+                    .setOnEditCommit(
+                            event -> {
+                                Command command = new Command();
+                                command.setBillId(BillService.instance.getCurrentBillId());
+                                command.setPartId(event.getRowValue().getId());
+                                command.setQuantity(event.getNewValue());
+                                command.setConsideredPrice(event.getRowValue().getPrice());
+                                PartService.updateChart(command);
+                            });
+            productTableView
+                    .getPartPriceColumn()
+                    .setCellValueFactory(new PropertyValueFactory<>("price"));
+            productTableView
+                    .getPartPriceColumn()
+                    .setCellFactory(TextFieldTableCell.forTableColumn(new DefaultFloatConvertor()));
+            productTableView
+                    .getPartPriceColumn()
+                    .setOnEditCommit(
+                            event -> {
+                                Command command = new Command();
+                                command.setBillId(BillService.instance.getCurrentBillId());
+                                command.setPartId(event.getRowValue().getId());
+                                command.setConsideredPrice(event.getNewValue());
+                                command.setQuantity(event.getRowValue().getQuantity());
+                                PartService.updateChart(command);
+                            });
             StackPane.setMargin(
                     productTableView.getPartsListInChart(BillService.instance.getCurrentBillId()),
                     new Insets(10, 10, 10, 10));
@@ -107,9 +141,7 @@ public class SalesChartController {
             Parent tableViewRoot = tableViewLoader.load();
             PartController productTableView = tableViewLoader.getController();
             ObservableList<Part> parts = FXCollections.observableArrayList();
-            if (billSearchTextFeild.getText() != null
-                    && !billSearchTextFeild.getText().isBlank()
-                    && !searchOptionPick.getText().contains("Search by")) {
+            if (billSearchTextFeild.getText() != null && !billSearchTextFeild.getText().isBlank()) {
                 BillService.instance.setCurrentBillId(
                         Integer.parseInt(billSearchTextFeild.getText()));
                 parts = BillService.getPartsOfBill(BillService.instance.getCurrentBillId());

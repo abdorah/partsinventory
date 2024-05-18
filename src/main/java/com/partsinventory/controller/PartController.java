@@ -41,6 +41,14 @@ public class PartController {
         return partsListTableView;
     }
 
+    public TableColumn<Part, Integer> getPartQuantityColumn() {
+        return partQuantityColumn;
+    }
+
+    public TableColumn<Part, Float> getPartPriceColumn() {
+        return partPriceColumn;
+    }
+
     public TableView<Part> getPartsListByCriteriaTableView(String criteria, String identifier) {
         ObservableList<Part> parts = PartService.getPartByCriteria(criteria, identifier);
         partsListTableView.setItems(parts);
