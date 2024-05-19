@@ -54,6 +54,7 @@ public class FetchPartsController {
         searchByName.setOnAction(event -> searchOptionPick.setText(searchByName.getText()));
         searchByDescription.setOnAction(
                 event -> searchOptionPick.setText(searchByDescription.getText()));
+        PartController.loader = "part";
         FXMLLoader tableViewLoader =
                 new FXMLLoader(getClass().getResource("/views/parts-table-component.fxml"));
         resultsStackPane.getChildren().clear();
@@ -117,6 +118,7 @@ public class FetchPartsController {
 
     @FXML
     void onSearch(ActionEvent event) {
+        PartController.loader = "part";
         FXMLLoader tableViewLoader =
                 new FXMLLoader(getClass().getResource("/views/parts-table-component.fxml"));
         resultsStackPane.getChildren().clear();

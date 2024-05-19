@@ -6,6 +6,7 @@ import com.partsinventory.helper.AlertHandler;
 import com.partsinventory.helper.DefaultFloatConvertor;
 import com.partsinventory.helper.DefaultIntegerConvertor;
 import com.partsinventory.model.Category;
+import com.partsinventory.model.Command;
 import com.partsinventory.model.Part;
 import com.partsinventory.service.BillService;
 import com.partsinventory.service.PartService;
@@ -36,6 +37,8 @@ public class PartController {
     @FXML private TableColumn<Part, Integer> partQuantityColumn;
 
     @FXML private TableColumn<Part, String> partCategoryColumn;
+
+    public static String loader = "part";
 
     public TableView<Part> getPartsListTableView() {
         return partsListTableView;
@@ -86,12 +89,35 @@ public class PartController {
         partPriceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
         partPriceColumn.setCellFactory(
                 TextFieldTableCell.forTableColumn(new DefaultFloatConvertor()));
-        partPriceColumn.setOnEditCommit(event -> PartService.onEditCommit(event, "price"));
 
         partQuantityColumn.setCellValueFactory(new PropertyValueFactory<>("quantity"));
         partQuantityColumn.setCellFactory(
                 TextFieldTableCell.forTableColumn(new DefaultIntegerConvertor()));
-        partQuantityColumn.setOnEditCommit(event -> PartService.onEditCommit(event, "quantity"));
+
+        if (loader.equals("part")) {
+            partPriceColumn.setOnEditCommit(event -> PartService.onEditCommit(event, "price"));
+            partQuantityColumn.setOnEditCommit(
+                    event -> PartService.onEditCommit(event, "quantity"));
+        } else if (loader.equals("chart")) {
+            partQuantityColumn.setOnEditCommit(
+                    event -> {
+                        Command command = new Command();
+                        command.setBillId(BillService.instance.getCurrentBillId());
+                        command.setPartId(event.getRowValue().getId());
+                        command.setQuantity(event.getNewValue());
+                        command.setConsideredPrice(event.getRowValue().getPrice());
+                        PartService.updateChart(command);
+                    });
+            partPriceColumn.setOnEditCommit(
+                    event -> {
+                        Command command = new Command();
+                        command.setBillId(BillService.instance.getCurrentBillId());
+                        command.setPartId(event.getRowValue().getId());
+                        command.setConsideredPrice(event.getNewValue());
+                        command.setQuantity(event.getRowValue().getQuantity());
+                        PartService.updateChart(command);
+                    });
+        }
 
         partCategoryColumn.setCellValueFactory(new PropertyValueFactory<>("categoryName"));
         partCategoryColumn.setCellFactory(ComboBoxTableCell.forTableColumn());

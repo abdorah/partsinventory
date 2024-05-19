@@ -156,6 +156,7 @@ public class CategoriesController {
     }
 
     private Parent displayCategorydetails() throws IOException {
+        PartController.loader = "part";
         FXMLLoader tableViewLoader =
                 new FXMLLoader(getClass().getResource("/views/parts-table-component.fxml"));
         Parent tableViewRoot = tableViewLoader.load();

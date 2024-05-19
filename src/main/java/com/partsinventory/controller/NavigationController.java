@@ -47,6 +47,7 @@ public class NavigationController {
 
     @FXML
     void openDashBoard(ActionEvent event) {
+        PartController.loader = "part";
         FXMLLoader tableViewLoader =
                 new FXMLLoader(getClass().getResource("/views/parts-table-component.fxml"));
         presentationPane.getChildren().clear();

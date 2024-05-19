@@ -40,7 +40,7 @@ public class BillService {
             part.setName(resultSet.getString("name"));
             part.setMaker(resultSet.getString("maker"));
             part.setDescription(resultSet.getString("description"));
-            part.setPrice(resultSet.getFloat("price"));
+            part.setPrice(resultSet.getFloat("priceconsidered"));
             part.setQuantity(resultSet.getInt("quantity"));
             part.setCategory(PartService.getCategoryById(resultSet.getInt("catid")));
             partslist.add(part);
