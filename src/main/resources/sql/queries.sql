@@ -1,6 +1,7 @@
 LOGIN=SELECT * FROM users WHERE username=? AND password=?
 ALL_PARTS=SELECT id, name, maker, description, price, quantity,catid FROM parts
 PART_BY_CRITERIA=SELECT id, name, maker, description, price, quantity,catid FROM parts WHERE
+PART_BY_ID=SELECT id, name, maker, description, price, quantity,catid FROM parts WHERE id=?
 ADD_PART=INSERT INTO parts(name, maker, description, price, quantity, catid) VALUES(?, ?, ?, ?, ?,?)
 PARTS_QUANTITY_DESC=SELECT id,name, maker, description, price, quantity,catid FROM parts ORDER BY quantity DESC
 PARTS_PRICE_DESC=SELECT id,name, maker, description, price, quantity,catid FROM parts ORDER BY price DESC

@@ -1,6 +1,7 @@
 package com.partsinventory.controller;
 
 import static com.partsinventory.helper.AlertHandler.handleDatabaseError;
+import static com.partsinventory.helper.AlertHandler.handleStockShortage;
 
 import com.partsinventory.helper.AlertHandler;
 import com.partsinventory.helper.DefaultFloatConvertor;
@@ -106,6 +107,17 @@ public class PartController {
                         command.setPartId(event.getRowValue().getId());
                         command.setQuantity(event.getNewValue());
                         command.setConsideredPrice(event.getRowValue().getPrice());
+                        Part part = PartService.getPartById(event.getRowValue().getId());
+                        if (part.getQuantity() < event.getNewValue()) {
+                            handleStockShortage(part.getName());
+                            return;
+                        }
+                        part.setQuantity(part.getQuantity() - event.getNewValue());
+                        try {
+                            PartService.updatePart(part);
+                        } catch (SQLException e) {
+                            handleDatabaseError(e);
+                        }
                         PartService.updateChart(command);
                     });
             partPriceColumn.setOnEditCommit(
@@ -115,6 +127,17 @@ public class PartController {
                         command.setPartId(event.getRowValue().getId());
                         command.setConsideredPrice(event.getNewValue());
                         command.setQuantity(event.getRowValue().getQuantity());
+                        Part part = PartService.getPartById(event.getRowValue().getId());
+                        if (part.getPrice() < event.getNewValue()) {
+                            handleStockShortage(part.getName());
+                            return;
+                        }
+                        part.setPrice(part.getPrice() - event.getNewValue());
+                        try {
+                            PartService.updatePart(part);
+                        } catch (SQLException e) {
+                            handleDatabaseError(e);
+                        }
                         PartService.updateChart(command);
                     });
         }

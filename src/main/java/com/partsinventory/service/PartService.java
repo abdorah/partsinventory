@@ -23,6 +23,29 @@ import javafx.scene.control.TableColumn;
 
 public class PartService {
 
+    public static Part getPartById(int id) {
+        Part part = new Part();
+        try {
+            Connection connection = DbConnection.getConnection();
+            PreparedStatement statement =
+                    connection.prepareStatement(DbConnection.load("PART_BY_ID"));
+            statement.setInt(1, id);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                part.setId(resultSet.getInt("id"));
+                part.setName(resultSet.getString("name"));
+                part.setMaker(resultSet.getString("maker"));
+                part.setDescription(resultSet.getString("description"));
+                part.setPrice(resultSet.getFloat("price"));
+                part.setQuantity(resultSet.getInt("quantity"));
+                part.setCategory(getCategoryById(resultSet.getInt("catid")));
+            }
+        } catch (SQLException e) {
+            handleDatabaseError(e);
+        }
+        return part;
+    }
+
     private static ObservableList<Part> getAllPartsFromResultset(ResultSet resultSet)
             throws SQLException {
         ObservableList<Part> partslist = FXCollections.observableArrayList();
@@ -42,8 +65,8 @@ public class PartService {
 
     public static ObservableList<Part> getAllParts() throws SQLException {
         String statement = DbConnection.load("ALL_PARTS");
-        ResultSet rs = DbConnection.DbqueryExecute(statement);
-        ObservableList<Part> partsList = getAllPartsFromResultset(rs);
+        ResultSet resultSet = DbConnection.DbqueryExecute(statement);
+        ObservableList<Part> partsList = getAllPartsFromResultset(resultSet);
         return partsList;
     }
 
