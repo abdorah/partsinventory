@@ -114,4 +114,17 @@ public class NavigationController {
             e.printStackTrace();
         }
     }
+
+    @FXML
+    void openBillsButton(ActionEvent event) {
+        FXMLLoader salesChartLoader =
+                new FXMLLoader(getClass().getResource("/views/bills-table-component.fxml"));
+        presentationPane.getChildren().clear();
+        try {
+            Parent salesChartViewRoot = salesChartLoader.load();
+            presentationPane.getChildren().add(salesChartViewRoot);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }
