@@ -25,10 +25,9 @@ public class PartService {
 
     public static Part getPartById(int id) {
         Part part = new Part();
-        try {
-            Connection connection = DbConnection.getConnection();
-            PreparedStatement statement =
-                    connection.prepareStatement(DbConnection.load("PART_BY_ID"));
+        try (Connection connection = DbConnection.getConnection();
+                PreparedStatement statement =
+                        connection.prepareStatement(DbConnection.load("PART_BY_ID"))) {
             statement.setInt(1, id);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
@@ -94,13 +93,12 @@ public class PartService {
 
     public static ObservableList<Part> getPartByCriteria(String criteria, String target) {
         ObservableList<Part> partsList = FXCollections.observableArrayList();
-        try {
-            Connection connection = DbConnection.getConnection();
-            PreparedStatement preparedStatement =
-                    connection.prepareStatement(
-                            String.format(
-                                    "%s %s '%%%s%%'",
-                                    DbConnection.load("PART_BY_CRITERIA"), criteria, target));
+        try (Connection connection = DbConnection.getConnection();
+                PreparedStatement preparedStatement =
+                        connection.prepareStatement(
+                                String.format(
+                                        "%s %s '%%%s%%'",
+                                        DbConnection.load("PART_BY_CRITERIA"), criteria, target))) {
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 partsList.add(extractPartFromResultSet(resultSet));
@@ -112,10 +110,9 @@ public class PartService {
     }
 
     public static void updatePart(Part part) throws SQLException {
-        try {
-            Connection connection = DbConnection.getConnection();
-            PreparedStatement statement =
-                    connection.prepareStatement(DbConnection.load("UPDATE_PART"));
+        try (Connection connection = DbConnection.getConnection();
+                PreparedStatement statement =
+                        connection.prepareStatement(DbConnection.load("UPDATE_PART"))) {
             statement.setString(1, part.getName());
             statement.setString(2, part.getMaker());
             statement.setString(3, part.getDescription());
@@ -143,10 +140,9 @@ public class PartService {
 
     public static boolean addPart(Part part) {
         int result = 0;
-        try {
-            Connection connection = DbConnection.getConnection();
-            PreparedStatement statement =
-                    connection.prepareStatement(DbConnection.load("ADD_PART"));
+        try (Connection connection = DbConnection.getConnection();
+                PreparedStatement statement =
+                        connection.prepareStatement(DbConnection.load("ADD_PART"))) {
             statement.setString(1, part.getName());
             statement.setString(2, part.getMaker());
             statement.setString(3, part.getDescription());
@@ -192,10 +188,9 @@ public class PartService {
     }
 
     public static void deletePart(int id) {
-        try {
-            Connection connection = DbConnection.getConnection();
-            PreparedStatement preparedStatement =
-                    connection.prepareStatement(DbConnection.load("DELETE_PART"));
+        try (Connection connection = DbConnection.getConnection();
+                PreparedStatement preparedStatement =
+                        connection.prepareStatement(DbConnection.load("DELETE_PART"))) {
             preparedStatement.setInt(1, id);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
@@ -245,10 +240,9 @@ public class PartService {
 
     public static Category getCategoryById(int catId) throws SQLException {
         Optional<Category> category = Optional.ofNullable(null);
-        try {
-            Connection connection = DbConnection.getConnection();
-            PreparedStatement statement =
-                    connection.prepareStatement(DbConnection.load("GET_CATEGORY_BY_ID"));
+        try (Connection connection = DbConnection.getConnection();
+                PreparedStatement statement =
+                        connection.prepareStatement(DbConnection.load("GET_CATEGORY_BY_ID"))) {
             statement.setInt(1, catId);
             statement.execute();
             category = Optional.ofNullable(getCategorieFromResultset(statement.getResultSet()));
@@ -266,10 +260,9 @@ public class PartService {
 
     public static boolean addCategory(Category category) {
         int result = 0;
-        try {
-            Connection connection = DbConnection.getConnection();
-            PreparedStatement statement =
-                    connection.prepareStatement(DbConnection.load("ADD_CATEGORY"));
+        try (Connection connection = DbConnection.getConnection();
+                PreparedStatement statement =
+                        connection.prepareStatement(DbConnection.load("ADD_CATEGORY"))) {
             statement.setString(1, category.getName());
             statement.setString(2, category.getDescription());
             statement.setString(3, category.getImageName());
@@ -281,10 +274,9 @@ public class PartService {
     }
 
     public static void deleteCategory(int catId) {
-        try {
-            Connection connection = DbConnection.getConnection();
-            PreparedStatement preparedStatement =
-                    connection.prepareStatement(DbConnection.load("DELETE_CATEGORY"));
+        try (Connection connection = DbConnection.getConnection();
+                PreparedStatement preparedStatement =
+                        connection.prepareStatement(DbConnection.load("DELETE_CATEGORY"))) {
             preparedStatement.setInt(1, catId);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
@@ -293,10 +285,9 @@ public class PartService {
     }
 
     public static void addBill(Command command) {
-        try {
-            Connection connection = DbConnection.getConnection();
-            PreparedStatement statement =
-                    connection.prepareStatement(DbConnection.load("ADD_BILL"));
+        try (Connection connection = DbConnection.getConnection();
+                PreparedStatement statement =
+                        connection.prepareStatement(DbConnection.load("ADD_BILL"))) {
             statement.setFloat(1, 0);
             statement.setString(2, command.getClientName());
             statement.setString(3, command.getClientPhone());
@@ -326,10 +317,9 @@ public class PartService {
     }
 
     private static void deleteBill(int id) {
-        try {
-            Connection connection = DbConnection.getConnection();
-            PreparedStatement preparedStatement =
-                    connection.prepareStatement(DbConnection.load("DELETE_BILL"));
+        try (Connection connection = DbConnection.getConnection();
+                PreparedStatement preparedStatement =
+                        connection.prepareStatement(DbConnection.load("DELETE_BILL"))) {
             preparedStatement.setInt(1, id);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
@@ -340,10 +330,9 @@ public class PartService {
     public static Boolean updateBill(
             int id, String clientName, String clientPhone, float totalPrice) {
         int result = 0;
-        try {
-            Connection connection = DbConnection.getConnection();
-            PreparedStatement statement =
-                    connection.prepareStatement(DbConnection.load("UPDATE_BILL"));
+        try (Connection connection = DbConnection.getConnection();
+                PreparedStatement statement =
+                        connection.prepareStatement(DbConnection.load("UPDATE_BILL"))) {
             statement.setString(1, clientName);
             statement.setString(2, clientPhone);
             statement.setFloat(3, totalPrice);
@@ -357,10 +346,9 @@ public class PartService {
 
     public static boolean addToChart(int partId, int billId, int quantity, float consideredPrice) {
         int result = 0;
-        try {
-            Connection connection = DbConnection.getConnection();
-            PreparedStatement statement =
-                    connection.prepareStatement(DbConnection.load("ADD_PART_TO_CHART"));
+        try (Connection connection = DbConnection.getConnection();
+                PreparedStatement statement =
+                        connection.prepareStatement(DbConnection.load("ADD_PART_TO_CHART"))) {
             statement.setInt(1, partId);
             statement.setInt(2, billId);
             statement.setInt(3, quantity);
@@ -375,10 +363,9 @@ public class PartService {
 
     public static Boolean updateChart(Command command) {
         int result = 0;
-        try {
-            Connection connection = DbConnection.getConnection();
-            PreparedStatement statement =
-                    connection.prepareStatement(DbConnection.load("UPDATE_COMMAND"));
+        try (Connection connection = DbConnection.getConnection();
+                PreparedStatement statement =
+                        connection.prepareStatement(DbConnection.load("UPDATE_COMMAND"))) {
             statement.setInt(1, command.getQuantity());
             statement.setFloat(2, command.getConsideredPrice());
             statement.setInt(3, command.getPartId());

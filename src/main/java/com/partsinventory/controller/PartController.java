@@ -105,14 +105,14 @@ public class PartController {
                         Command command = new Command();
                         command.setBillId(BillService.instance.getCurrentBillId());
                         command.setPartId(event.getRowValue().getId());
-                        command.setQuantity(event.getNewValue());
+                        command.setQuantity(event.getNewValue().intValue());
                         command.setConsideredPrice(event.getRowValue().getPrice());
                         Part part = PartService.getPartById(event.getRowValue().getId());
-                        if (part.getQuantity() < event.getNewValue()) {
+                        if (part.getQuantity() < event.getNewValue().intValue()) {
                             handleStockShortage(part.getName());
                             return;
                         }
-                        part.setQuantity(part.getQuantity() - event.getNewValue());
+                        part.setQuantity(part.getQuantity() - event.getNewValue().intValue());
                         try {
                             PartService.updatePart(part);
                         } catch (SQLException e) {
@@ -125,14 +125,14 @@ public class PartController {
                         Command command = new Command();
                         command.setBillId(BillService.instance.getCurrentBillId());
                         command.setPartId(event.getRowValue().getId());
-                        command.setConsideredPrice(event.getNewValue());
+                        command.setConsideredPrice(event.getNewValue().floatValue());
                         command.setQuantity(event.getRowValue().getQuantity());
                         Part part = PartService.getPartById(event.getRowValue().getId());
-                        if (part.getPrice() < event.getNewValue()) {
+                        if (part.getPrice() < event.getNewValue().floatValue()) {
                             handleStockShortage(part.getName());
                             return;
                         }
-                        part.setPrice(part.getPrice() - event.getNewValue());
+                        part.setPrice(part.getPrice() - event.getNewValue().floatValue());
                         try {
                             PartService.updatePart(part);
                         } catch (SQLException e) {
