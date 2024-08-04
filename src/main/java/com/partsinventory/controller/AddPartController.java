@@ -44,7 +44,7 @@ public class AddPartController {
                     }
                 };
         partNameField.setOnAction(resetAction);
-        partMakerField.setItems(PartService.populateMakerCombobox());
+        partMakerField.setItems(PartService.getAllMakers());
         partMakerField.setEditable(true);
         partDescriptionField.setOnAction(resetAction);
         partPriceField.setOnAction(resetAction);

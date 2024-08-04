@@ -196,9 +196,13 @@ public class PartService {
         }
     }
 
-    public static ObservableList<String> populateMakerCombobox() {
-        ObservableList<String> collection =
-                FXCollections.observableArrayList("...", "Mahle", "Bosch", "Dayco", "Contitech");
+    public static ObservableList<String> getAllMakers() throws SQLException {
+        ObservableList<String> collection = FXCollections.observableArrayList();
+        String statement = DbConnection.load("ALL_MAKERS");
+        ResultSet rs = DbConnection.DbqueryExecute(statement);
+        while (rs.next()) {
+            collection.add(rs.getString("name")); 
+        }        
         return collection;
     }
 
@@ -232,8 +236,8 @@ public class PartService {
     public static ObservableList<Category> getAllCategories() throws SQLException {
         String statement = DbConnection.load("ALL_CATEGORIES");
         ResultSet rs = DbConnection.DbqueryExecute(statement);
-        ObservableList<Category> categoriessList = getAllCategoriesFromResultset(rs);
-        return categoriessList;
+        ObservableList<Category> categoriesList = getAllCategoriesFromResultset(rs);
+        return categoriesList;
     }
 
     public static Category getCategoryById(int catId) throws SQLException {

@@ -24,6 +24,11 @@ CREATE TABLE IF NOT EXISTS "commands" (
 	FOREIGN KEY("partid") REFERENCES "parts"("id"),
 	FOREIGN KEY("billid") REFERENCES "bills"("id")
 );
+CREATE TABLE IF NOT EXISTS "makers" (
+	"id"	INTEGER ,
+	"name"	TEXT,
+	PRIMARY KEY("id" AUTOINCREMENT)
+);
 CREATE TABLE IF NOT EXISTS "categories" (
 	"id"	INTEGER ,
 	"name"	TEXT,
@@ -52,4 +57,5 @@ INSERT INTO "categories" ("name","description","image") VALUES ('new test cat','
 INSERT INTO "parts" ("name","maker","description","image","price","quantity","catid") VALUES ('susp','Mahle','suspension pugeot',NULL,23.5,100,4);
 INSERT INTO "bills" ("totalprice","clientname","clientphone") VALUES (0,'null','null');
 INSERT INTO "commands" ("billid","partid","quantity","priceconsidered") VALUES (1,1,23.5);
+INSERT INTO "makers" ("name") VALUES ("Mahle"), ("Bosch"), ("Dayco"), ("Contitech");
 COMMIT;
