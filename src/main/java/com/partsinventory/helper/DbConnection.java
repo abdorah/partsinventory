@@ -59,7 +59,7 @@ public class DbConnection {
         Properties properties = new Properties();
         try {
             properties.load(
-                    new FileInputStream(new File("src\\main\\resources\\sql\\queries.sql")));
+                    new FileInputStream(new File("src/main/resources/sql/queries.sql")));
         } catch (Exception e) {
             e.printStackTrace();
         }

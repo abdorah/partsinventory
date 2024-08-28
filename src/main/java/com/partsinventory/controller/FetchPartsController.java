@@ -8,6 +8,7 @@ import static com.partsinventory.helper.AlertHandler.handleStockShortage;
 import com.partsinventory.model.Part;
 import com.partsinventory.service.BillService;
 import com.partsinventory.service.PartService;
+import java.time.LocalDate;
 import java.io.IOException;
 import java.sql.SQLException;
 import javafx.collections.ObservableList;
@@ -108,7 +109,7 @@ public class FetchPartsController {
                                 totalPrice += part.getPrice();
                             }
                             BillService.updateBill(
-                                    BillService.instance.getCurrentBillId(), "", "", totalPrice);
+                                    BillService.instance.getCurrentBillId(), "", "", LocalDate.now(), totalPrice);
                         }
                     });
         } catch (IOException e) {

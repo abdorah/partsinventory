@@ -108,6 +108,7 @@ public class BillService {
                     editedBill.getId(),
                     editedBill.getClientName(),
                     editedBill.getClientPhone(),
+                    editedBill.getDate(),      
                     editedBill.getTotalPrice());
             handleSuccessfulEdit();
         } catch (NumberFormatException e) {
@@ -162,15 +163,16 @@ public class BillService {
     }
 
     public static Boolean updateBill(
-            int id, String clientName, String clientPhone, float totalPrice) {
+            int id, String clientName, String clientPhone, LocalDate date, float totalPrice) {
         int result = 0;
-        try (Connection connection = DbConnection.getConnection();
+    try (Connection connection = DbConnection.getConnection();
                 PreparedStatement statement =
                         connection.prepareStatement(DbConnection.load("UPDATE_BILL"))) {
             statement.setString(1, clientName);
             statement.setString(2, clientPhone);
-            statement.setFloat(3, totalPrice);
-            statement.setInt(4, id);
+            statement.setString(3, date.format(DateTimeFormatter.ofPattern(SQLiteConfig.DEFAULT_DATE_STRING_FORMAT)));
+            statement.setFloat(4, totalPrice);
+            statement.setInt(5, id);
             result = statement.executeUpdate();
         } catch (SQLException e) {
             handleDatabaseError(e);
