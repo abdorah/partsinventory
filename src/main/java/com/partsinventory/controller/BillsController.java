@@ -50,7 +50,7 @@ public class BillsController {
 
         totalPrice.setCellValueFactory(new PropertyValueFactory<>("totalPrice"));
         totalPrice.setCellFactory(TextFieldTableCell.forTableColumn(new DefaultFloatConvertor()));
-
+        totalPrice.setOnEditCommit(event -> BillService.onEditCommit(event, "totalPrice"));
         ObservableList<Bill> bills = BillService.getAllBills();
         billsListTableView.setItems(bills);
         billsListTableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);

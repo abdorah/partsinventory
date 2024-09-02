@@ -18,12 +18,12 @@ import java.util.Date;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.TableColumn.CellEditEvent;
-import org.sqlite.SQLiteConfig;
 import org.sqlite.date.FastDateFormat;
 
 public class BillService {
 
     private static int currentBillId;
+    private static String DEFAULT_DATE_FORMAT = "yyyy-MM-dd";
     public static BillService instance = new BillService();
 
     private BillService() {
@@ -50,7 +50,7 @@ public class BillService {
             bill.setDate(
                     LocalDate.parse(
                             resultSet.getString("date"),
-                            DateTimeFormatter.ofPattern(SQLiteConfig.DEFAULT_DATE_STRING_FORMAT)));
+                            DateTimeFormatter.ofPattern(DEFAULT_DATE_FORMAT)));
             billslist.add(bill);
         }
         return billslist;
@@ -100,7 +100,7 @@ public class BillService {
                 case "date":
                     editedBill.setDate(LocalDate.parse(newValue));
                     break;
-                case "price":
+                case "totalPrice":
                     editedBill.setTotalPrice(Float.parseFloat(newValue));
                     break;
             }
@@ -125,7 +125,7 @@ public class BillService {
             statement.setString(3, bill.getClientPhone());
             statement.setString(
                     4,
-                    FastDateFormat.getInstance(SQLiteConfig.DEFAULT_DATE_STRING_FORMAT)
+                    FastDateFormat.getInstance(DEFAULT_DATE_FORMAT)
                             .format(new Date()));
             statement.executeUpdate();
         } catch (SQLException e) {
@@ -170,7 +170,7 @@ public class BillService {
                         connection.prepareStatement(DbConnection.load("UPDATE_BILL"))) {
             statement.setString(1, clientName);
             statement.setString(2, clientPhone);
-            statement.setString(3, date.format(DateTimeFormatter.ofPattern(SQLiteConfig.DEFAULT_DATE_STRING_FORMAT)));
+            statement.setString(3, date.format(DateTimeFormatter.ofPattern(DEFAULT_DATE_FORMAT)));
             statement.setFloat(4, totalPrice);
             statement.setInt(5, id);
             result = statement.executeUpdate();
