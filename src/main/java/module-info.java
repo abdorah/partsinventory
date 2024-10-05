@@ -7,11 +7,13 @@ module com.partsinventory {
     requires javafx.web;
     requires transitive org.slf4j;
     requires com.github.librepdf.openpdf;
+    requires javafx.swing;
 
     opens com.partsinventory to
             javafx.fxml;
     opens com.partsinventory.helper to
             javafx.fxml,
+            javafx.swing,
             java.sql;
     opens com.partsinventory.controller to
             javafx.fxml;
