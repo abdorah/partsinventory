@@ -1,11 +1,15 @@
 package com.partsinventory.controller;
 
+import static com.partsinventory.helper.AlertHandler.handleDatabaseError;
+
+import java.sql.SQLException;
+import java.time.LocalDate;
+
 import com.partsinventory.helper.DefaultFloatConvertor;
 import com.partsinventory.helper.LocalDateTableCell;
 import com.partsinventory.model.Bill;
 import com.partsinventory.service.BillService;
-import java.sql.SQLException;
-import java.time.LocalDate;
+
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.SelectionMode;
@@ -51,7 +55,17 @@ public class BillsController {
         totalPrice.setCellValueFactory(new PropertyValueFactory<>("totalPrice"));
         totalPrice.setCellFactory(TextFieldTableCell.forTableColumn(new DefaultFloatConvertor()));
         totalPrice.setOnEditCommit(event -> BillService.onEditCommit(event, "totalPrice"));
+
         ObservableList<Bill> bills = BillService.getAllBills();
+        try {
+            for (Bill bill : billsListTableView.getItems()) {
+                BillService.recalculateChartTotal(billId.getCellData(bill));
+            }
+        } catch (SQLException e) {
+            handleDatabaseError(e);
+        }
+        bills.clear();
+        bills.setAll(BillService.getAllBills());
         billsListTableView.setItems(bills);
         billsListTableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
     }

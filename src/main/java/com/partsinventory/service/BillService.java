@@ -75,7 +75,7 @@ public class BillService {
             Part part = new Part();
             part.setId(resultSet.getInt("id"));
             part.setName(resultSet.getString("name"));
-            part.setMaker(resultSet.getString("maker"));
+            part.setMaker(PartService.getMakerById(resultSet.getInt("maker_id")));
             part.setDescription(resultSet.getString("description"));
             part.setPrice(resultSet.getFloat("priceconsidered"));
             part.setQuantity(resultSet.getInt("quantity"));
@@ -212,4 +212,23 @@ public class BillService {
         }
         return result == 1;
     }
+
+    public static void recalculateChartTotal(int commandId) throws SQLException {
+        if (commandId == -1) throw new SQLException("No bill Selected");
+        try (Connection connection = DbConnection.getConnection();
+        PreparedStatement statement = connection.prepareStatement(DbConnection.load("CHART_SUM"))) {
+            statement.setInt(1, commandId);
+            ResultSet rs = statement.executeQuery();
+            if (rs.next()) {
+                double totalPrice = rs.getDouble("totalprice");
+                String updateQuery = DbConnection.load("UPDATE_CHART_PRICE");
+                try (PreparedStatement updatePs = connection.prepareStatement(updateQuery)) {
+                    updatePs.setDouble(1, totalPrice);
+                    updatePs.setInt(2, commandId);
+                    updatePs.executeUpdate();
+                }
+            }
+        }
+    }
+    
 }

@@ -4,7 +4,6 @@ import static com.partsinventory.helper.AlertHandler.handleDatabaseError;
 import static com.partsinventory.helper.AlertHandler.handleInvalidInput;
 import static com.partsinventory.helper.AlertHandler.handleSuccessfulEdit;
 
-import java.io.IOException;
 import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -283,12 +282,19 @@ public class PartService {
     
             // Fetch image as a byte array (BLOB)
             byte[] imageBytes = null;
-            try {
-                if(rs.getBlob("image") != null)
-                imageBytes = rs.getBlob("image").getBinaryStream().readAllBytes();
-            } catch (IOException | SQLException e) {
-                e.printStackTrace();
-            }  // Retrieve the image BLOB from the database
+
+            // Handle both Blob and byte[] cases
+            Object imageObject = rs.getObject("image");  // Get the image object
+            
+            if (imageObject instanceof Blob) {
+                // If it's a Blob, convert to byte array
+                Blob blob = (Blob) imageObject;
+                imageBytes = blob.getBytes(1, (int) blob.length());
+            } else if (imageObject instanceof byte[]) {
+                // If it's already a byte array, just cast it
+                imageBytes = (byte[]) imageObject;
+            }
+
             category.setImage(imageBytes);  // Set the image as a byte array in the category object
 
         }
