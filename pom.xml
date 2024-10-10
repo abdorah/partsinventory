@@ -14,7 +14,7 @@
         <mainClass>com.partsinventory.MainApplication</mainClass>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>17</java.version>
-        <javafx.version>17.0.9</javafx.version>
+        <javafx.version>22.0.2</javafx.version>
         <sqlite.version>3.44.1.0</sqlite.version>
         <slf4j.version>2.0.9</slf4j.version>
         <javafx.plugin.version>0.0.8</javafx.plugin.version>

@@ -20,7 +20,7 @@ public class SplashScreenController {
         CompletableFuture.runAsync(
                         () -> {
                             try {
-                                Thread.sleep(5000);
+                                Thread.sleep(2500);
                             } catch (InterruptedException e) {
                                 throw new RuntimeException(e);
                             }

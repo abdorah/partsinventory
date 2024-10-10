@@ -28,10 +28,10 @@ public class LoginController {
                 Stage stage = new Stage();
                 loginButton.getScene().getWindow().hide();
                 ViewManager.getInstance().setPrimaryStage(stage);
-                ViewManager.getInstance().loadView("main-view.fxml", "DashBoard", 800, 500);
+                ViewManager.getInstance().loadView("main-view.fxml", "Sales Operations DashBoard", 800, 500);
                 stage.show();
             } else {
-                incorrectPasswordLabel.setText("password not correct!");
+                incorrectPasswordLabel.setText("Password is not correct!");
             }
         } catch (Exception e) {
             e.printStackTrace();

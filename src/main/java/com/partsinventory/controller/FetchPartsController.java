@@ -8,6 +8,7 @@ import static com.partsinventory.helper.AlertHandler.handleStockShortage;
 import com.partsinventory.model.Part;
 import com.partsinventory.service.BillService;
 import com.partsinventory.service.PartService;
+import java.time.LocalDate;
 import java.io.IOException;
 import java.sql.SQLException;
 import javafx.collections.ObservableList;
@@ -87,7 +88,7 @@ public class FetchPartsController {
                         if (selectedItems.toArray().length != 0) {
                             handleSale();
                             BillService.instance.setCurrentBillId(
-                                    (int) PartService.addBill("", ""));
+                                    (int) BillService.addBill("", ""));
                             float totalPrice = 0f;
                             for (Part part : selectedItems) {
                                 if (part.getQuantity() == 0) {
@@ -97,7 +98,7 @@ public class FetchPartsController {
                                 part.setQuantity(part.getQuantity() - 1);
                                 try {
                                     PartService.updatePart(part);
-                                    PartService.addToChart(
+                                    BillService.addToChart(
                                             part.getId(),
                                             BillService.instance.getCurrentBillId(),
                                             1,
@@ -107,8 +108,8 @@ public class FetchPartsController {
                                 }
                                 totalPrice += part.getPrice();
                             }
-                            PartService.updateBill(
-                                    BillService.instance.getCurrentBillId(), "", "", totalPrice);
+                            BillService.updateBill(
+                                    BillService.instance.getCurrentBillId(), "", "", LocalDate.now(), totalPrice);
                         }
                     });
         } catch (IOException e) {
