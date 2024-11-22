@@ -1,13 +1,16 @@
 package com.partsinventory.service;
 
 import com.partsinventory.helper.DbConnection;
+import com.partsinventory.model.Users;
+
+import javax.naming.AuthenticationException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class LoginService {
 
-    public static boolean checkCredentials(String user, String pass) throws SQLException {
+    public static Users checkCredentials(String user, String pass) throws SQLException, AuthenticationException {
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
         String query = DbConnection.load("LOGIN");
@@ -17,15 +20,15 @@ public class LoginService {
             preparedStatement.setString(2, pass);
             resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
-                return true;
-            } else {
-                return false;
+                return new Users(resultSet.getInt("id"), resultSet.getString("username"), resultSet.getString("role"));
+
             }
         } catch (Exception e) {
-            return false;
+            throw new AuthenticationException("Invalid credentials");
         } finally {
             preparedStatement.close();
             resultSet.close();
         }
+        return null;
     }
 }

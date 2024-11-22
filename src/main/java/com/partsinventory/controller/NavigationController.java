@@ -1,6 +1,8 @@
 package com.partsinventory.controller;
 
 import java.io.IOException;
+
+import com.partsinventory.helper.Session;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -17,17 +19,31 @@ public class NavigationController {
 
     @FXML
     void initialize() {
-        FXMLLoader welcomeViewLoader =
-                new FXMLLoader(getClass().getResource("/views/home-screen-component.fxml"));
+        // Load the desired view dynamically
+//        FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/main-view.fxml"));
+//
+//        try {
+//            Parent root = loader.load();
+//
+//            // Get the controller of the loaded view
+//            NavigationController controller = loader.getController();
+//
+//            // Assume 'userRole' is the role of the logged-in user
+//            String userRole = Session.getInstance().getLoggedInUser().getRole();
+//
+//            // Pass the role to the controller
+//            controller.initializeRole(userRole);
+//
+//            // Display the view in the appropriate UI container (like a StackPane)
+//            presentationPane.getChildren().clear();
+//            StackPane.setMargin(root, new Insets(10, 10, 10, 10));
+//            StackPane.setAlignment(presentationPane, Pos.CENTER);
+//            presentationPane.getChildren().add(root);
+//
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
         presentationPane.getChildren().clear();
-        try {
-            Parent welcomeViewRoot = welcomeViewLoader.load();
-            StackPane.setMargin(welcomeViewRoot, new Insets(10, 10, 10, 10));
-            StackPane.setAlignment(presentationPane, Pos.CENTER);
-            presentationPane.getChildren().add(welcomeViewRoot);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     @FXML
@@ -125,6 +141,42 @@ public class NavigationController {
             presentationPane.getChildren().add(billsViewRoot);
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    public void initializeRole(String role) {
+        // Role-based UI logic
+        switch (role.toLowerCase()) {
+            case "admin":
+                presentationPane.setDisable(false);
+                /*adminPanel.setDisable(false);
+                transactionPanel.setDisable(false);
+                staffPanel.setDisable(false);
+
+                 */
+                break;
+            case "manager":
+                presentationPane.setDisable(false);
+               /* adminPanel.setDisable(true);
+                transactionPanel.setDisable(false);
+                staffPanel.setDisable(false);
+
+                */
+                break;
+            case "staff":
+                /*adminPanel.setDisable(true);
+                transactionPanel.setDisable(true);
+                staffPanel.setDisable(false);
+
+                 */
+                break;
+            default:
+               /* adminPanel.setDisable(true);
+                transactionPanel.setDisable(true);
+                staffPanel.setDisable(true);
+
+                */
+                break;
         }
     }
 }
