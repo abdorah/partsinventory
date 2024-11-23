@@ -48,7 +48,7 @@ public class ViewManager {
     }
     public void loadViewWithRole(String fxmlFile, String title, int width, int height, String role) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlFile));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/" +fxmlFile));
             Parent root = loader.load();
 
             // Get the controller of the loaded view

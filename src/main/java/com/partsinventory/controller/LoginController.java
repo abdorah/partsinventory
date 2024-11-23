@@ -64,7 +64,7 @@ public class LoginController {
         ViewManager.getInstance().setPrimaryStage(stage);
 
         // Pass the user's role to the main view
-        ViewManager.getInstance().loadViewWithRole("/views/main-view.fxml", "Sales Operations DashBoard", 800, 500, user.getRole());
+        ViewManager.getInstance().loadViewWithRole("main-view.fxml", "Sales Operations DashBoard", 800, 500, user.getRole());
         stage.show();
     }
     @FXML

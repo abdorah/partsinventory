@@ -149,21 +149,23 @@ public class NavigationController {
         switch (role.toLowerCase()) {
             case "admin":
                 presentationPane.setDisable(false);
+                System.out.println("admin");
                 /*adminPanel.setDisable(false);
                 transactionPanel.setDisable(false);
                 staffPanel.setDisable(false);
 
                  */
                 break;
-            case "manager":
+            case "user":
                 presentationPane.setDisable(false);
+                System.out.println("user");
                /* adminPanel.setDisable(true);
                 transactionPanel.setDisable(false);
                 staffPanel.setDisable(false);
 
                 */
                 break;
-            case "staff":
+            case "guest":
                 /*adminPanel.setDisable(true);
                 transactionPanel.setDisable(true);
                 staffPanel.setDisable(false);

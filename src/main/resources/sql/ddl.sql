@@ -51,4 +51,6 @@ INSERT INTO "makers" ("id","name") VALUES (0,'Bosh'),
  (3,'Garnett');
 INSERT INTO "parts" ("id","name","maker_id","description","image","price","quantity","catid") VALUES (1,'Suspension Honda',0,'Suspension of Honda SUV familie: ',NULL,223.149993896484,12,6);
 INSERT INTO "users" ("id","username","password","role","firstname","lastname") VALUES (1,'kotbi','pass','admin','Mohamed','Kotbi');
+INSERT INTO "users" ("id","username","password","role","firstname","lastname") VALUES (2,'simo','pass','user','Mohamed','Kotbi');
+
 COMMIT;
