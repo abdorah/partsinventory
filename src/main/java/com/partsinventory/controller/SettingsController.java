@@ -1,62 +1,95 @@
 package com.partsinventory.controller;
 
+import com.partsinventory.helper.LocaleManager;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.stage.Stage;
+import javafx.scene.control.ChoiceBox;
 
 import java.util.Locale;
-import java.util.ResourceBundle;
 
 public class SettingsController {
 
-
     @FXML
-    private ComboBox<String> languagecombobox;
+    private ChoiceBox<String> languageChoiceBox;
 
-    @FXML
-    private Button applyButton;
-
+    private Runnable updateUICallback;
     private Locale currentLocale;
-    private ResourceBundle bundle;
-    private Runnable updateUI;
 
-    public void initialize() {
-        // Initialize ComboBox
-        languagecombobox.getItems().addAll("English", "Arabic", "French");
+    @FXML
+    void initialize() {
+        // Populate language choice box
+        languageChoiceBox.getItems().addAll("English", "French", "Arabic");
+
+        // Preselect the current language
+        if (currentLocale != null) {
+            switch (currentLocale.getLanguage()) {
+                case "fr":
+                    languageChoiceBox.setValue("French");
+                    break;
+                case "ar":
+                    languageChoiceBox.setValue("Arabic");
+                    break;
+                default:
+                    languageChoiceBox.setValue("English");
+                    break;
+            }
+        }
+
+        // Add a listener to detect changes
+        languageChoiceBox.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
+            Locale newLocale;
+            switch (newVal) {
+                case "French":
+                    newLocale = new Locale("fr", "FR");
+                    break;
+                case "Arabic":
+                    newLocale = new Locale("ar", "SA");
+                    break;
+                default:
+                    newLocale = new Locale("en", "US");
+                    break;
+            }
+
+            // Update locale and refresh UI
+            if (updateUICallback != null) {
+                currentLocale = newLocale;
+                LocaleManager.savePreferredLocale(newLocale);
+                updateUICallback.run();
+            }
+        });
     }
 
+    public void setUpdateUICallback(Runnable callback) {
+        this.updateUICallback = callback;
+    }
+
+    public void setCurrentLocale(Locale locale) {
+        this.currentLocale = locale;
+    }
     @FXML
-    public void applyLanguageChange() {
-        String selectedLanguage = languagecombobox.getValue();
-        if (selectedLanguage != null) {
-            switch (selectedLanguage) {
-                case "English" -> currentLocale = Locale.ENGLISH;
-                case "Arabic" -> currentLocale = new Locale("ar");
-                case "French" -> currentLocale = new Locale("fr");
-            }
-            bundle = ResourceBundle.getBundle("messages", currentLocale);
+    void applyLanguageChange(ActionEvent event) {
+        String selectedLanguage = languageChoiceBox.getValue(); // Value from the ChoiceBox
+        Locale newLocale;
 
-            // Call the callback to update the main UI
-            if (updateUI != null) {
-                updateUI.run();
-            }
+        switch (selectedLanguage) {
+            case "French":
+                newLocale = new Locale("fr", "FR");
+                break;
+            case "Arabic":
+                newLocale = new Locale("ar", "SA");
+                break;
+            default:
+                newLocale = new Locale("en", "US");
+                break;
+        }
 
-            // Close settings window
-            Stage stage = (Stage) applyButton.getScene().getWindow();
-            stage.close();
+        // Notify NavigationController to change the language
+        if (updateUICallback != null) {
+            updateUICallback.run();
         }
     }
-
-    public void setUpdateUICallback(Runnable updateUI) {
-        this.updateUI = updateUI;
-    }
-
-    public ResourceBundle getBundle() {
-        return bundle;
-    }
-
     public Locale getCurrentLocale() {
         return currentLocale;
     }
+
 }

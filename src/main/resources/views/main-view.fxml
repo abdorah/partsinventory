@@ -25,6 +25,7 @@
                   <Button fx:id="toAddPartButton" mnemonicParsing="false" onAction="#openAddPartButton" prefHeight="34.0" prefWidth="174.0" styleClass="nav-button" text="Add Part" />
                   <Button fx:id="salesChartButton" mnemonicParsing="false" onAction="#openSalesChartButton" prefHeight="34.0" prefWidth="174.0" styleClass="nav-button" text="Sales Chart" />
                   <Button fx:id="billsButton" mnemonicParsing="false" onAction="#openBillsButton" prefHeight="34.0" prefWidth="174.0" styleClass="nav-button" text="Bills" />
+                  <Button fx:id="settingsButton" mnemonicParsing="false" onAction="#openSettingsButton" prefHeight="34.0" prefWidth="174.0" styleClass="nav-button" text="Settings" />
                </children>
             </VBox>
          </left>

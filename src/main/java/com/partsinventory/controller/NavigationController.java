@@ -1,25 +1,22 @@
 package com.partsinventory.controller;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
 import java.util.Locale;
-import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
 
-import com.partsinventory.helper.Session;
+import com.partsinventory.helper.LocaleManager;
+import javafx.geometry.Pos;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
 
 public class NavigationController {
 
@@ -27,14 +24,30 @@ public class NavigationController {
     @FXML
     private Button toAddPartButton;
     @FXML
-    void initialize() {
-        try (InputStream input = getClass().getResourceAsStream("/messages/messages_ar.properties")) {
-            ResourceBundle bundle = new PropertyResourceBundle(new InputStreamReader(input, StandardCharsets.UTF_8));
-            toAddPartButton.setText(bundle.getString("welcome.message"));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+    private Button Categories;
+    @FXML
+    private Button dashboard;
+    @FXML
+    private Button toSearchButton;
+    @FXML
+    private Button salesChartButton;
+    @FXML
+    private Button billsButton;
+    @FXML
+    private Button settingsButton;
 
+    private ResourceBundle bundle;
+    private Locale currentLocale;
+    private Runnable updateUI;
+    @FXML
+    void initialize() {
+
+        // Load the user's preferred language or default to English (US)
+        currentLocale = LocaleManager.loadPreferredLocale();
+        bundle = ResourceBundle.getBundle("messages.messages", currentLocale);
+
+        // Initialize UI with the current language
+        updateUI();
         // Load the desired view dynamically
 //        FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/main-view.fxml"));
 //
@@ -159,6 +172,52 @@ public class NavigationController {
             e.printStackTrace();
         }
     }
+
+    private void updateUI() {
+        bundle = ResourceBundle.getBundle("messages.messages", currentLocale);
+        Categories.setText(bundle.getString("categories"));
+        dashboard.setText(bundle.getString("dashboard"));
+        toSearchButton.setText(bundle.getString("fetchPart"));
+        toAddPartButton.setText(bundle.getString("addPart"));
+        salesChartButton.setText(bundle.getString("salesChart"));
+        billsButton.setText(bundle.getString("bills"));
+        settingsButton.setText(bundle.getString("settings"));
+
+        // Refresh the main screen with updated language
+        returnHome(null);
+    }
+    @FXML
+    void changeLanguage(Locale newLocale) {
+        this.currentLocale = newLocale;
+        LocaleManager.savePreferredLocale(newLocale);
+        bundle = ResourceBundle.getBundle("messages.messages", currentLocale);
+        updateUI();
+    }
+    // Open the Settings view
+    @FXML
+    void openSettingsButton(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/settings-view.fxml"));
+            Parent settingsRoot = loader.load();
+
+            SettingsController settingsController = loader.getController();
+            settingsController.setUpdateUICallback(() -> changeLanguage(settingsController.getCurrentLocale()));
+            settingsController.setCurrentLocale(currentLocale);
+
+            // Open settings in a new stage
+            Stage settingsStage = new Stage();
+            settingsStage.setTitle("Settings");
+            settingsStage.setScene(new Scene(settingsRoot));
+            settingsStage.initOwner(presentationPane.getScene().getWindow());
+            settingsStage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
+
 
     public void initializeRole(String role) {
         // Role-based UI logic

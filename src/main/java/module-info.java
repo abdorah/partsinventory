@@ -8,6 +8,7 @@ module com.partsinventory {
     requires transitive org.slf4j;
     requires com.github.librepdf.openpdf;
     requires javafx.swing;
+    requires java.prefs;
 
     opens com.partsinventory to
             javafx.fxml;
