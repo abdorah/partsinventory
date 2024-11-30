@@ -1,5 +1,6 @@
 package com.partsinventory.controller;
 
+import com.partsinventory.helper.LocaleManager;
 import com.partsinventory.helper.Session;
 import com.partsinventory.helper.ViewManager;
 import com.partsinventory.model.Users;
@@ -14,6 +15,8 @@ import javafx.stage.Stage;
 
 import javax.naming.AuthenticationException;
 import java.sql.SQLException;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 public class LoginController {
     @FXML private Button loginButton;
@@ -22,10 +25,37 @@ public class LoginController {
 
     @FXML private TextField username;
 
-    @FXML private Label incorrectPasswordLabel;
+
 
     @FXML private Button loginCancelButton;
+    @FXML private Label incorrectPasswordLabel;
+    @FXML private Label welcomeLabel;
+    @FXML private Label usernameLabel;
+    @FXML private Label passwordLabel;
+    @FXML private Label loguinlabel;
 
+
+    private Locale currentLocale;
+    private ResourceBundle bundle;
+
+    @FXML
+    void initialize() {
+        // Load the user's preferred language or default to English (US)
+        currentLocale = LocaleManager.loadPreferredLocale();
+        bundle = ResourceBundle.getBundle("messages.messages", currentLocale);
+
+        // Update the UI to reflect the current locale
+        updateUI();
+    }
+    private void updateUI() {
+        welcomeLabel.setText(bundle.getString("welcome"));
+        usernameLabel.setText(bundle.getString("username"));
+        passwordLabel.setText(bundle.getString("password"));
+        loginButton.setText(bundle.getString("login"));
+        loginCancelButton.setText(bundle.getString("cancel"));
+        incorrectPasswordLabel.setText(""); // Clear error message initially
+        loguinlabel.setText(bundle.getString("loguinlabel"));
+    }
     @FXML
     void onLogin(ActionEvent event) throws SQLException, AuthenticationException {
 //        try {
@@ -50,13 +80,13 @@ public class LoginController {
             // Proceed to setup UI based on the role
             setupUIBasedOnRole();
         } else {
-            incorrectPasswordLabel.setText("Invalid username or password!");
+            incorrectPasswordLabel.setText(bundle.getString("incorrectPassword"));
         }
     }
     public void setupUIBasedOnRole() {
         Users user = Session.getInstance().getLoggedInUser();
         if (user == null) {
-            incorrectPasswordLabel.setText("No user is logged in!");
+            incorrectPasswordLabel.setText(bundle.getString("noUserLoggedIn"));
             return;
         }
         Stage stage = new Stage();

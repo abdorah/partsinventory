@@ -18,7 +18,7 @@
         <items>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" style="-fx-background-color: #37393A;">
                <children>
-                  <Label layoutX="86.0" layoutY="100.0" prefHeight="48.0" prefWidth="156.0" text="Welcome" AnchorPane.bottomAnchor="274.0" AnchorPane.leftAnchor="86.0" AnchorPane.rightAnchor="70.0" AnchorPane.topAnchor="76.0">
+                  <Label fx:id="welcomeLabel" layoutX="86.0" layoutY="100.0" prefHeight="48.0" prefWidth="156.0" text="Welcome" AnchorPane.bottomAnchor="274.0" AnchorPane.leftAnchor="86.0" AnchorPane.rightAnchor="70.0" AnchorPane.topAnchor="76.0">
                      <font>
                         <Font name="System Bold" size="35.0" />
                      </font>
@@ -51,10 +51,10 @@
                   <Group layoutX="37.0" layoutY="94.0">
                      <children>
                         <TextField fx:id="username" layoutX="65.0" layoutY="59.0" prefHeight="22.0" prefWidth="141.0" />
-                        <Label layoutY="63.0" prefHeight="14.0" prefWidth="61.0" text="Username" />
-                        <Label layoutY="104.0" prefHeight="14.0" prefWidth="61.0" text="Password" />
+                        <Label fx:id="usernameLabel" layoutY="63.0" prefHeight="14.0" prefWidth="61.0" text="Username" />
+                        <Label fx:id="passwordLabel" layoutY="104.0" prefHeight="14.0" prefWidth="61.0" text="Password" />
                         <PasswordField fx:id="password" layoutX="65.0" layoutY="100.0" prefHeight="22.0" prefWidth="141.0" />
-                        <Label layoutX="80.0" prefHeight="48.0" prefWidth="67.0" text="LOGIN">
+                        <Label fx:id="loguinlabel" layoutX="80.0" prefHeight="48.0" prefWidth="67.0" text="LOGIN">
                            <font>
                               <Font size="21.0" />
                            </font>
