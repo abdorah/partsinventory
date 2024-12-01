@@ -45,7 +45,7 @@
                               <Pane GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                                  <children>
                                     <TextField fx:id="partNameField1" centerShape="false" layoutX="14.0" layoutY="28.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="26.0" prefWidth="435.0" scaleShape="false" />
-                                    <Label layoutX="176.0" layoutY="5.0" text="Add New Category" />
+                                    <Label fx:id="addCategoryLabel" layoutX="176.0" layoutY="5.0" />
                                  </children>
                               </Pane>
                               <GridPane GridPane.columnIndex="1" GridPane.rowIndex="2">
@@ -60,7 +60,7 @@
                                  <children>
                                     <Pane GridPane.columnIndex="1" GridPane.rowIndex="1">
                                        <children>
-                                          <Button fx:id="saveButton1" layoutX="30.0" layoutY="29.0" mnemonicParsing="false" onAction="#addCategory" prefHeight="26.0" prefWidth="75.0" text="Save" textFill="#0a9900" />
+                                          <Button fx:id="saveButton1"  layoutX="30.0" layoutY="29.0" mnemonicParsing="false" onAction="#addCategory" prefHeight="26.0" prefWidth="75.0" text="Save" textFill="#0a9900" />
                                           <Button fx:id="cancelButton1" layoutX="120.0" layoutY="29.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="75.0" text="Cancel" textFill="RED" />
                                           <Label fx:id="errorLabel1" layoutX="30.0" layoutY="61.0" text="Error while saving the new part." textFill="RED" visible="false" />
                                        </children>
@@ -91,12 +91,12 @@
                               </GridPane>
                               <Pane prefHeight="200.0" prefWidth="200.0">
                                  <children>
-                                    <Label layoutX="14.0" layoutY="32.0" text="Category name:" />
+                                    <Label fx:id="categoryNameLabel" layoutX="14.0" layoutY="32.0" />
                                  </children>
                               </Pane>
                               <Pane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
                                  <children>
-                                    <Label layoutX="14.0" layoutY="59.0" text="Category description:" />
+                                    <Label fx:id="categoryDescriptionLabel" layoutX="14.0" layoutY="59.0"/>
                                  </children>
                               </Pane>
                            </children>

@@ -5,8 +5,11 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.sql.SQLException;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 import com.partsinventory.helper.ImageUtils;
+import com.partsinventory.helper.LocaleManager;
 import com.partsinventory.model.Category;
 import com.partsinventory.service.PartService;
 
@@ -33,7 +36,7 @@ import javafx.stage.FileChooser;
 public class CategoriesController {
 
     @FXML private Button chooseImageButton;
-
+    //@FXML private Label categoryImageLabel;
     @FXML private Label errorLabel1;
 
     @FXML private FlowPane flowPane;
@@ -45,14 +48,21 @@ public class CategoriesController {
     @FXML private ImageView categoryImage;
 
     @FXML private StackPane resultsStackPane;
-
+    @FXML private Label addCategoryLabel;
+    @FXML private Label categoryNameLabel;
+    @FXML private Label categoryDescriptionLabel;
+    @FXML private Button saveButton1;
+    @FXML private Button cancelButton1;
     private static final int BUTTON_SIZE = 100;
 
     String imagePath = null;
-
+    private Locale currentLocale;
+    private ResourceBundle bundle;
     @FXML
     void initialize() throws SQLException {
-
+        currentLocale = LocaleManager.loadPreferredLocale();
+        bundle = ResourceBundle.getBundle("messages.messages", currentLocale);
+        UpdateUi();
         ObservableList<Category> categories = PartService.getAllCategories();
         flowPane.getChildren().clear();
         Button button = null;
@@ -83,6 +93,22 @@ public class CategoriesController {
                         openCategory(category);
                     });
         }
+    }
+    void UpdateUi() {
+        Locale locale = LocaleManager.loadPreferredLocale();
+        bundle = ResourceBundle.getBundle("messages.messages", locale);
+
+        // Update existing UI elements
+        addCategoryLabel.setText(bundle.getString("addCategory"));
+        categoryNameLabel.setText(bundle.getString("categoryName"));
+        categoryDescriptionLabel.setText(bundle.getString("categoryDescription"));
+        saveButton1.setText(bundle.getString("save"));
+        cancelButton1.setText(bundle.getString("cancelButton1"));
+
+        // Update new UI elements
+        //categoryImageLabel.setText(bundle.getString("categoryImage"));
+        chooseImageButton.setText(bundle.getString("chooseImage"));
+        errorLabel1.setText(bundle.getString("errorLabel1"));
     }
 
     // Refactored: CreateCatCard now accepts byte[] for image creation
