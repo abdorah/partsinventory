@@ -3,11 +3,15 @@ package com.partsinventory.controller;
 import static com.partsinventory.helper.AlertHandler.handleDatabaseError;
 import static com.partsinventory.helper.AlertHandler.handleDelete;
 
+import com.partsinventory.helper.LocaleManager;
 import com.partsinventory.model.Part;
 import com.partsinventory.service.BillService;
 import com.partsinventory.service.PartService;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Locale;
+import java.util.ResourceBundle;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -47,16 +51,15 @@ public class SalesChartController {
 
     @FXML private SplitMenuButton searchOptionPick;
 
-    @FXML private TextField partSearchTextField;
-
     @FXML private TextField billSearchTextFeild;
-
-    @FXML private TextField clientNameTextField;
-
-    @FXML private TextField clientPhoneNumberTextField;
-
+  @FXML private Label partsSearchLabel, clientNameLabel, clientPhoneLabel, billSearchLabel;
+    private ResourceBundle bundle;
+    private Locale currentLocale;
     @FXML
     void initialize() {
+        currentLocale = LocaleManager.loadPreferredLocale();
+        bundle = ResourceBundle.getBundle("messages.messages", currentLocale);
+        UpdateUi();
         rootSplitPane.setDividerPosition(0, 0.2);
         searchByName.setOnAction(event -> searchOptionPick.setText(searchByName.getText()));
         searchByDescription.setOnAction(
@@ -98,6 +101,22 @@ public class SalesChartController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+    private void UpdateUi() {
+        searchButton.setText(bundle.getString("searchButton.text"));
+        deleteButton.setText(bundle.getString("deleteButton.text"));
+        printReportButton.setText(bundle.getString("printReportButton.text"));
+        saleButton.setText(bundle.getString("saleButton.text"));
+
+        partsSearchLabel.setText(bundle.getString("partsSearch.label"));
+        clientNameLabel.setText(bundle.getString("clientName.label"));
+        clientPhoneLabel.setText(bundle.getString("clientPhone.label"));
+        billSearchLabel.setText(bundle.getString("billSearch.label"));
+
+        searchOptionPick.setText(bundle.getString("searchOptionPick.text"));
+        searchByName.setText(bundle.getString("searchByName.text"));
+        searchByDescription.setText(bundle.getString("searchByDescription.text"));
+
     }
 
     @FXML

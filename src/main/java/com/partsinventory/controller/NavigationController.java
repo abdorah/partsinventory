@@ -38,7 +38,7 @@ public class NavigationController {
 
     private ResourceBundle bundle;
     private Locale currentLocale;
-    private Runnable updateUI;
+
     @FXML
     void initialize() {
 

@@ -25,7 +25,9 @@
                         <MenuItem fx:id="searchByDescription" mnemonicParsing="false" text="description" />
                      </items>
                   </SplitMenuButton>
-                  <Label layoutX="-44.0" layoutY="14.0" text="Parts search:">
+
+
+                  <Label fx:id="partsSearchLabel" layoutX="-44.0" layoutY="14.0" text="Parts search:">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
@@ -34,19 +36,19 @@
                   <Button fx:id="printReportButton" layoutX="172.0" layoutY="96.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="49.0" text="Print" />
                   <Button fx:id="saleButton" layoutX="231.0" layoutY="96.0" mnemonicParsing="false" onAction="#onSale" prefHeight="25.0" prefWidth="56.0" text="Sale" />
                   <TextField fx:id="clientNameTextField" layoutX="31.0" layoutY="-37.0" prefHeight="26.0" prefWidth="166.0" />
-                  <Label layoutX="-48.0" layoutY="-33.0" prefHeight="18.0" prefWidth="79.0" text="Client Name:">
+                  <Label fx:id="clientNameLabel" layoutX="-48.0" layoutY="-33.0" prefHeight="18.0" prefWidth="79.0" text="Client Name:">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Label>
                   <TextField fx:id="clientPhoneNumberTextField" layoutX="310.0" layoutY="-37.0" prefHeight="26.0" prefWidth="166.0" />
-                  <Label layoutX="231.0" layoutY="-33.0" prefHeight="18.0" prefWidth="79.0" text="Client Phone:">
+                  <Label fx:id="clientPhoneLabel" layoutX="231.0" layoutY="-33.0" prefHeight="18.0" prefWidth="79.0" text="Client Phone:">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Label>
                   <TextField fx:id="billSearchTextFeild" layoutX="312.0" layoutY="10.0" prefHeight="26.0" prefWidth="163.0" />
-                  <Label layoutX="235.0" layoutY="15.0" text="Bill search:">
+                  <Label fx:id="billSearchLabel" layoutX="235.0" layoutY="15.0" text="Bill search:">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>

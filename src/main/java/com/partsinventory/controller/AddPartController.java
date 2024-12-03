@@ -22,7 +22,7 @@ public class AddPartController {
 
     // UI Components
     @FXML private Button saveButton;
-    @FXML private Button cancelButton;
+    @FXML private Button cancelButton1;
     @FXML private TextField partNameField;
     @FXML private TextField partDescriptionField;
     @FXML private ComboBox<String> partMakerField;
@@ -97,7 +97,7 @@ public class AddPartController {
 
     private void updateUI() {
         saveButton.setText(bundle.getString("saveButton"));
-        cancelButton.setText(bundle.getString("cancelButton"));
+        cancelButton1.setText(bundle.getString("cancelButton1"));
         errorLabel.setText(bundle.getString("errorLabel"));
         partNameLabel.setText(bundle.getString("partNameLabel"));
         partDescriptionLabel.setText(bundle.getString("partDescriptionLabel"));
